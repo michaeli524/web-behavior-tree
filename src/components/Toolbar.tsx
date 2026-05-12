@@ -1,7 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
-import { useBTStore } from '../store/useBTStore';
-import { BehaviorTreeEngine } from '../engine/BehaviorTreeEngine';
-import { BTExecutionStatus } from '../engine/types';
+import { useCallback, useRef, useState } from "react";
+import { useBTStore } from "../store/useBTStore";
+import { BehaviorTreeEngine } from "../engine/BehaviorTreeEngine";
+import { BTExecutionStatus } from "../engine/types";
 
 export function Toolbar() {
   const nodes = useBTStore((s) => s.nodes);
@@ -46,7 +46,15 @@ export function Toolbar() {
         setRunning(false);
       });
     });
-  }, [nodes, edges, variables, functions, resetExecution, setExecutionResult, setRunning]);
+  }, [
+    nodes,
+    edges,
+    variables,
+    functions,
+    resetExecution,
+    setExecutionResult,
+    setRunning,
+  ]);
 
   const handleReset = useCallback(() => {
     resetExecution();
@@ -56,19 +64,19 @@ export function Toolbar() {
   const handleExport = () => {
     const json = exportTree();
     navigator.clipboard.writeText(json).then(() => {
-      alert('行为树JSON已复制到剪贴板');
+      alert("行为树JSON已复制到剪贴板");
     });
   };
 
   const handleImport = () => {
-    const json = prompt('粘贴行为树JSON:');
+    const json = prompt("粘贴行为树JSON:");
     if (json) {
       importTree(json);
     }
   };
 
   const handleClear = () => {
-    if (confirm('确定要清空所有节点吗？此操作不可撤销。')) {
+    if (confirm("确定要清空所有节点吗？此操作不可撤销。")) {
       clearAll();
     }
   };
@@ -86,7 +94,7 @@ export function Toolbar() {
           onClick={handleRun}
           disabled={isRunning}
         >
-          {isRunning ? '⏳ 运行中...' : '▶ 运行'}
+          {isRunning ? "⏳ 运行中..." : "▶ 运行"}
         </button>
         <button className="btn btn-secondary" onClick={handleReset}>
           ↺ 重置
@@ -110,7 +118,7 @@ export function Toolbar() {
           {engineLog.map((line, i) => (
             <div
               key={i}
-              className={`log-line ${line.startsWith('---') ? 'log-summary' : ''}`}
+              className={`log-line ${line.startsWith("---") ? "log-summary" : ""}`}
             >
               {line}
             </div>

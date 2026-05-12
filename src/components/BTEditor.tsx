@@ -70,7 +70,7 @@ export function BTEditor() {
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
       for (const change of changes) {
-        if (change.type === 'position' && change.position && !change.dragging) {
+        if (change.type === 'position' && change.position) {
           updateNodePosition(change.id, change.position);
         }
         if (change.type === 'select' && change.selected && change.id) {
@@ -174,8 +174,6 @@ export function BTEditor() {
         defaultEdgeOptions={defaultEdgeOptions}
         fitView
         deleteKeyCode={['Backspace', 'Delete']}
-        snapToGrid
-        snapGrid={[20, 20]}
       >
         <Controls />
         <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#334155" />
