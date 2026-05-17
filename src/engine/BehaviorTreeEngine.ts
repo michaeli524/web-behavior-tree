@@ -5,6 +5,7 @@ interface ExecutionContext {
   functions: Map<string, (ctx: ExecutionContext) => BTExecutionStatus>;
   onNodeTick: (nodeId: string, status: BTExecutionStatus) => void;
   getChildren: (nodeId: string) => string[];
+  getEdgesBySource: (nodeId: string) => BTEdge[];
   getNodeById: (nodeId: string) => BTNode | undefined;
 }
 
@@ -121,19 +122,23 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
     }
 
     case BTNodeType.CONDITION: {
-      const result = evalCondition(node.data.condition ?? '', ctx);
-      const status = result ? BTExecutionStatus.SUCCESS : BTExecutionStatus.FAILURE;
-      ctx.onNodeTick(node.id, status);
+      const conditionPassed = evalCondition(node.data.condition ?? '', ctx);
+      ctx.onNodeTick(node.id, conditionPassed ? BTExecutionStatus.SUCCESS : BTExecutionStatus.FAILURE);
 
-      // If condition passes, tick children
-      if (result) {
-        const children = ctx.getChildren(node.id);
-        if (children.length > 0) {
-          const childStatus = tickChild(children[0], ctx);
-          return childStatus;
-        }
+      // Children filtered by handle: exec-true or exec-false
+      const allChildren = ctx.getChildren(node.id);
+      // Find child connected to the appropriate output
+      const targetHandle = conditionPassed ? 'exec-true' : 'exec-false';
+      const branchChildId = allChildren.find((cid) => {
+        const edge = ctx.getEdgesBySource(node.id).find((e) => e.target === cid);
+        return edge?.sourceHandle === targetHandle;
+      });
+
+      if (branchChildId) {
+        const childStatus = tickChild(branchChildId, ctx);
+        return childStatus;
       }
-      return status;
+      return conditionPassed ? BTExecutionStatus.SUCCESS : BTExecutionStatus.FAILURE;
     }
 
     case BTNodeType.INVERTER: {
@@ -183,6 +188,30 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.SUCCESS;
     }
 
+    case BTNodeType.DIST_SELECTOR: {
+      const children = ctx.getChildren(node.id);
+      if (children.length === 0) {
+        ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+        return BTExecutionStatus.SUCCESS;
+      }
+      // Children are connected via distance handles; tick all in order (like Selector)
+      for (const childId of children) {
+        const child = ctx.getNodeById(childId);
+        if (!child) continue;
+        const status = tickNode(child, ctx);
+        if (status === BTExecutionStatus.RUNNING) {
+          ctx.onNodeTick(node.id, status);
+          return status;
+        }
+        if (status === BTExecutionStatus.SUCCESS) {
+          ctx.onNodeTick(node.id, status);
+          return status;
+        }
+      }
+      ctx.onNodeTick(node.id, BTExecutionStatus.FAILURE);
+      return BTExecutionStatus.FAILURE;
+    }
+
     case BTNodeType.ACTION: {
       const status = executeAction(node.data.action ?? '', ctx);
       ctx.onNodeTick(node.id, status);
@@ -190,9 +219,36 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
     }
 
     case BTNodeType.WAIT: {
-      // In simulation, wait is just success with a delay hint
-      const duration = node.data.duration ?? 1000;
-      // For real-time sim, we'd use async. For now, instant success.
+      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+      return BTExecutionStatus.SUCCESS;
+    }
+
+    case BTNodeType.GET_VARIABLE: {
+      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+      return BTExecutionStatus.SUCCESS;
+    }
+
+    case BTNodeType.SET_VARIABLE: {
+      const varId = node.data.variableId;
+      const targetVar = varId ? ctx.variables.find((v) => v.id === varId) : undefined;
+      if (targetVar) {
+        const setExpr = node.data.setValue;
+        if (setExpr && setExpr.trim()) {
+          try {
+            const vars: Record<string, unknown> = {};
+            ctx.variables.forEach((v) => { vars[v.name] = v.value; });
+            const fn = new Function(...Object.keys(vars), `return (${setExpr});`);
+            targetVar.value = fn(...Object.values(vars)) as boolean | number | string;
+          } catch { /* eval failed */ }
+        }
+      }
+      // Continue execution to children
+      const sChildren = ctx.getChildren(node.id);
+      if (sChildren.length > 0) {
+        const childStatus = tickChild(sChildren[0], ctx);
+        ctx.onNodeTick(node.id, childStatus);
+        return childStatus;
+      }
       ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
       return BTExecutionStatus.SUCCESS;
     }
@@ -255,6 +311,9 @@ export class BehaviorTreeEngine {
         return this.edges
           .filter((e) => e.source === nodeId)
           .map((e) => e.target);
+      },
+      getEdgesBySource: (nodeId) => {
+        return this.edges.filter((e) => e.source === nodeId);
       },
       getNodeById: (nodeId) => this.nodes.get(nodeId),
     };

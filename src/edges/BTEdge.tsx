@@ -1,4 +1,6 @@
-import { BaseEdge, getSmoothStepPath, type EdgeProps } from '@xyflow/react';
+import { BaseEdge, getBezierPath, getStraightPath, type EdgeProps } from '@xyflow/react';
+
+const STRAIGHT_THRESHOLD = 2; // px — only truly horizontal edges get a straight line
 
 export function BTEdge({
   id,
@@ -10,14 +12,12 @@ export function BTEdge({
   targetPosition,
   selected,
 }: EdgeProps) {
-  const [edgePath] = getSmoothStepPath({
-    sourceX,
-    sourceY,
-    sourcePosition,
-    targetX,
-    targetY,
-    targetPosition,
-  });
+  const yDiff = Math.abs(sourceY - targetY);
+  const useStraight = yDiff <= STRAIGHT_THRESHOLD;
+
+  const [edgePath] = useStraight
+    ? getStraightPath({ sourceX, sourceY, targetX, targetY })
+    : getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
 
   return (
     <BaseEdge

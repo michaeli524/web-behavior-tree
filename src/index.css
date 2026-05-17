@@ -5,17 +5,17 @@
 }
 
 :root {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --border-color: #334155;
-  --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --success: #22c55e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2c2c2c;
+  --bg-tertiary: #383838;
+  --text-primary: #ececec;
+  --text-secondary: #999;
+  --border-color: #3e3e3e;
+  --accent: #7c6ff7;
+  --accent-hover: #9b8ff7;
+  --success: #4a8c5a;
+  --danger: #8c4a4a;
+  --warning: #8c7a4a;
 
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 14px;
@@ -63,7 +63,7 @@ input:focus, select:focus, textarea:focus {
 
 .btn-primary {
   background: var(--accent);
-  color: white;
+  color: #1e1e1e;
 }
 .btn-primary:hover {
   background: var(--accent-hover);
@@ -74,7 +74,7 @@ input:focus, select:focus, textarea:focus {
   color: var(--text-primary);
 }
 .btn-secondary:hover {
-  background: #475569;
+  background: #3d3d3d;
 }
 
 .btn-danger {
@@ -83,7 +83,7 @@ input:focus, select:focus, textarea:focus {
   border: 1px solid var(--danger);
 }
 .btn-danger:hover {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(140, 74, 74, 0.15);
 }
 
 .btn-small {
@@ -92,12 +92,12 @@ input:focus, select:focus, textarea:focus {
 }
 
 h3 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border-color);
 }

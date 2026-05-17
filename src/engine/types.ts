@@ -9,6 +9,12 @@ export enum BTNodeType {
   INVERTER = 'inverter',
   REPEATER = 'repeater',
   SUCCEEDER = 'succeeder',
+  FUNCTION = 'function',
+  DIST_SELECTOR = 'dist-selector',
+  GET_VARIABLE = 'get-variable',
+  SET_VARIABLE = 'set-variable',
+  COMMENT = 'comment',
+  COMPARE = 'compare',
 }
 
 export enum BTExecutionStatus {
@@ -30,6 +36,8 @@ export interface BTFunction {
   name: string;
   body: string;
   parameters: { name: string; type: string }[];
+  nodes: BTNode[];
+  edges: BTEdge[];
 }
 
 export interface BTNodeData {
@@ -40,6 +48,14 @@ export interface BTNodeData {
   duration?: number;
   repeatCount?: number;
   status?: BTExecutionStatus;
+  functionId?: string;
+  distances?: number[];
+  variableId?: string;
+  setValue?: string;
+  commentWidth?: number;
+  commentHeight?: number;
+  operator?: string;
+  compareValue?: string;
 }
 
 export interface BTNode {
@@ -57,9 +73,17 @@ export interface BTEdge {
   targetHandle?: string;
 }
 
+export interface BTPage {
+  id: string;
+  name: string;
+  nodes: BTNode[];
+  edges: BTEdge[];
+}
+
 export interface BehaviorTree {
   nodes: BTNode[];
   edges: BTEdge[];
   variables: BTVariable[];
   functions: BTFunction[];
+  pages: BTPage[];
 }

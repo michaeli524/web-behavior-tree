@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useBTStore } from '../store/useBTStore';
-import type { BTVariable } from '../engine/types';
+import type { BTVariable, BTNodeType } from '../engine/types';
 
 export function VariablePanel() {
   const variables = useBTStore((s) => s.variables);
@@ -9,18 +9,27 @@ export function VariablePanel() {
   const removeVariable = useBTStore((s) => s.removeVariable);
 
   const [tab, setTab] = useState<'variables' | 'functions'>('variables');
-  const [newVarName, setNewVarName] = useState('');
-  const [newVarType, setNewVarType] = useState<BTVariable['type']>('boolean');
-  const [newVarValue, setNewVarValue] = useState('false');
+  const [varSearch, setVarSearch] = useState('');
+  const [varRenaming, setVarRenaming] = useState<string | null>(null);
+  const [varRenameVal, setVarRenameVal] = useState('');
 
   const handleAddVariable = () => {
-    if (!newVarName.trim()) return;
-    let value: boolean | number | string = newVarValue;
-    if (newVarType === 'boolean') value = newVarValue === 'true';
-    if (newVarType === 'number') value = Number(newVarValue);
-    addVariable(newVarName, newVarType, value);
-    setNewVarName('');
-    setNewVarValue(newVarType === 'boolean' ? 'false' : newVarType === 'number' ? '0' : '');
+    addVariable('newVar', 'number', 0);
+    const state = useBTStore.getState();
+    const newVar = state.variables[state.variables.length - 1];
+    if (newVar) {
+      setVarRenaming(newVar.id);
+      setVarRenameVal('newVar');
+    }
+    setVarSearch('');
+  };
+
+  const commitVarRename = (id: string) => {
+    if (varRenameVal.trim()) {
+      updateVariable(id, { name: varRenameVal.trim() });
+    }
+    setVarRenaming(null);
+    setVarRenameVal('');
   };
 
   const handleUpdateValue = (id: string, rawValue: string) => {
@@ -32,10 +41,14 @@ export function VariablePanel() {
     updateVariable(id, { value });
   };
 
+  const [varCtxMenu, setVarCtxMenu] = useState<{ x: number; y: number; varId: string } | null>(null);
+
+  const filteredVars = variables.filter((v) =>
+    !varSearch.trim() || v.name.toLowerCase().includes(varSearch.toLowerCase())
+  );
+
   return (
     <div className="variable-panel">
-      <h3>变量面板</h3>
-
       <div className="panel-tabs">
         <button
           className={tab === 'variables' ? 'active' : ''}
@@ -53,40 +66,51 @@ export function VariablePanel() {
 
       {tab === 'variables' && (
         <div className="var-section">
-          <div className="var-add">
+          <div className="func-search-row">
             <input
               type="text"
-              placeholder="变量名"
-              value={newVarName}
-              onChange={(e) => setNewVarName(e.target.value)}
+              placeholder="搜索变量..."
+              value={varSearch}
+              onChange={(e) => setVarSearch(e.target.value)}
+              className="func-search-input"
             />
-            <select
-              value={newVarType}
-              onChange={(e) => {
-                const t = e.target.value as BTVariable['type'];
-                setNewVarType(t);
-                setNewVarValue(t === 'boolean' ? 'false' : t === 'number' ? '0' : '');
-              }}
-            >
-              <option value="boolean">Boolean</option>
-              <option value="number">Number</option>
-              <option value="string">String</option>
-            </select>
-            <input
-              type={newVarType === 'number' ? 'number' : 'text'}
-              placeholder="值"
-              value={newVarValue}
-              onChange={(e) => setNewVarValue(e.target.value)}
-            />
-            <button className="btn btn-primary" onClick={handleAddVariable}>
+            <button className="btn btn-primary func-add-btn" onClick={handleAddVariable} title="新建变量">
               +
             </button>
           </div>
 
           <div className="var-list">
-            {variables.map((v) => (
-              <div key={v.id} className="var-item">
-                <span className="var-name">{v.name}</span>
+            {filteredVars.map((v) => (
+              <div
+                key={v.id}
+                className="var-item"
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData('application/variable-id', v.id);
+                  e.dataTransfer.effectAllowed = 'move';
+                }}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  setVarCtxMenu({ x: e.clientX, y: e.clientY, varId: v.id });
+                }}
+                onDoubleClick={() => { setVarRenaming(v.id); setVarRenameVal(v.name); }}
+              >
+                {varRenaming === v.id ? (
+                  <input
+                    className="func-rename-input"
+                    value={varRenameVal}
+                    onChange={(e) => setVarRenameVal(e.target.value)}
+                    onBlur={() => commitVarRename(v.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') commitVarRename(v.id);
+                      if (e.key === 'Escape') { setVarRenaming(null); setVarRenameVal(''); }
+                    }}
+                    autoFocus
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                ) : (
+                  <span className="var-name">{v.name}</span>
+                )}
                 <span className="var-type">({v.type})</span>
                 {v.type === 'boolean' ? (
                   <select
@@ -103,15 +127,30 @@ export function VariablePanel() {
                     onChange={(e) => handleUpdateValue(v.id, e.target.value)}
                   />
                 )}
-                <button
-                  className="btn btn-small btn-danger"
-                  onClick={() => removeVariable(v.id)}
-                >
-                  ×
-                </button>
               </div>
             ))}
+            {filteredVars.length === 0 && (
+              <div className="func-empty">无匹配变量</div>
+            )}
           </div>
+
+          {/* Variable context menu */}
+          {varCtxMenu && (
+            <>
+              <div className="context-menu-overlay" onClick={() => setVarCtxMenu(null)} onContextMenu={(e) => { e.preventDefault(); setVarCtxMenu(null); }} />
+              <div className="context-menu" style={{ left: varCtxMenu.x, top: varCtxMenu.y }}>
+                <button onClick={() => {
+                  const v = variables.find((vr) => vr.id === varCtxMenu.varId);
+                  if (v) { setVarRenaming(v.id); setVarRenameVal(v.name); }
+                  setVarCtxMenu(null);
+                }}>重命名</button>
+                <button className="danger" onClick={() => {
+                  removeVariable(varCtxMenu.varId);
+                  setVarCtxMenu(null);
+                }}>删除</button>
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -127,49 +166,97 @@ function FunctionSection() {
   const addFunction = useBTStore((s) => s.addFunction);
   const updateFunction = useBTStore((s) => s.updateFunction);
   const removeFunction = useBTStore((s) => s.removeFunction);
-  const [newFuncName, setNewFuncName] = useState('');
+  const setActivePageId = useBTStore((s) => s.setActivePageId);
+  const [search, setSearch] = useState('');
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [renameVal, setRenameVal] = useState('');
+  const [ctxMenu, setCtxMenu] = useState<{ x: number; y: number; funcId: string } | null>(null);
 
   const handleAdd = () => {
-    if (!newFuncName.trim()) return;
-    addFunction(newFuncName, '// 编写JavaScript代码\nreturn true;');
-    setNewFuncName('');
+    const newId = addFunction('New Function');
+    setRenamingId(newId);
+    setRenameVal('New Function');
+    setSearch('');
   };
+
+  const commitRename = () => {
+    if (renamingId && renameVal.trim()) {
+      updateFunction(renamingId, { name: renameVal.trim() });
+    }
+    setRenamingId(null);
+    setRenameVal('');
+  };
+
+  const filtered = functions.filter((f) =>
+    !search.trim() || f.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="var-section">
-      <div className="var-add">
+      <div className="func-search-row">
         <input
           type="text"
-          placeholder="函数名"
-          value={newFuncName}
-          onChange={(e) => setNewFuncName(e.target.value)}
+          placeholder="搜索函数..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="func-search-input"
         />
-        <button className="btn btn-primary" onClick={handleAdd}>
+        <button className="btn btn-primary func-add-btn" onClick={handleAdd} title="新建函数">
           +
         </button>
       </div>
 
       <div className="var-list">
-        {functions.map((f) => (
-          <div key={f.id} className="func-item">
-            <div className="func-header">
-              <span className="func-name">{f.name}</span>
-              <button
-                className="btn btn-small btn-danger"
-                onClick={() => removeFunction(f.id)}
-              >
-                ×
-              </button>
-            </div>
-            <textarea
-              rows={4}
-              value={f.body}
-              onChange={(e) => updateFunction(f.id, { body: e.target.value })}
-              placeholder="// 编写JavaScript代码"
-            />
+        {filtered.map((f) => (
+          <div
+            key={f.id}
+            className="func-item"
+            onDoubleClick={() => setActivePageId(f.id)}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setCtxMenu({ x: e.clientX, y: e.clientY, funcId: f.id });
+            }}
+          >
+            {renamingId === f.id ? (
+              <input
+                className="func-rename-input"
+                value={renameVal}
+                onChange={(e) => setRenameVal(e.target.value)}
+                onBlur={commitRename}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') commitRename();
+                  if (e.key === 'Escape') { setRenamingId(null); setRenameVal(''); }
+                }}
+                autoFocus
+                onClick={(e) => e.stopPropagation()}
+                onDoubleClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <span className="func-name">📦 {f.name}</span>
+            )}
           </div>
         ))}
+        {filtered.length === 0 && (
+          <div className="func-empty">无匹配函数</div>
+        )}
       </div>
+
+      {ctxMenu && (
+        <>
+          <div className="context-menu-overlay" onClick={() => setCtxMenu(null)} onContextMenu={(e) => { e.preventDefault(); setCtxMenu(null); }} />
+          <div className="context-menu" style={{ left: ctxMenu.x, top: ctxMenu.y }}>
+            <button onClick={() => {
+              const f = functions.find((fn) => fn.id === ctxMenu.funcId);
+              if (f) { setRenamingId(f.id); setRenameVal(f.name); }
+              setCtxMenu(null);
+            }}>重命名</button>
+            <button className="danger" onClick={() => {
+              removeFunction(ctxMenu.funcId);
+              setCtxMenu(null);
+            }}>删除</button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
