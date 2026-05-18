@@ -159,50 +159,41 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         background: nodeData.type === BTNodeType.ROOT ? '#484850' : '#484848',
       }}
     >
-      {/* ── Header bar with handles ── */}
-        <div className="bt-node-header" style={{ background: config.color, position: 'relative' }}>
-        {/* Standard exec input (in header) */}
-        {showInput && (
-          <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-hdr-handle" onClick={(e) => handleClick(e, 'exec-in')} />
-        )}
-
-        {/* Condition exec input (in header) */}
-        {isCondition && (
-          <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-hdr-handle" onClick={(e) => handleClick(e, 'exec-in')} />
-        )}
-
+      {/* ── Header bar ── */}
+        <div className="bt-node-header" style={{ background: config.color }}>
         <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-no-pad' : ''}`}>
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
           {isSetVar && 'SET: '}
           {nodeData.label}
         </span>
 
-        {/* Standard exec output (in header) */}
-        {showOutput && !isDist && !isCondition && (
-          <Handle type="source" position={Position.Right} id="exec-out" className="bt-handle bt-hdr-handle" onClick={(e) => handleClick(e, 'exec-out')} />
-        )}
-
-        {/* Get red data output (in header) */}
+        {/* Get red data output */}
         {isGetVar && (
           <Handle type="source" position={Position.Right} id="data-out" className="bt-handle bt-handle-data bt-hdr-handle" onClick={(e) => handleClick(e, 'data-out')} />
         )}
-
-        {/* Compare: red data-in + data-out */}
-        {isCompare && (
-          <> 
-            <Handle type="target" position={Position.Left} id="data-in" className="bt-handle bt-handle-data bt-hdr-handle" onClick={(e) => handleClick(e, 'data-in')} />
-            <Handle type="source" position={Position.Right} id="data-out" className="bt-handle bt-handle-data bt-hdr-handle" onClick={(e) => handleClick(e, 'data-out')} />
-          </>
-        )}
-
       </div>
+
+      {/* ── Execution row ── */}
+      {!isDist && !isGetVar && !isComment && !isCompare && (
+        <div className="bt-node-exec-row">
+          {(showInput || isCondition) && (
+            <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
+          )}
+          {showOutput && !isCondition && (
+            <Handle type="source" position={Position.Right} id="exec-out" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-out')} />
+          )}
+        </div>
+      )}
 
       {/* ── DistSelector body ── */}
       {isDist && (
         <div className="bt-node-body bt-node-dist-body">
+          <div className="bt-node-exec-row">
+            <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
+          </div>
           {distances.map((d, i) => (
             <div key={`dist-${i}`} className="bt-node-dist-row">
-              <span className="bt-node-dist-label">&lt; {d} cm</span>
+              <span className="bt-node-dist-label">&lt; {d}</span>
               <Handle type="source" position={Position.Right} id={`dist-${i}`} className="bt-handle bt-handle-dist" onClick={(e) => handleClick(e, `dist-${i}`)} />
             </div>
           ))}
@@ -251,6 +242,14 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           {nodeData.type === BTNodeType.WAIT && (
             <div className="bt-node-cond">{nodeData.duration ?? 1000}ms</div>
           )}
+        </div>
+      )}
+
+      {/* ── Compare data row ── */}
+      {isCompare && (
+        <div className="bt-node-exec-row">
+          <Handle type="target" position={Position.Left} id="data-in" className="bt-handle bt-handle-data bt-handle-exec-row" onClick={(e) => handleClick(e, 'data-in')} />
+          <Handle type="source" position={Position.Right} id="data-out" className="bt-handle bt-handle-data bt-handle-exec-row" onClick={(e) => handleClick(e, 'data-out')} />
         </div>
       )}
 
