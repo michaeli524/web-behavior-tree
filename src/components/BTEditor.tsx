@@ -40,6 +40,7 @@ const staticQuickCreateTypes: { type: BTNodeType; icon: string; label: string }[
   { type: BTNodeType.PARALLEL, icon: '⇉', label: 'Parallel' },
   { type: BTNodeType.DIST_SELECTOR, icon: '📏', label: 'Dist Selector' },
   { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare' },
+  { type: BTNodeType.TEST, icon: '🧪', label: 'Test' },
   { type: BTNodeType.CONDITION, icon: '◆', label: 'Condition' },
   { type: BTNodeType.INVERTER, icon: '¬', label: 'Inverter' },
   { type: BTNodeType.REPEATER, icon: '↻', label: 'Repeater' },
@@ -343,9 +344,17 @@ export function BTEditor() {
   const filteredQuickCreateTypes = useMemo(() => {
     if (!searchFilter.trim()) return allQuickCreateTypes;
     const lower = searchFilter.toLowerCase();
-    return allQuickCreateTypes.filter((item) =>
-      item.label.toLowerCase().includes(lower)
-    );
+    const exact: typeof allQuickCreateTypes = [];
+    const prefix: typeof allQuickCreateTypes = [];
+    const rest: typeof allQuickCreateTypes = [];
+    for (const item of allQuickCreateTypes) {
+      const label = item.label.toLowerCase();
+      if (!label.includes(lower)) continue;
+      if (label === lower) exact.push(item);
+      else if (label.startsWith(lower)) prefix.push(item);
+      else rest.push(item);
+    }
+    return [...exact, ...prefix, ...rest];
   }, [allQuickCreateTypes, searchFilter]);
 
   // Close popups on Escape

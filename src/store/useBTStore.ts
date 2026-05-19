@@ -136,6 +136,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.SET_VARIABLE]: 'Set',
   [BTNodeType.COMMENT]: 'Comment',
   [BTNodeType.COMPARE]: '<',
+  [BTNodeType.TEST]: 'Test',
 };
 
 function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTNodeData {

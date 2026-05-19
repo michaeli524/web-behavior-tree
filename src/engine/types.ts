@@ -15,6 +15,7 @@ export enum BTNodeType {
   SET_VARIABLE = 'set-variable',
   COMMENT = 'comment',
   COMPARE = 'compare',
+  TEST = 'test',
 }
 
 export enum BTExecutionStatus {

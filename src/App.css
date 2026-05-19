@@ -913,14 +913,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 12px;
+  padding: 5px 10px 5px 8px;
   font-weight: 600;
   font-size: 12px;
   border-radius: 3px 3px 0 0;
   color: #1e1e1e;
   position: relative;
   min-height: 24px;
-  padding-right: 16px;
 }
 
 .bt-node-header-text {
@@ -928,11 +927,6 @@
   align-items: center;
   gap: 4px;
   justify-content: flex-start;
-  padding-left: 8px;
-}
-
-/* Get node has no left handle — no extra padding needed */
-.bt-node-header-text-no-pad {
   padding-left: 0;
 }
 
@@ -954,7 +948,7 @@
 }
 
 .bt-handle.bt-handle-exec-row.react-flow__handle-left {
-  left: 7px !important;
+  left: 10px !important;
 }
 
 .bt-handle.bt-handle-exec-row.react-flow__handle-right {
@@ -1101,7 +1095,7 @@
 }
 
 .react-flow__handle-left.bt-handle-row-left {
-  left: 3px !important;
+  left: 10px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
 }
@@ -1190,6 +1184,11 @@ input.bt-comment-title:focus {
 
 .bt-comment-resize-handle:hover {
   background: linear-gradient(135deg, transparent 45%, rgba(160,170,200,0.7) 45%, rgba(160,170,200,0.9) 70%, transparent 70%);
+}
+
+/* ===== Test Node (sandbox for style experiments) ===== */
+.bt-node-test {
+  /* Copy from Sequence — modify here for testing */
 }
 
 /* ===== Compare Node ===== */

@@ -27,6 +27,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.SET_VARIABLE]: { color: '#6a7a5a', icon: '📥' },
   [BTNodeType.COMMENT]: { color: '#5a6a5a', icon: '💬' },
   [BTNodeType.COMPARE]: { color: '#7a5a5a', icon: '' },
+  [BTNodeType.TEST]: { color: '#7a8a6b', icon: '🧪' },
 };
 
 function BTNodeComponent({ data, selected, id }: NodeProps) {
@@ -35,7 +36,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const status = nodeData.status ?? BTExecutionStatus.IDLE;
   const borderColor = status !== BTExecutionStatus.IDLE ? statusColors[status] : config.color;
 
-  const isComposite = [BTNodeType.ROOT, BTNodeType.SELECTOR, BTNodeType.SEQUENCE, BTNodeType.PARALLEL].includes(nodeData.type);
+  const isComposite = [BTNodeType.ROOT, BTNodeType.SELECTOR, BTNodeType.SEQUENCE, BTNodeType.PARALLEL, BTNodeType.TEST].includes(nodeData.type);
   const isDecorator = [BTNodeType.INVERTER, BTNodeType.REPEATER, BTNodeType.SUCCEEDER].includes(nodeData.type);
   const isCondition = nodeData.type === BTNodeType.CONDITION;
   const isLeaf = [BTNodeType.ACTION, BTNodeType.WAIT, BTNodeType.FUNCTION].includes(nodeData.type);
@@ -151,7 +152,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 
   return (
     <div
-      className={`bt-node ${selected ? 'selected' : ''}`}
+      className={`bt-node ${nodeData.type === BTNodeType.TEST ? 'bt-node-test' : ''} ${selected ? 'selected' : ''}`}
       style={{
         borderColor,
         borderRadius: '6px',
@@ -161,7 +162,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     >
       {/* ── Header bar ── */}
         <div className="bt-node-header" style={{ background: config.color }}>
-        <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-no-pad' : ''}`}>
+        <span className="bt-node-header-text">
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
           {isSetVar && 'SET: '}
           {nodeData.label}
