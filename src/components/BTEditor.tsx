@@ -3,7 +3,6 @@ import {
   ReactFlow,
   Controls,
   Background,
-  MiniMap,
   BackgroundVariant,
   type Node,
   type Edge,
@@ -633,18 +632,6 @@ export function BTEditor() {
       >
         <Controls />
         <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#333" />
-        <MiniMap
-          nodeStrokeColor="#569cd6"
-          nodeColor={(n) => {
-            const type = (n.data as { type?: string })?.type;
-            if (type === 'root') return '#6b7b8f';
-            if (type === 'selector') return '#8a7b5c';
-            if (type === 'sequence') return '#5a7a96';
-            if (type === 'action') return '#5a8a64';
-            return '#444';
-          }}
-          style={{ background: '#1e1e1e' }}
-        />
       </ReactFlow>
 
       {quickCreate && (

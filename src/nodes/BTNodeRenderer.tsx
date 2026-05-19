@@ -162,7 +162,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     >
       {/* ── Header bar ── */}
         <div className="bt-node-header" style={{ background: config.color }}>
-        <span className="bt-node-header-text">
+        <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-get' : ''}`}>
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
           {isSetVar && 'SET: '}
           {nodeData.label}

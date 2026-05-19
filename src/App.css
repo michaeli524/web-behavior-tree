@@ -913,7 +913,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 10px 5px 8px;
+  padding: 3px 10px 5px 8px;
   font-weight: 600;
   font-size: 12px;
   border-radius: 3px 3px 0 0;
@@ -953,6 +953,14 @@
 
 .bt-handle.bt-handle-exec-row.react-flow__handle-right {
   right: 10px !important;
+}
+
+/* Get node: auto-width, full name, fixed gap to red handle */
+.bt-node-header-text-get {
+  white-space: nowrap;
+  overflow: visible;
+  padding-right: 14px;
+  gap: 8px;
 }
 
 .bt-hdr-handle {
