@@ -1302,6 +1302,31 @@ input.bt-comment-title:focus {
 .var-item:active {
   cursor: grabbing;
 }
+.var-item-active {
+  background: var(--bg-tertiary);
+}
+
+/* ===== Variable Detail ===== */
+.variable-detail {
+  padding: 12px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.var-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.var-detail-header h3 {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
 
 
 /* ===== BT Editor (Center Canvas) ===== */

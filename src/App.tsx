@@ -4,6 +4,7 @@ import { Toolbar } from './components/Toolbar';
 import { NodePalette } from './components/NodePalette';
 import { BTEditor } from './components/BTEditor';
 import { PropertiesPanel } from './components/PropertiesPanel';
+import { VariableDetail } from './components/VariableDetail';
 import { BTNodeType } from './engine/types';
 import './App.css';
 
@@ -22,6 +23,7 @@ export default function App() {
   const [panelsCollapsed, setPanelsCollapsed] = useState(false);
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const rightPanelRef = useRef<HTMLDivElement>(null);
+  const selectedVariableId = useBTStore((s) => s.selectedVariableId);
 
   const onResizeMouseDown = useCallback((side: 'left' | 'right') => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -130,7 +132,7 @@ export default function App() {
           <>
             <div className="resize-handle resize-handle-right" onMouseDown={onResizeMouseDown('right')} />
             <div ref={rightPanelRef} className="right-panels" style={{ width: rightWidth }}>
-              <PropertiesPanel />
+              {selectedVariableId ? <VariableDetail /> : <PropertiesPanel />}
             </div>
           </>
         )}

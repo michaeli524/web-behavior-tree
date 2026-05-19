@@ -143,8 +143,8 @@ function VariableList() {
   const addVariable = useBTStore((s) => s.addVariable);
   const updateVariable = useBTStore((s) => s.updateVariable);
   const removeVariable = useBTStore((s) => s.removeVariable);
-  const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
-  const setSelectedNodes = useBTStore((s) => s.setSelectedNodes);
+  const selectedVariableId = useBTStore((s) => s.selectedVariableId);
+  const setSelectedVariableId = useBTStore((s) => s.setSelectedVariableId);
   const [search, setSearch] = useState('');
   const [renaming, setRenaming] = useState<string | null>(null);
   const [renameVal, setRenameVal] = useState('');
@@ -173,8 +173,10 @@ function VariableList() {
       </div>
       <div className="var-list">
         {filtered.map((v) => (
-          <div key={v.id} className="var-item"
+          <div key={v.id}
+            className={`var-item ${selectedVariableId === v.id ? 'var-item-active' : ''}`}
             draggable
+            onClick={() => setSelectedVariableId(v.id)}
             onDragStart={(e) => { e.dataTransfer.setData('application/variable-id', v.id); e.dataTransfer.effectAllowed = 'move'; }}
             onContextMenu={(e) => { e.preventDefault(); setCtxMenu({ x: e.clientX, y: e.clientY, varId: v.id }); }}
           >

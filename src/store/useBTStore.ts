@@ -18,6 +18,8 @@ interface BTStore {
   functions: BTFunction[];
   pages: BTPage[];
   selectedNodeIds: string[];
+  selectedVariableId: string | null;
+  setSelectedVariableId: (id: string | null) => void;
   isRunning: boolean;
   executionResults: Map<string, BTExecutionStatus>;
   activePageId: string; // 'main' or functionId
@@ -184,6 +186,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
   functions: [],
   pages: [],
   selectedNodeIds: [],
+  selectedVariableId: null,
   isRunning: false,
   executionResults: new Map(),
   activePageId: 'main',
@@ -260,6 +263,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   setSelectedNodes: (ids) => set({ selectedNodeIds: ids }),
+  setSelectedVariableId: (id) => set({ selectedVariableId: id }),
 
   // ----- Undo / Redo -----
   _snapshot: () => { pushHistory(get()); },

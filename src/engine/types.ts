@@ -30,6 +30,7 @@ export interface BTVariable {
   name: string;
   type: 'boolean' | 'number' | 'string';
   value: boolean | number | string;
+  note?: string;
 }
 
 export interface BTFunction {
