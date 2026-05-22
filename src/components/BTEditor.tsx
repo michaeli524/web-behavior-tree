@@ -527,7 +527,7 @@ export function BTEditor() {
     setTimeout(() => instance.fitView({ padding: 0.2 }), 100);
   }, []);
 
-  // Press 'C' to create comment around selected nodes
+  // Press 'C' to create a comment box around the current node selection.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key !== 'c' || e.metaKey || e.ctrlKey) return;
@@ -537,37 +537,57 @@ export function BTEditor() {
       const rfInstance = rfInstanceRef.current;
       if (!rfInstance) return;
 
-      // Read selection directly from React Flow's internal state
-      const rfNodes = rfInstance.getNodes();
-      const selectedRfNodes = rfNodes.filter((n) => n.selected);
-      if (selectedRfNodes.length === 0) return;
-
-      const PAD = 40;
-      const minX = Math.min(...selectedRfNodes.map((n) => n.position.x)) - PAD;
-      const minY = Math.min(...selectedRfNodes.map((n) => n.position.y)) - PAD;
-      const maxX = Math.max(...selectedRfNodes.map((n) => n.position.x + (n.measured?.width ?? 130))) + PAD;
-      const maxY = Math.max(...selectedRfNodes.map((n) => n.position.y + (n.measured?.height ?? 60))) + PAD;
-
       const state = useBTStore.getState();
+      const rfAllNodes = rfInstance.getNodes();
+
+      const selectedIds = new Set(state.selectedNodeIds);
+      rfAllNodes.forEach((n) => {
+        if (n.selected) selectedIds.add(n.id);
+      });
+
+      const selectedNodes = rfAllNodes.filter((n) => {
+        const nodeData = n.data as unknown as BTNodeData;
+        return selectedIds.has(n.id) && nodeData.type !== BTNodeType.COMMENT;
+      });
+
+      if (selectedNodes.length === 0) {
+        return;
+      }
+
+      const getSize = (node: Node): { w: number; h: number } => {
+        return {
+          w: node.measured?.width ?? node.width ?? 130,
+          h: node.measured?.height ?? node.height ?? 60,
+        };
+      };
+
+      const PAD = 30;
+      const minX = Math.min(...selectedNodes.map((n) => n.position.x)) - PAD;
+      const minY = Math.min(...selectedNodes.map((n) => n.position.y)) - PAD;
+      const maxX = Math.max(...selectedNodes.map((n) => n.position.x + getSize(n).w)) + PAD;
+      const maxY = Math.max(...selectedNodes.map((n) => n.position.y + getSize(n).h)) + PAD;
+
+      const cw = maxX - minX;
+      const ch = maxY - minY;
       if (state.activePageId === 'main') {
         state.addNode(BTNodeType.COMMENT, { x: minX, y: minY }, {
           label: 'Comment',
-          commentWidth: Math.max(250, maxX - minX),
-          commentHeight: Math.max(100, maxY - minY),
+          commentWidth: cw,
+          commentHeight: ch,
         });
       } else {
         const page = state.pages.find((p) => p.id === state.activePageId);
         if (page) {
           state.addPageNode(state.activePageId, BTNodeType.COMMENT, { x: minX, y: minY }, {
             label: 'Comment',
-            commentWidth: Math.max(250, maxX - minX),
-            commentHeight: Math.max(100, maxY - minY),
+            commentWidth: cw,
+            commentHeight: ch,
           });
         } else {
           state.addFunctionNode(state.activePageId, BTNodeType.COMMENT, { x: minX, y: minY }, {
             label: 'Comment',
-            commentWidth: Math.max(250, maxX - minX),
-            commentHeight: Math.max(100, maxY - minY),
+            commentWidth: cw,
+            commentHeight: ch,
           });
         }
       }

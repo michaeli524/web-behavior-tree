@@ -1,54 +1,203 @@
-import { useBTStore } from "../store/useBTStore";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useBTStore } from '../store/useBTStore';
+import {
+  openDefaultTreeFile,
+  openTreeFile,
+  saveDefaultTreeFile,
+  saveTreeFile,
+  saveTreeFileAs,
+  type TreeFileHandle,
+} from '../utils/filePersistence';
+
+const DEFAULT_FILE_NAME = 'behavior-tree.json';
+
+type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
 export function Toolbar() {
   const exportTree = useBTStore((s) => s.exportTree);
   const importTree = useBTStore((s) => s.importTree);
+  const [fileHandle, setFileHandle] = useState<TreeFileHandle | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [localFilePath, setLocalFilePath] = useState<string | null>(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [saveState, setSaveState] = useState<SaveState>('idle');
+  const tracksDirtyRef = useRef(false);
+  const ignoreNextStoreChangeRef = useRef(false);
 
-  const handleExport = () => {
-    const json = exportTree();
-    navigator.clipboard.writeText(json).catch(() => {});
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'behavior-tree.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  useEffect(() => {
+    const trackingTimer = window.setTimeout(() => {
+      tracksDirtyRef.current = true;
+    }, 0);
 
-  const handleImport = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const json = ev.target?.result as string;
-        if (json) importTree(json);
-      };
-      reader.readAsText(file);
+    const unsub = useBTStore.subscribe(() => {
+      if (!tracksDirtyRef.current) {
+        return;
+      }
+      if (ignoreNextStoreChangeRef.current) {
+        ignoreNextStoreChangeRef.current = false;
+        return;
+      }
+      setIsDirty(true);
+      setSaveState('idle');
+    });
+    return () => {
+      window.clearTimeout(trackingTimer);
+      unsub();
     };
-    input.click();
+  }, []);
+
+  const currentFileName = fileName ?? DEFAULT_FILE_NAME;
+
+  const handleSaveAs = useCallback(async () => {
+    const json = exportTree();
+    setSaveState('saving');
+    try {
+      const result = await saveTreeFileAs(json, currentFileName);
+      setFileHandle(result.handle ?? null);
+      setFileName(result.name);
+      setLocalFilePath(null);
+      setIsDirty(false);
+      setSaveState('saved');
+    } catch (error) {
+      if ((error as DOMException).name !== 'AbortError') {
+        console.error('Failed to save tree:', error);
+        setSaveState('error');
+      } else {
+        setSaveState('idle');
+      }
+    }
+  }, [currentFileName, exportTree]);
+
+  const handleSave = useCallback(async () => {
+    if (!fileHandle) {
+      const json = exportTree();
+      setSaveState('saving');
+      try {
+        const result = await saveDefaultTreeFile(json);
+        setFileName(result.name);
+        setLocalFilePath(result.path);
+        setIsDirty(false);
+        setSaveState('saved');
+      } catch (error) {
+        console.warn('Default file save failed, falling back to Save As:', error);
+        await handleSaveAs();
+      }
+      return;
+    }
+
+    const json = exportTree();
+    setSaveState('saving');
+    try {
+      await saveTreeFile(fileHandle, json);
+      setIsDirty(false);
+      setSaveState('saved');
+    } catch (error) {
+      if (isAbortError(error)) {
+        setSaveState('idle');
+        return;
+      }
+
+      console.warn('Bound file save failed, falling back to Save As:', error);
+      setFileHandle(null);
+      await handleSaveAs();
+    }
+  }, [exportTree, fileHandle, handleSaveAs]);
+
+  const handleOpenDefault = async () => {
+    try {
+      const result = await openDefaultTreeFile();
+      ignoreNextStoreChangeRef.current = true;
+      importTree(result.json);
+      setFileHandle(null);
+      setFileName(result.name);
+      setLocalFilePath(result.path);
+      setIsDirty(false);
+      setSaveState('saved');
+    } catch (error) {
+      console.error('Failed to open default tree:', error);
+      setSaveState('error');
+    }
   };
+
+  const handleOpen = async () => {
+    try {
+      const result = await openTreeFile();
+      ignoreNextStoreChangeRef.current = true;
+      importTree(result.json);
+      setFileHandle(result.handle ?? null);
+      setFileName(result.name);
+      setLocalFilePath(null);
+      setIsDirty(false);
+      setSaveState('saved');
+    } catch (error) {
+      if ((error as DOMException).name !== 'AbortError') {
+        console.error('Failed to open tree:', error);
+        setSaveState('error');
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const mod = e.metaKey || e.ctrlKey;
+      if (!mod || e.shiftKey || e.key.toLowerCase() !== 's') return;
+      e.preventDefault();
+      void handleSave();
+    };
+
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [handleSave]);
+
+  const saveLabel = saveState === 'saving' ? '保存中' : '保存';
+  const statusText =
+    saveState === 'saving'
+      ? '保存中...'
+      : saveState === 'saved'
+        ? '已保存'
+        : saveState === 'error'
+          ? '保存失败'
+          : fileHandle
+            ? '已绑定文件'
+            : localFilePath
+              ? '已绑定默认文件'
+              : '保存到默认文件';
 
   return (
     <div className="toolbar">
       <div className="toolbar-left">
         <span className="toolbar-title">Behavior Tree Editor</span>
+        <span className="toolbar-file" title={localFilePath ?? (fileHandle ? '已绑定到本地 JSON 文件' : '未绑定文件，保存会写入开发服务器默认 JSON')}>
+          {currentFileName}
+          {isDirty ? ' *' : ''}
+        </span>
+        <span className={`toolbar-save-status toolbar-save-status-${saveState}`}>
+          {statusText}
+        </span>
       </div>
 
       <div className="toolbar-right" style={{ marginLeft: 'auto' }}>
-        <button className="btn btn-secondary toolbar-btn" onClick={handleExport}>
-          <span className="toolbar-btn-icon">📤</span>
-          <span>导出</span>
+        <button className="btn btn-secondary toolbar-btn" onClick={handleOpenDefault}>
+          <span className="toolbar-btn-icon">⌂</span>
+          <span>打开默认</span>
         </button>
-        <button className="btn btn-secondary toolbar-btn" onClick={handleImport}>
-          <span className="toolbar-btn-icon">📥</span>
-          <span>导入</span>
+        <button className="btn btn-secondary toolbar-btn" onClick={handleOpen}>
+          <span className="toolbar-btn-icon">📂</span>
+          <span>打开</span>
+        </button>
+        <button className="btn btn-primary toolbar-btn" onClick={handleSave} disabled={saveState === 'saving'}>
+          <span className="toolbar-btn-icon">💾</span>
+          <span>{saveLabel}</span>
+        </button>
+        <button className="btn btn-secondary toolbar-btn" onClick={handleSaveAs} disabled={saveState === 'saving'}>
+          <span className="toolbar-btn-icon">↗</span>
+          <span>另存为</span>
         </button>
       </div>
     </div>
   );
+}
+
+function isAbortError(error: unknown): boolean {
+  return typeof error === 'object' && error !== null && 'name' in error && error.name === 'AbortError';
 }

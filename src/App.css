@@ -37,6 +37,32 @@
   color: var(--text-primary);
 }
 
+.toolbar-file {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 3px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.toolbar-save-status {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.toolbar-save-status-saved {
+  color: var(--success);
+}
+
+.toolbar-save-status-error {
+  color: var(--danger);
+}
+
 .toolbar-center {
   display: flex;
   gap: 8px;

@@ -154,6 +154,8 @@ function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTN
     distances: dataOverride?.distances ?? [300, 650, 2000],
     variableId: dataOverride?.variableId,
     setValue: dataOverride?.setValue,
+    commentWidth: dataOverride?.commentWidth,
+    commentHeight: dataOverride?.commentHeight,
     operator: dataOverride?.operator ?? '<',
     compareValue: dataOverride?.compareValue ?? '0',
   };

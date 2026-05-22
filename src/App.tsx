@@ -82,14 +82,6 @@ export default function App() {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const mod = e.metaKey || e.ctrlKey;
-      if (mod && e.key === 's') {
-        e.preventDefault();
-        const state = useBTStore.getState();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          nodes: state.nodes, edges: state.edges,
-          variables: state.variables, functions: state.functions,
-        }));
-      }
       if (mod && !e.shiftKey && e.key === 'z') {
         e.preventDefault();
         useBTStore.getState().undo();
