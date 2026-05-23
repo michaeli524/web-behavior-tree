@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType } from '../engine/types';
+import { useActionCatalog } from '../config/actionCatalog';
 
 export function PropertiesPanel() {
   const nodes = useBTStore((s) => s.nodes);
@@ -11,6 +13,7 @@ export function PropertiesPanel() {
   const selectedNode = selectedNodeIds.length === 1
     ? nodes.find((n) => n.id === selectedNodeIds[0])
     : undefined;
+  const { actions, actionById, error: actionCatalogError } = useActionCatalog();
 
   if (!selectedNode) {
     return (
@@ -22,6 +25,7 @@ export function PropertiesPanel() {
   }
 
   const { data } = selectedNode;
+  const selectedAction = data.actionId ? actionById.get(data.actionId) : undefined;
 
   return (
     <div className="properties-panel">
@@ -54,15 +58,60 @@ export function PropertiesPanel() {
       )}
 
       {data.type === BTNodeType.ACTION && (
-        <div className="prop-group">
-          <label>动作代码</label>
-          <textarea
-            rows={3}
-            placeholder="e.g. set('attacking', true)"
-            value={data.action ?? ''}
-            onChange={(e) => updateNodeData(selectedNode.id, { action: e.target.value })}
-          />
-        </div>
+        <>
+          <div className="prop-group">
+            <label>技能配置</label>
+            <select
+              value={data.actionId ?? ''}
+              onChange={(e) => {
+                const actionId = e.target.value;
+                const action = actionById.get(actionId);
+                updateNodeData(selectedNode.id, {
+                  actionId: actionId || undefined,
+                  label: action?.actionName ?? 'Action',
+                });
+              }}
+            >
+              <option value="">-- 选择配表技能 --</option>
+              {actions.map((action) => (
+                <option key={action.actionId} value={action.actionId}>
+                  {action.actionName} ({action.actionId})
+                </option>
+              ))}
+            </select>
+            {actionCatalogError && (
+              <div className="prop-error">{actionCatalogError}</div>
+            )}
+          </div>
+
+          <div className="action-preview-panel">
+            {selectedAction?.gifPath ? (
+              <ActionPreviewImage src={selectedAction.gifPath} alt={selectedAction.actionName} />
+            ) : (
+              <div className="action-preview-empty">选择一个 ActionId 后显示 GIF 预览</div>
+            )}
+            {selectedAction && (
+              <>
+                <div className="action-preview-title">{selectedAction.actionName}</div>
+                <div className="action-preview-grid">
+                  <span>ActionId</span><strong>{selectedAction.actionId}</strong>
+                  <span>GIF</span><strong>{selectedAction.gifPath}</strong>
+                </div>
+                <div className="action-preview-note">{selectedAction.comment}</div>
+              </>
+            )}
+          </div>
+
+          <div className="prop-group">
+            <label>临时动作代码</label>
+            <textarea
+              rows={3}
+              placeholder="e.g. set('attacking', true)"
+              value={data.action ?? ''}
+              onChange={(e) => updateNodeData(selectedNode.id, { action: e.target.value })}
+            />
+          </div>
+        </>
       )}
 
       {data.type === BTNodeType.WAIT && (
@@ -225,5 +274,20 @@ export function PropertiesPanel() {
       )}
 
     </div>
+  );
+}
+
+function ActionPreviewImage({ src, alt }: { src: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <div className="action-preview-empty">GIF 文件待放入项目资源目录</div>;
+  }
+  return (
+    <img
+      className="action-preview-gif"
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+    />
   );
 }

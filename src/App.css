@@ -765,6 +765,69 @@
   opacity: 0.5;
 }
 
+.prop-error {
+  margin-top: 4px;
+  color: var(--danger);
+  font-size: 12px;
+}
+
+.action-preview-panel {
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.action-preview-gif,
+.action-preview-empty {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #111827;
+}
+
+.action-preview-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.action-preview-title {
+  padding: 8px 10px 4px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.action-preview-grid {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 4px 8px;
+  padding: 4px 10px 8px;
+  font-size: 12px;
+}
+
+.action-preview-grid span {
+  color: var(--text-muted);
+}
+
+.action-preview-grid strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.action-preview-note {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 /* ===== Variable Panel ===== */
 .panel-tabs {
   display: flex;
@@ -1011,6 +1074,57 @@
   font-size: 10px;
   color: var(--text-secondary);
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bt-action-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px;
+  align-items: stretch;
+  min-width: 190px;
+}
+
+.bt-action-thumb {
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #111827;
+  border: 1px solid #3e3e3e;
+}
+
+.bt-action-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.bt-action-meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.bt-action-id {
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bt-action-comment {
+  color: var(--text-secondary);
+  font-size: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

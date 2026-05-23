@@ -2,6 +2,7 @@ import { memo, useState, useCallback } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType, BTExecutionStatus, type BTNodeData } from '../engine/types';
+import { useActionCatalog } from '../config/actionCatalog';
 
 const statusColors: Record<BTExecutionStatus, string> = {
   [BTExecutionStatus.IDLE]: '#555',
@@ -45,6 +46,9 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
   const isComment = nodeData.type === BTNodeType.COMMENT;
   const isCompare = nodeData.type === BTNodeType.COMPARE;
+  const { actionById } = useActionCatalog();
+  const actionConfig = nodeData.actionId ? actionById.get(nodeData.actionId) : undefined;
+  const actionTitle = actionConfig?.actionName ?? nodeData.label;
 
   const showInput = nodeData.type !== BTNodeType.ROOT && !isGetVar && !isCondition && !isCompare;
   const showOutput = isComposite || isDecorator || isSetVar;
@@ -165,7 +169,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-get' : ''}`}>
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
           {isSetVar && 'SET: '}
-          {nodeData.label}
+          {nodeData.type === BTNodeType.ACTION ? actionTitle : nodeData.label}
         </span>
 
         {/* Get red data output */}
@@ -237,8 +241,22 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       {/* ── Leaf body ── */}
       {isLeaf && (
         <div className="bt-node-body">
-          {nodeData.type === BTNodeType.ACTION && nodeData.action && (
-            <div className="bt-node-cond">{nodeData.action}</div>
+          {nodeData.type === BTNodeType.ACTION && (
+            <div className="bt-action-card">
+              {actionConfig?.gifPath ? (
+                <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionName} />
+              ) : (
+                <div className="bt-action-thumb bt-action-thumb-empty">GIF</div>
+              )}
+              <div className="bt-action-meta">
+                <div className="bt-action-id">
+                  {actionConfig?.actionId ?? nodeData.actionId ?? '请选择动作'}
+                </div>
+                <div className="bt-action-comment">
+                  {actionConfig?.comment ?? '资源未配置'}
+                </div>
+              </div>
+            </div>
           )}
           {nodeData.type === BTNodeType.WAIT && (
             <div className="bt-node-cond">{nodeData.duration ?? 1000}ms</div>
@@ -294,3 +312,18 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 }
 
 export const BTNodeRenderer = memo(BTNodeComponent);
+
+function ActionThumb({ src, alt }: { src: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <div className="bt-action-thumb bt-action-thumb-empty">GIF</div>;
+  }
+  return (
+    <img
+      className="bt-action-thumb"
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+    />
+  );
+}

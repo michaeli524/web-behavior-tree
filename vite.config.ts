@@ -2,9 +2,12 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { execFile } from 'node:child_process'
 import type { IncomingMessage } from 'node:http'
+import { promisify } from 'node:util'
 
 const defaultTreeFile = process.env.BT_TREE_FILE ?? '/Users/miko/Desktop/电龙AI.json'
+const execFileAsync = promisify(execFile)
 
 function localTreeFilePlugin(): Plugin {
   return {
@@ -64,6 +67,32 @@ function localTreeFilePlugin(): Plugin {
 
         res.statusCode = 405
         res.end(JSON.stringify({ ok: false, error: 'Method not allowed.' }))
+      })
+
+      server.middlewares.use('/api/export-actions', async (req, res) => {
+        res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
+        if (req.method !== 'POST') {
+          res.statusCode = 405
+          res.end(JSON.stringify({ ok: false, error: 'Method not allowed.' }))
+          return
+        }
+
+        try {
+          const script = path.resolve(process.cwd(), 'scripts/export_action_json.py')
+          const { stdout } = await execFileAsync('python3', [script], {
+            cwd: process.cwd(),
+          })
+          const payload = JSON.parse(stdout.trim())
+          res.statusCode = 200
+          res.end(JSON.stringify(payload))
+        } catch (error) {
+          res.statusCode = 500
+          res.end(JSON.stringify({
+            ok: false,
+            error: error instanceof Error ? error.message : String(error),
+          }))
+        }
       })
     },
   }

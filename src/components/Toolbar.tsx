@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useBTStore } from '../store/useBTStore';
+import { exportActionCatalogFromExcel } from '../config/actionCatalog';
 import {
   openDefaultTreeFile,
   openTreeFile,
@@ -12,6 +13,7 @@ import {
 const DEFAULT_FILE_NAME = 'behavior-tree.json';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
+type TableState = 'idle' | 'exporting' | 'exported' | 'error';
 
 export function Toolbar() {
   const exportTree = useBTStore((s) => s.exportTree);
@@ -21,6 +23,7 @@ export function Toolbar() {
   const [localFilePath, setLocalFilePath] = useState<string | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>('idle');
+  const [tableState, setTableState] = useState<TableState>('idle');
   const tracksDirtyRef = useRef(false);
   const ignoreNextStoreChangeRef = useRef(false);
 
@@ -137,6 +140,18 @@ export function Toolbar() {
     }
   };
 
+  const handleExportActions = async () => {
+    setTableState('exporting');
+    try {
+      const result = await exportActionCatalogFromExcel();
+      console.info(`Action 导表完成: ${result.source} -> ${result.target}, ${result.count} rows`);
+      setTableState('exported');
+    } catch (error) {
+      console.error('Action 导表失败:', error);
+      setTableState('error');
+    }
+  };
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const mod = e.metaKey || e.ctrlKey;
@@ -162,6 +177,14 @@ export function Toolbar() {
             : localFilePath
               ? '已绑定默认文件'
               : '保存到默认文件';
+  const tableLabel =
+    tableState === 'exporting'
+      ? '导表中'
+      : tableState === 'exported'
+        ? '导表完成'
+        : tableState === 'error'
+          ? '导表失败'
+          : '导表';
 
   return (
     <div className="toolbar">
@@ -184,6 +207,15 @@ export function Toolbar() {
         <button className="btn btn-secondary toolbar-btn" onClick={handleOpen}>
           <span className="toolbar-btn-icon">📂</span>
           <span>打开</span>
+        </button>
+        <button
+          className="btn btn-secondary toolbar-btn"
+          onClick={handleExportActions}
+          disabled={tableState === 'exporting'}
+          title="将 public/config/actions.xlsx 导出为 actions.json"
+        >
+          <span className="toolbar-btn-icon">⇄</span>
+          <span>{tableLabel}</span>
         </button>
         <button className="btn btn-primary toolbar-btn" onClick={handleSave} disabled={saveState === 'saving'}>
           <span className="toolbar-btn-icon">💾</span>

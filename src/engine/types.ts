@@ -47,6 +47,7 @@ export interface BTNodeData {
   type: BTNodeType;
   condition?: string;
   action?: string;
+  actionId?: string;
   duration?: number;
   repeatCount?: number;
   status?: BTExecutionStatus;
