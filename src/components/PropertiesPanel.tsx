@@ -3,6 +3,10 @@ import { useBTStore } from '../store/useBTStore';
 import { BTNodeType } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
 
+function parseEditableNumber(value: string): number | '' {
+  return value === '' ? '' : Number(value);
+}
+
 export function PropertiesPanel() {
   const nodes = useBTStore((s) => s.nodes);
   const pages = useBTStore((s) => s.pages);
@@ -229,9 +233,9 @@ export function PropertiesPanel() {
           <label>等待时长 (ms)</label>
           <input
             type="number"
-            value={data.duration ?? 1000}
+            value={data.duration ?? ''}
             onChange={(e) =>
-              updateNodeData(selectedNode.id, { duration: Number(e.target.value) })
+              updateNodeData(selectedNode.id, { duration: parseEditableNumber(e.target.value) })
             }
           />
         </div>
@@ -242,9 +246,9 @@ export function PropertiesPanel() {
           <label>接近距离 (cm)</label>
           <input
             type="number"
-            value={data.approachDistance ?? 500}
+            value={data.approachDistance ?? ''}
             onChange={(e) =>
-              updateNodeData(selectedNode.id, { approachDistance: Number(e.target.value) })
+              updateNodeData(selectedNode.id, { approachDistance: parseEditableNumber(e.target.value) })
             }
           />
         </div>
@@ -255,9 +259,9 @@ export function PropertiesPanel() {
           <label>重复次数</label>
           <input
             type="number"
-            value={data.repeatCount ?? 1}
+            value={data.repeatCount ?? ''}
             onChange={(e) =>
-              updateNodeData(selectedNode.id, { repeatCount: Number(e.target.value) })
+              updateNodeData(selectedNode.id, { repeatCount: parseEditableNumber(e.target.value) })
             }
           />
         </div>
@@ -274,7 +278,7 @@ export function PropertiesPanel() {
                   value={d}
                   onChange={(e) => {
                     const newDistances = [...(data.distances ?? [300, 650, 2000])];
-                    newDistances[i] = Number(e.target.value);
+                    newDistances[i] = parseEditableNumber(e.target.value);
                     updateNodeData(selectedNode.id, { distances: newDistances });
                   }}
                 />
@@ -299,7 +303,8 @@ export function PropertiesPanel() {
             onClick={() => {
               const cur = data.distances ?? [300, 650, 2000];
               const last = cur[cur.length - 1] ?? 2000;
-              updateNodeData(selectedNode.id, { distances: [...cur, last + 500] });
+              const nextDistance = (typeof last === 'number' ? last : 0) + 500;
+              updateNodeData(selectedNode.id, { distances: [...cur, nextDistance] });
             }}
           >
             + 新增距离
@@ -319,7 +324,7 @@ export function PropertiesPanel() {
                   value={weight}
                   onChange={(e) => {
                     const newWeights = [...(data.randomWeights ?? [50, 30, 20])];
-                    newWeights[i] = Number(e.target.value);
+                    newWeights[i] = parseEditableNumber(e.target.value);
                     updateNodeData(selectedNode.id, { randomWeights: newWeights });
                   }}
                 />

@@ -31,6 +31,8 @@ export const BTExecutionStatus = {
 
 export type BTExecutionStatus = (typeof BTExecutionStatus)[keyof typeof BTExecutionStatus];
 
+export type BTNumericValue = number | '';
+
 export interface BTVariable {
   id: string;
   name: string;
@@ -54,12 +56,12 @@ export interface BTNodeData {
   condition?: string;
   action?: string;
   actionId?: string;
-  duration?: number;
-  repeatCount?: number;
+  duration?: BTNumericValue;
+  repeatCount?: BTNumericValue;
   status?: BTExecutionStatus;
   functionId?: string;
-  distances?: number[];
-  randomWeights?: number[];
+  distances?: BTNumericValue[];
+  randomWeights?: BTNumericValue[];
   variableId?: string;
   setValue?: string;
   commentWidth?: number;
@@ -67,7 +69,7 @@ export interface BTNodeData {
   operator?: string;
   compareLeftValue?: string;
   compareValue?: string;
-  approachDistance?: number;
+  approachDistance?: BTNumericValue;
 }
 
 export interface BTNode {

@@ -374,7 +374,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       {(isComposite || isDecorator) && !isMultiOutputSelector && (
         <div className="bt-node-body">
           {nodeData.type === BTNodeType.REPEATER && (
-            <div className="bt-node-cond">×{nodeData.repeatCount ?? 1}</div>
+            <div className="bt-node-cond">{nodeData.repeatCount === '' ? '' : `×${nodeData.repeatCount ?? 1}`}</div>
           )}
         </div>
       )}
@@ -420,10 +420,12 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             </div>
           )}
           {nodeData.type === BTNodeType.WAIT && (
-            <div className="bt-node-cond">{nodeData.duration ?? 1000}ms</div>
+            <div className="bt-node-cond">{nodeData.duration === '' ? '' : `${nodeData.duration ?? 1000}ms`}</div>
           )}
           {nodeData.type === BTNodeType.APPROACH && (
-            <div className="bt-node-cond">距目标 &le; {nodeData.approachDistance ?? 500}</div>
+            <div className="bt-node-cond">
+              {nodeData.approachDistance === '' ? '距目标' : `距目标 ≤ ${nodeData.approachDistance ?? 500}`}
+            </div>
           )}
         </div>
       )}

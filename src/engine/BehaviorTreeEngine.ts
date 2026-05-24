@@ -160,7 +160,9 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
     }
 
     case BTNodeType.REPEATER: {
-      const count = node.data.repeatCount ?? 1;
+      const count = node.data.repeatCount === '' || node.data.repeatCount == null
+        ? 1
+        : Number(node.data.repeatCount);
       const children = ctx.getChildren(node.id);
       if (children.length === 0) {
         ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
@@ -218,7 +220,7 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
         const index = Number(edge.sourceHandle?.replace('random-', '') ?? 0);
         return {
           target: edge.target,
-          weight: Math.max(0, weights[index] ?? 0),
+          weight: Math.max(0, Number(weights[index] || 0)),
         };
       });
       const totalWeight = options.reduce((sum, option) => sum + option.weight, 0);
