@@ -137,6 +137,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.COMMENT]: 'Comment',
   [BTNodeType.COMPARE]: '<',
   [BTNodeType.TEST]: 'Test',
+  [BTNodeType.APPROACH]: 'Approach',
 };
 
 function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTNodeData {
@@ -157,6 +158,7 @@ function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTN
     commentHeight: dataOverride?.commentHeight,
     operator: dataOverride?.operator ?? '<',
     compareValue: dataOverride?.compareValue ?? '0',
+    approachDistance: dataOverride?.approachDistance ?? 500,
   };
 }
 

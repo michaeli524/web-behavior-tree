@@ -16,6 +16,7 @@ export const BTNodeType = {
   COMMENT: 'comment',
   COMPARE: 'compare',
   TEST: 'test',
+  APPROACH: 'approach',
 } as const;
 
 export type BTNodeType = (typeof BTNodeType)[keyof typeof BTNodeType];
@@ -63,6 +64,7 @@ export interface BTNodeData {
   commentHeight?: number;
   operator?: string;
   compareValue?: string;
+  approachDistance?: number;
 }
 
 export interface BTNode {

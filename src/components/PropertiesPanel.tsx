@@ -237,6 +237,19 @@ export function PropertiesPanel() {
         </div>
       )}
 
+      {data.type === BTNodeType.APPROACH && (
+        <div className="prop-group">
+          <label>接近距离 (cm)</label>
+          <input
+            type="number"
+            value={data.approachDistance ?? 500}
+            onChange={(e) =>
+              updateNodeData(selectedNode.id, { approachDistance: Number(e.target.value) })
+            }
+          />
+        </div>
+      )}
+
       {data.type === BTNodeType.REPEATER && (
         <div className="prop-group">
           <label>重复次数</label>

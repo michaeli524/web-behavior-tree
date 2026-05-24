@@ -29,6 +29,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.COMMENT]: { color: '#5a6a5a', icon: '💬' },
   [BTNodeType.COMPARE]: { color: '#7a5a5a', icon: '' },
   [BTNodeType.TEST]: { color: '#7a8a6b', icon: '🧪' },
+  [BTNodeType.APPROACH]: { color: '#6b7a8a', icon: '🏃' },
 };
 
 const compositeTypes: BTNodeType[] = [
@@ -49,6 +50,7 @@ const leafTypes: BTNodeType[] = [
   BTNodeType.ACTION,
   BTNodeType.WAIT,
   BTNodeType.FUNCTION,
+  BTNodeType.APPROACH,
 ];
 
 function BTNodeComponent({ data, selected, id }: NodeProps) {
@@ -74,7 +76,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const pages = useBTStore((s) => s.pages);
 
   const showInput = nodeData.type !== BTNodeType.ROOT && !isGetVar && !isCondition && !isCompare;
-  const showOutput = isComposite || isDecorator || isSetVar || isFunction;
+  const showOutput = isComposite || isDecorator || isSetVar || isFunction || nodeData.type === BTNodeType.APPROACH;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
   const variableDisplayName =
@@ -310,6 +312,9 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           )}
           {nodeData.type === BTNodeType.WAIT && (
             <div className="bt-node-cond">{nodeData.duration ?? 1000}ms</div>
+          )}
+          {nodeData.type === BTNodeType.APPROACH && (
+            <div className="bt-node-cond">距目标 &le; {nodeData.approachDistance ?? 500}</div>
           )}
         </div>
       )}

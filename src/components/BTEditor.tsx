@@ -89,6 +89,7 @@ const staticQuickCreateTypes: { type: BTNodeType; icon: string; label: string }[
   { type: BTNodeType.REPEATER, icon: '↻', label: 'Repeater' },
   { type: BTNodeType.SUCCEEDER, icon: '✓', label: 'Succeeder' },
   { type: BTNodeType.ACTION, icon: '⚡', label: 'Action' },
+  { type: BTNodeType.APPROACH, icon: '🏃', label: 'Approach' },
   { type: BTNodeType.WAIT, icon: '⏱', label: 'Wait' },
 ];
 
