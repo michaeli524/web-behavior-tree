@@ -14,7 +14,7 @@ const statusColors: Record<BTExecutionStatus, string> = {
 const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.ROOT]: { color: '#6b7b8f', icon: '🏠' },
   [BTNodeType.SELECTOR]: { color: '#8a7b5c', icon: '❓' },
-  [BTNodeType.SEQUENCE]: { color: '#5a7a96', icon: '→' },
+  [BTNodeType.SEQUENCE]: { color: '#5a7a96', icon: '↓' },
   [BTNodeType.PARALLEL]: { color: '#776b8a', icon: '⇉' },
   [BTNodeType.CONDITION]: { color: '#5a8a82', icon: '◆' },
   [BTNodeType.ACTION]: { color: '#5a8a64', icon: '⚡' },
