@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(npm run *)",
-      "Bash(open http://localhost:5175/)"
+      "Bash(open http://localhost:5175/)",
+      "Bash(git -C /Users/miko/Code/web-behavior-tree diff --stat)",
+      "Bash(git -C /Users/miko/Code/web-behavior-tree diff)",
+      "Bash(code --goto \"/Users/miko/Code/web-behavior-tree/src/App.css:1036\")"
     ]
   }
 }

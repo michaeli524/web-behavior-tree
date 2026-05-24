@@ -18,7 +18,16 @@ import '@xyflow/react/dist/style.css';
 import { BTNodeRenderer } from '../nodes/BTNodeRenderer';
 import { BTEdge } from '../edges/BTEdge';
 import { useBTStore } from '../store/useBTStore';
-import { BTNodeType, type BTNodeData } from '../engine/types';
+import {
+  BTExecutionStatus,
+  BTNodeType,
+  type BTEdge as BTStoreEdge,
+  type BTEdgeReroutePoint,
+  type BTNode,
+  type BTNodeData,
+} from '../engine/types';
+import { useActionCatalog } from '../config/actionCatalog';
+import { generateId } from '../utils/idGenerator';
 
 const nodeTypes = {
   'bt-node': BTNodeRenderer,
@@ -32,6 +41,43 @@ const defaultEdgeOptions = {
   type: 'bt-edge' as const,
   markerEnd: { type: MarkerType.ArrowClosed, color: '#475569' },
 };
+
+const SNAP_GRID: [number, number] = [10, 10];
+const PASTE_OFFSET = 40;
+
+function snapPosition(position: { x: number; y: number }) {
+  return {
+    x: Math.round(position.x / SNAP_GRID[0]) * SNAP_GRID[0],
+    y: Math.round(position.y / SNAP_GRID[1]) * SNAP_GRID[1],
+  };
+}
+
+type NodeClipboard = {
+  nodes: BTNode[];
+  edges: BTStoreEdge[];
+};
+
+function isEditableTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false;
+  return target.tagName === 'INPUT' ||
+    target.tagName === 'TEXTAREA' ||
+    target.tagName === 'SELECT' ||
+    target.isContentEditable;
+}
+
+function cloneNodeData(data: BTNodeData): BTNodeData {
+  return {
+    ...JSON.parse(JSON.stringify(data)),
+    status: BTExecutionStatus.IDLE,
+  };
+}
+
+function isExecutionEdge(edge: {
+  sourceHandle?: string | null;
+  targetHandle?: string | null;
+}) {
+  return edge.sourceHandle !== 'data-out' && edge.targetHandle !== 'data-in';
+}
 
 const staticQuickCreateTypes: { type: BTNodeType; icon: string; label: string }[] = [
   { type: BTNodeType.SELECTOR, icon: '❓', label: 'Selector' },
@@ -51,6 +97,8 @@ const staticQuickCreateTypes: { type: BTNodeType; icon: string; label: string }[
 export function BTEditor() {
   const reactFlowRef = useRef<HTMLDivElement>(null);
   const rfInstanceRef = useRef<ReactFlowInstance | null>(null);
+  const nodeClipboardRef = useRef<NodeClipboard | null>(null);
+  const pasteCountRef = useRef(0);
 
   // Connection drag tracking — manual approach instead of onConnectEnd
   const connectDragRef = useRef<{ nodeId: string; handleId: string | null } | null>(null);
@@ -65,6 +113,15 @@ export function BTEditor() {
   } | null>(null);
 
   const [searchFilter, setSearchFilter] = useState('');
+  const [actionPreview, setActionPreview] = useState<{
+    actionId: string;
+    actionName: string;
+    gifPath: string;
+  } | null>(null);
+  const [selectedReroutePoint, setSelectedReroutePoint] = useState<{
+    edgeId: string;
+    pointId: string;
+  } | null>(null);
 
   // Variable drop → Get/Set popup
   const [varDropPopup, setVarDropPopup] = useState<{
@@ -86,6 +143,7 @@ export function BTEditor() {
   const variables = useBTStore((s) => s.variables);
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const activePageId = useBTStore((s) => s.activePageId);
+  const { actionById } = useActionCatalog();
 
   // Resolve nodes/edges based on active page
   const nodes = useMemo(() => {
@@ -112,18 +170,21 @@ export function BTEditor() {
   const removeNodeStore = useBTStore((s) => s.removeNode);
   const addEdgeStoreStore = useBTStore((s) => s.addEdge);
   const removeEdgeStore = useBTStore((s) => s.removeEdge);
+  const updateEdgeReroutePointsStore = useBTStore((s) => s.updateEdgeReroutePoints);
 
   const addPageNode = useBTStore((s) => s.addPageNode);
   const updatePageNodePos = useBTStore((s) => s.updatePageNodePosition);
   const removePageNode = useBTStore((s) => s.removePageNode);
   const addPageEdge = useBTStore((s) => s.addPageEdge);
   const removePageEdge = useBTStore((s) => s.removePageEdge);
+  const updatePageEdgeReroutePoints = useBTStore((s) => s.updatePageEdgeReroutePoints);
 
   const addFuncNode = useBTStore((s) => s.addFunctionNode);
   const updateFuncNodePos = useBTStore((s) => s.updateFunctionNodePosition);
   const removeFuncNode = useBTStore((s) => s.removeFunctionNode);
   const addFuncEdge = useBTStore((s) => s.addFunctionEdge);
   const removeFuncEdge = useBTStore((s) => s.removeFunctionEdge);
+  const updateFuncEdgeReroutePoints = useBTStore((s) => s.updateFunctionEdgeReroutePoints);
 
   const setSelectedNodes = useBTStore((s) => s.setSelectedNodes);
   const setActivePageId = useBTStore((s) => s.setActivePageId);
@@ -140,9 +201,10 @@ export function BTEditor() {
 
   const updateNodePosition = useCallback(
     (id: string, pos: { x: number; y: number }) => {
-      if (isMainTree) return updateNodePositionStore(id, pos);
-      if (isPage) return updatePageNodePos(activePageId, id, pos);
-      return updateFuncNodePos(activePageId, id, pos);
+      const snappedPos = snapPosition(pos);
+      if (isMainTree) return updateNodePositionStore(id, snappedPos);
+      if (isPage) return updatePageNodePos(activePageId, id, snappedPos);
+      return updateFuncNodePos(activePageId, id, snappedPos);
     },
     [isMainTree, isPage, activePageId, updateNodePositionStore, updatePageNodePos, updateFuncNodePos]
   );
@@ -174,6 +236,45 @@ export function BTEditor() {
     [isMainTree, isPage, activePageId, removeEdgeStore, removePageEdge, removeFuncEdge]
   );
 
+  const updateEdgeReroutePoints = useCallback(
+    (id: string, reroutePoints: BTEdgeReroutePoint[]) => {
+      if (isMainTree) return updateEdgeReroutePointsStore(id, reroutePoints);
+      if (isPage) return updatePageEdgeReroutePoints(activePageId, id, reroutePoints);
+      return updateFuncEdgeReroutePoints(activePageId, id, reroutePoints);
+    },
+    [
+      isMainTree,
+      isPage,
+      activePageId,
+      updateEdgeReroutePointsStore,
+      updatePageEdgeReroutePoints,
+      updateFuncEdgeReroutePoints,
+    ]
+  );
+
+  const selectReroutePoint = useCallback(
+    (edgeId: string, pointId: string) => {
+      setSelectedNodes([]);
+      setSelectedReroutePoint({ edgeId, pointId });
+    },
+    [setSelectedNodes]
+  );
+
+  const moveReroutePoint = useCallback(
+    (edgeId: string, pointId: string, position: { x: number; y: number }) => {
+      const edge = edges.find((e) => e.id === edgeId);
+      if (!edge) return;
+      const snappedPosition = snapPosition(position);
+      const reroutePoints = (edge.data?.reroutePoints ?? []).map((point) =>
+        point.id === pointId
+          ? { ...point, x: snappedPosition.x, y: snappedPosition.y }
+          : point
+      );
+      updateEdgeReroutePoints(edgeId, reroutePoints);
+    },
+    [edges, updateEdgeReroutePoints]
+  );
+
   // ----- React Flow node/edge derivation -----
   const rfNodes: Node[] = useMemo(
     () =>
@@ -193,8 +294,15 @@ export function BTEditor() {
       edges.map((e) => ({
         ...e,
         type: 'bt-edge',
+        data: {
+          ...e.data,
+          selectedReroutePointId:
+            selectedReroutePoint?.edgeId === e.id ? selectedReroutePoint.pointId : null,
+          onReroutePointSelect: selectReroutePoint,
+          onReroutePointMove: moveReroutePoint,
+        },
       })) as Edge[],
-    [edges]
+    [edges, selectedReroutePoint, selectReroutePoint, moveReroutePoint]
   );
 
   // ----- React Flow event handlers -----
@@ -212,6 +320,7 @@ export function BTEditor() {
   const onSelectionChange = useCallback(
     ({ nodes: selNodes }: { nodes: Node[] }) => {
       setSelectedNodes(selNodes.map((n) => n.id));
+      if (selNodes.length > 0) setSelectedReroutePoint(null);
     },
     [setSelectedNodes]
   );
@@ -259,7 +368,7 @@ export function BTEditor() {
           return;
         }
 
-        const flowPosition = rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY });
+        const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY }));
 
         setQuickCreate({
           sourceId: connectDragRef.current!.nodeId,
@@ -284,13 +393,9 @@ export function BTEditor() {
       const data: Partial<BTNodeData> = {};
       if (nodeType === BTNodeType.FUNCTION && extraId) {
         data.functionId = extraId;
-        const func = functions.find((f) => f.id === extraId);
-        if (func) data.label = func.name;
       }
       if ((nodeType === BTNodeType.GET_VARIABLE || nodeType === BTNodeType.SET_VARIABLE) && extraId) {
         data.variableId = extraId;
-        const variable = variables.find((v) => v.id === extraId);
-        if (variable) data.label = variable.name;
       }
 
       const newId = addNode(nodeType, quickCreate.flowPosition, data);
@@ -299,7 +404,7 @@ export function BTEditor() {
       }
       setQuickCreate(null);
     },
-    [quickCreate, addNode, addEdgeStore, functions, variables]
+    [quickCreate, addNode, addEdgeStore]
   );
 
   const dismissQuickCreate = useCallback(() => {
@@ -308,14 +413,12 @@ export function BTEditor() {
 
   const handleVarDrop = useCallback((mode: 'get' | 'set') => {
     if (!varDropPopup) return;
-    const variable = variables.find((v) => v.id === varDropPopup.variableId);
     const nodeType = mode === 'get' ? BTNodeType.GET_VARIABLE : BTNodeType.SET_VARIABLE;
     addNode(nodeType, varDropPopup.flowPosition, {
       variableId: varDropPopup.variableId,
-      label: variable?.name ?? 'Variable',
     });
     setVarDropPopup(null);
-  }, [varDropPopup, addNode, variables]);
+  }, [varDropPopup, addNode]);
 
   // Dynamic quick-create list including user functions + variables
   const allQuickCreateTypes = useMemo(() => {
@@ -369,16 +472,52 @@ export function BTEditor() {
     return () => window.removeEventListener('keydown', handler);
   }, [quickCreate, varDropPopup]);
 
+  useEffect(() => {
+    if (!actionPreview) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActionPreview(null);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [actionPreview]);
+
+  useEffect(() => {
+    if (!selectedReroutePoint) return;
+
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return;
+      if (isEditableTarget(e.target)) return;
+
+      const edge = edges.find((item) => item.id === selectedReroutePoint.edgeId);
+      if (!edge) {
+        setSelectedReroutePoint(null);
+        return;
+      }
+
+      const reroutePoints = (edge.data?.reroutePoints ?? []).filter(
+        (point) => point.id !== selectedReroutePoint.pointId
+      );
+      updateEdgeReroutePoints(edge.id, reroutePoints);
+      setSelectedReroutePoint(null);
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    window.addEventListener('keydown', handler, true);
+    return () => window.removeEventListener('keydown', handler, true);
+  }, [edges, selectedReroutePoint, updateEdgeReroutePoints]);
+
   // ----- Other handlers -----
   const onNodeClick = useCallback(
     (_event: React.MouseEvent, node: Node) => {
       setSelectedNodes([node.id]);
+      setSelectedReroutePoint(null);
     },
     [setSelectedNodes]
   );
 
   const onNodeContextMenu = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent | React.MouseEvent<Element, MouseEvent>) => {
       e.preventDefault();
     },
     []
@@ -390,8 +529,17 @@ export function BTEditor() {
       if (data.type === BTNodeType.FUNCTION && data.functionId) {
         setActivePageId(data.functionId);
       }
+      if (data.type === BTNodeType.ACTION && data.actionId) {
+        const actionConfig = actionById.get(data.actionId);
+        if (!actionConfig?.gifPath) return;
+        setActionPreview({
+          actionId: actionConfig.actionId,
+          actionName: actionConfig.actionName,
+          gifPath: actionConfig.gifPath,
+        });
+      }
     },
-    [setActivePageId]
+    [actionById, setActivePageId]
   );
 
   const onNodesDelete = useCallback(
@@ -404,8 +552,91 @@ export function BTEditor() {
     [removeNode]
   );
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (isEditableTarget(e.target)) return;
+
+      const mod = e.metaKey || e.ctrlKey;
+      if (!mod || e.altKey || e.shiftKey) return;
+
+      const key = e.key.toLowerCase();
+      if (key !== 'c' && key !== 'v') return;
+
+      const rfInstance = rfInstanceRef.current;
+      if (!rfInstance) return;
+
+      if (key === 'c') {
+        const selectedIds = new Set(selectedNodeIds);
+        rfInstance.getNodes().forEach((n) => {
+          if (n.selected) selectedIds.add(n.id);
+        });
+
+        const copiedNodes = nodes
+          .filter((n) => selectedIds.has(n.id) && n.data.type !== BTNodeType.ROOT)
+          .map((n) => ({
+            ...n,
+            position: { ...n.position },
+            data: cloneNodeData(n.data),
+          }));
+
+        if (copiedNodes.length === 0) {
+          nodeClipboardRef.current = null;
+          pasteCountRef.current = 0;
+          e.preventDefault();
+          return;
+        }
+
+        const copiedIds = new Set(copiedNodes.map((n) => n.id));
+        const copiedEdges = edges
+          .filter((edge) => copiedIds.has(edge.source) && copiedIds.has(edge.target))
+          .map((edge) => ({ ...edge }));
+
+        nodeClipboardRef.current = {
+          nodes: copiedNodes,
+          edges: copiedEdges,
+        };
+        pasteCountRef.current = 0;
+        e.preventDefault();
+        return;
+      }
+
+      const clipboard = nodeClipboardRef.current;
+      if (!clipboard || clipboard.nodes.length === 0) return;
+
+      pasteCountRef.current += 1;
+      const offset = PASTE_OFFSET * pasteCountRef.current;
+      const idMap = new Map<string, string>();
+      const newSelectedIds: string[] = [];
+
+      clipboard.nodes.forEach((node) => {
+        if (node.data.type === BTNodeType.ROOT) return;
+
+        const newId = addNode(node.data.type, snapPosition({
+          x: node.position.x + offset,
+          y: node.position.y + offset,
+        }), cloneNodeData(node.data));
+        idMap.set(node.id, newId);
+        newSelectedIds.push(newId);
+      });
+
+      clipboard.edges.forEach((edge) => {
+        const source = idMap.get(edge.source);
+        const target = idMap.get(edge.target);
+        if (!source || !target) return;
+        addEdgeStore(source, target, edge.sourceHandle, edge.targetHandle);
+      });
+
+      setSelectedNodes(newSelectedIds);
+      e.preventDefault();
+    };
+
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [addEdgeStore, addNode, edges, nodes, selectedNodeIds, setSelectedNodes]);
+
   const onEdgeClick = useCallback(
     (_event: React.MouseEvent, edge: Edge) => {
+      setSelectedReroutePoint(null);
       if (_event.metaKey || _event.altKey) {
         removeEdge(edge.id);
       }
@@ -413,19 +644,44 @@ export function BTEditor() {
     [removeEdge]
   );
 
+  const onEdgeDoubleClick = useCallback(
+    (event: React.MouseEvent, edge: Edge) => {
+      if (!isExecutionEdge(edge)) return;
+      const rfInstance = rfInstanceRef.current;
+      if (!rfInstance) return;
+      event.preventDefault();
+      event.stopPropagation();
+
+      const point = {
+        id: generateId('reroute'),
+        ...snapPosition(rfInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY })),
+      };
+      const reroutePoints = [
+        ...((edge.data?.reroutePoints as BTEdgeReroutePoint[] | undefined) ?? []),
+        point,
+      ];
+      updateEdgeReroutePoints(edge.id, reroutePoints);
+      setSelectedReroutePoint({ edgeId: edge.id, pointId: point.id });
+    },
+    [updateEdgeReroutePoints]
+  );
+
   const onEdgesDelete = useCallback(
     (deletedEdges: Edge[]) => {
+      if (selectedReroutePoint && deletedEdges.some((e) => e.id === selectedReroutePoint.edgeId)) {
+        setSelectedReroutePoint(null);
+      }
       deletedEdges.forEach((e) => removeEdge(e.id));
     },
-    [removeEdge]
+    [removeEdge, selectedReroutePoint]
   );
 
   const onPaneContextMenu = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent | React.MouseEvent<Element, MouseEvent>) => {
       e.preventDefault();
       const rfInstance = rfInstanceRef.current;
       if (!rfInstance) return;
-      const flowPosition = rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY });
+      const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY }));
       setQuickCreate({
         sourceId: '',
         sourceHandleId: undefined,
@@ -439,6 +695,7 @@ export function BTEditor() {
 
   const onPaneClick = useCallback(() => {
     setSelectedNodes([]);
+    setSelectedReroutePoint(null);
     setQuickCreate(null);
     setVarDropPopup(null);
   }, [setSelectedNodes]);
@@ -457,22 +714,18 @@ export function BTEditor() {
       if (variableId) {
         const rfInstance = rfInstanceRef.current;
         if (!rfInstance) return;
-        const flowPosition = rfInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY });
+        const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY }));
         const modKey = event.metaKey || event.altKey;
 
         if (modKey) {
           // Cmd/Alt → Get
-          const variable = variables.find((v) => v.id === variableId);
           addNode(BTNodeType.GET_VARIABLE, flowPosition, {
             variableId,
-            label: variable?.name ?? 'Variable',
           });
         } else if (event.ctrlKey) {
           // Ctrl → Set
-          const variable = variables.find((v) => v.id === variableId);
           addNode(BTNodeType.SET_VARIABLE, flowPosition, {
             variableId,
-            label: variable?.name ?? 'Variable',
           });
         } else {
           // No modifier → popup
@@ -493,29 +746,29 @@ export function BTEditor() {
       const rfInstance = rfInstanceRef.current;
       if (!rfBounds || !rfInstance) return;
 
-      const position = rfInstance.screenToFlowPosition({
+      const position = snapPosition(rfInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
-      });
+      }));
 
       const data: Partial<BTNodeData> = {};
       if (nodeType === BTNodeType.FUNCTION) {
         const functionId = event.dataTransfer.getData('application/function-id');
         if (functionId) {
           data.functionId = functionId;
-          const func = functions.find((f) => f.id === functionId);
-          if (func) data.label = func.name;
         }
       }
 
       addNode(nodeType, position, data);
     },
-    [addNode, functions]
+    [addNode]
   );
 
-  const isValidConnection = useCallback((conn: Connection) => {
-    const sourceIsData = conn.sourceHandle === 'data-out';
-    const targetIsData = conn.targetHandle === 'data-in';
+  const isValidConnection = useCallback((conn: Connection | Edge) => {
+    const sourceHandle = conn.sourceHandle ?? null;
+    const targetHandle = conn.targetHandle ?? null;
+    const sourceIsData = sourceHandle === 'data-out';
+    const targetIsData = targetHandle === 'data-in';
     if (sourceIsData || targetIsData) {
       return sourceIsData && targetIsData;
     }
@@ -631,6 +884,7 @@ export function BTEditor() {
         onNodeDoubleClick={onNodeDoubleClick}
         onNodeContextMenu={onNodeContextMenu}
         onEdgeClick={onEdgeClick}
+        onEdgeDoubleClick={onEdgeDoubleClick}
         onNodesDelete={onNodesDelete}
         onEdgesDelete={onEdgesDelete}
         onSelectionChange={onSelectionChange}
@@ -643,15 +897,16 @@ export function BTEditor() {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         defaultEdgeOptions={defaultEdgeOptions}
+        snapToGrid
+        snapGrid={SNAP_GRID}
         fitView
         deleteKeyCode={['Backspace', 'Delete']}
         panOnDrag={[2]}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}
-        selectionMode={SelectionMode.Partial}
       >
         <Controls />
-        <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#333" />
+        <Background variant={BackgroundVariant.Dots} gap={10} size={1} color="#333" />
       </ReactFlow>
 
       {quickCreate && (
@@ -729,6 +984,55 @@ export function BTEditor() {
           </div>
         </>
       )}
+
+      {actionPreview && (
+        <ActionLightbox
+          actionId={actionPreview.actionId}
+          actionName={actionPreview.actionName}
+          gifPath={actionPreview.gifPath}
+          onClose={() => setActionPreview(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+function ActionLightbox({
+  actionId,
+  actionName,
+  gifPath,
+  onClose,
+}: {
+  actionId: string;
+  actionName: string;
+  gifPath: string;
+  onClose: () => void;
+}) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div className="action-lightbox" onMouseDown={onClose}>
+      <div className="action-lightbox-dialog" onMouseDown={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          className="action-lightbox-close"
+          title="关闭预览"
+          onClick={onClose}
+        >
+          ×
+        </button>
+        <div className="action-lightbox-media">
+          {failed ? (
+            <div className="action-lightbox-empty">GIF 文件待放入项目资源目录</div>
+          ) : (
+            <img src={gifPath} alt={actionId} onError={() => setFailed(true)} />
+          )}
+        </div>
+        <div className="action-lightbox-meta">
+          <div className="action-lightbox-id">{actionId}</div>
+          <div className="action-lightbox-name">{actionName}</div>
+        </div>
+      </div>
     </div>
   );
 }

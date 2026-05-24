@@ -10,6 +10,7 @@ export interface ActionConfig {
 let catalogCache: ActionConfig[] | null = null;
 let catalogPromise: Promise<ActionConfig[]> | null = null;
 const CATALOG_UPDATED_EVENT = 'action-catalog-updated';
+const ACTION_CATALOG_PATH = '/config/Actions.json';
 
 async function loadActionCatalog(force = false): Promise<ActionConfig[]> {
   if (force) {
@@ -19,9 +20,9 @@ async function loadActionCatalog(force = false): Promise<ActionConfig[]> {
   if (catalogCache) return catalogCache;
   if (!catalogPromise) {
     const query = force ? `?t=${Date.now()}` : '';
-    catalogPromise = fetch(`/config/actions.json${query}`)
+    catalogPromise = fetch(`${ACTION_CATALOG_PATH}${query}`)
       .then((res) => {
-        if (!res.ok) throw new Error(`Failed to load actions.json: ${res.status}`);
+        if (!res.ok) throw new Error(`Failed to load Actions.json: ${res.status}`);
         return res.json() as Promise<ActionConfig[]>;
       })
       .then((items) => {
@@ -55,8 +56,8 @@ export async function exportActionCatalogFromExcel(): Promise<{ count: number; s
   await refreshActionCatalog();
   return {
     count: data.count ?? 0,
-    source: data.source ?? 'public/config/actions.xlsx',
-    target: data.target ?? 'public/config/actions.json',
+    source: data.source ?? 'public/config/Actions.xlsx',
+    target: data.target ?? 'public/config/Actions.json',
   };
 }
 

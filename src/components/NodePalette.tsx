@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, type DragEvent } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType } from '../engine/types';
 import type { BTVariable } from '../engine/types';
@@ -10,7 +10,7 @@ interface Props {
 
 export function NodePalette({ width, onToggleCollapse }: Props) {
   const pages = useBTStore((s) => s.pages);
-  const functions = useBTStore((s) => s.functions);
+  const mainPageName = useBTStore((s) => s.mainPageName);
   const activePageId = useBTStore((s) => s.activePageId);
   const setActivePageId = useBTStore((s) => s.setActivePageId);
   const addPage = useBTStore((s) => s.addPage);
@@ -55,7 +55,7 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
   };
 
   const pageList = [
-    { id: 'main', name: 'Main', nodeCount: useBTStore.getState().nodes.length },
+    { id: 'main', name: mainPageName, nodeCount: useBTStore.getState().nodes.length },
     ...pages.map((p) => ({ id: p.id, name: p.name, nodeCount: p.nodes.length })),
   ];
 

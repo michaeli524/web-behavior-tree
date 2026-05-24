@@ -1,29 +1,33 @@
-export enum BTNodeType {
-  ROOT = 'root',
-  SELECTOR = 'selector',
-  SEQUENCE = 'sequence',
-  PARALLEL = 'parallel',
-  CONDITION = 'condition',
-  ACTION = 'action',
-  WAIT = 'wait',
-  INVERTER = 'inverter',
-  REPEATER = 'repeater',
-  SUCCEEDER = 'succeeder',
-  FUNCTION = 'function',
-  DIST_SELECTOR = 'dist-selector',
-  GET_VARIABLE = 'get-variable',
-  SET_VARIABLE = 'set-variable',
-  COMMENT = 'comment',
-  COMPARE = 'compare',
-  TEST = 'test',
-}
+export const BTNodeType = {
+  ROOT: 'root',
+  SELECTOR: 'selector',
+  SEQUENCE: 'sequence',
+  PARALLEL: 'parallel',
+  CONDITION: 'condition',
+  ACTION: 'action',
+  WAIT: 'wait',
+  INVERTER: 'inverter',
+  REPEATER: 'repeater',
+  SUCCEEDER: 'succeeder',
+  FUNCTION: 'function',
+  DIST_SELECTOR: 'dist-selector',
+  GET_VARIABLE: 'get-variable',
+  SET_VARIABLE: 'set-variable',
+  COMMENT: 'comment',
+  COMPARE: 'compare',
+  TEST: 'test',
+} as const;
 
-export enum BTExecutionStatus {
-  IDLE = 'idle',
-  RUNNING = 'running',
-  SUCCESS = 'success',
-  FAILURE = 'failure',
-}
+export type BTNodeType = (typeof BTNodeType)[keyof typeof BTNodeType];
+
+export const BTExecutionStatus = {
+  IDLE: 'idle',
+  RUNNING: 'running',
+  SUCCESS: 'success',
+  FAILURE: 'failure',
+} as const;
+
+export type BTExecutionStatus = (typeof BTExecutionStatus)[keyof typeof BTExecutionStatus];
 
 export interface BTVariable {
   id: string;
@@ -68,12 +72,23 @@ export interface BTNode {
   data: BTNodeData;
 }
 
+export interface BTEdgeReroutePoint {
+  id: string;
+  x: number;
+  y: number;
+}
+
+export interface BTEdgeData {
+  reroutePoints?: BTEdgeReroutePoint[];
+}
+
 export interface BTEdge {
   id: string;
   source: string;
   target: string;
   sourceHandle?: string;
   targetHandle?: string;
+  data?: BTEdgeData;
 }
 
 export interface BTPage {
@@ -89,4 +104,5 @@ export interface BehaviorTree {
   variables: BTVariable[];
   functions: BTFunction[];
   pages: BTPage[];
+  mainPageName?: string;
 }

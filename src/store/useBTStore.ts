@@ -6,6 +6,7 @@ import {
   type BTFunction,
   type BTPage,
   type BTNodeData,
+  type BTEdgeReroutePoint,
   BTNodeType,
   BTExecutionStatus,
 } from '../engine/types';
@@ -17,6 +18,7 @@ interface BTStore {
   variables: BTVariable[];
   functions: BTFunction[];
   pages: BTPage[];
+  mainPageName: string;
   selectedNodeIds: string[];
   selectedVariableId: string | null;
   setSelectedVariableId: (id: string | null) => void;
@@ -25,9 +27,6 @@ interface BTStore {
   activePageId: string; // 'main' or functionId
 
   setActivePageId: (pageId: string) => void;
-  addPage: (name: string) => string;
-  renamePage: (pageId: string, name: string) => void;
-  deletePage: (pageId: string) => void;
 
   // Node operations (main tree)
   addNode: (type: BTNodeType, position: { x: number; y: number }, data?: Partial<BTNodeData>) => string;
@@ -39,6 +38,7 @@ interface BTStore {
   // Edge operations (main tree)
   addEdge: (source: string, target: string, sourceHandle?: string, targetHandle?: string) => void;
   removeEdge: (id: string) => void;
+  updateEdgeReroutePoints: (id: string, reroutePoints: BTEdgeReroutePoint[]) => void;
 
   // Function tree operations
   addFunctionNode: (funcId: string, type: BTNodeType, position: { x: number; y: number }, data?: Partial<BTNodeData>) => string;
@@ -47,6 +47,7 @@ interface BTStore {
   updateFunctionNodePosition: (funcId: string, nodeId: string, position: { x: number; y: number }) => void;
   addFunctionEdge: (funcId: string, source: string, target: string, sourceHandle?: string, targetHandle?: string) => void;
   removeFunctionEdge: (funcId: string, edgeId: string) => void;
+  updateFunctionEdgeReroutePoints: (funcId: string, edgeId: string, reroutePoints: BTEdgeReroutePoint[]) => void;
 
   // Variable operations
   addVariable: (name: string, type: BTVariable['type'], value: BTVariable['value']) => void;
@@ -61,6 +62,7 @@ interface BTStore {
   removePageNode: (pageId: string, nodeId: string) => void;
   addPageEdge: (pageId: string, source: string, target: string, sourceHandle?: string, targetHandle?: string) => void;
   removePageEdge: (pageId: string, edgeId: string) => void;
+  updatePageEdgeReroutePoints: (pageId: string, edgeId: string, reroutePoints: BTEdgeReroutePoint[]) => void;
   updatePageNodePosition: (pageId: string, nodeId: string, position: { x: number; y: number }) => void;
 
   // Function operations
@@ -91,6 +93,8 @@ type HistorySnapshot = {
   edges: BTEdge[];
   variables: BTVariable[];
   functions: BTFunction[];
+  pages: BTPage[];
+  mainPageName: string;
 };
 
 const MAX_HISTORY = 50;
@@ -108,17 +112,11 @@ function pushHistory(state: BTStore) {
     edges: JSON.parse(JSON.stringify(state.edges)),
     variables: JSON.parse(JSON.stringify(state.variables)),
     functions: JSON.parse(JSON.stringify(state.functions)),
+    pages: JSON.parse(JSON.stringify(state.pages)),
+    mainPageName: state.mainPageName,
   });
   if (_history.length > MAX_HISTORY) _history.shift();
   _historyIndex = _history.length - 1;
-}
-
-function applyHistory(state: BTStore, snap: HistorySnapshot) {
-  _skipSnapshot = true;
-  state.nodes = snap.nodes;
-  state.edges = snap.edges;
-  state.variables = snap.variables;
-  state.functions = snap.functions;
 }
 
 const defaultLabels: Record<BTNodeType, string> = {
@@ -182,12 +180,31 @@ function createEdge(source: string, target: string, sourceHandle?: string, targe
   };
 }
 
+function omitLabelUpdate(data: Partial<BTNodeData>): Partial<BTNodeData> {
+  const { label: _label, ...rest } = data;
+  return rest;
+}
+
+function renameRootNode(nodes: BTNode[], name: string): BTNode[] {
+  return nodes.map((node) =>
+    node.data.type === BTNodeType.ROOT
+      ? { ...node, data: { ...node.data, label: name } }
+      : node
+  );
+}
+
+function getLegacyMainPageName(nodes: BTNode[]): string {
+  const rootLabel = nodes.find((node) => node.data.type === BTNodeType.ROOT)?.data.label?.trim();
+  return rootLabel && rootLabel !== defaultLabels[BTNodeType.ROOT] ? rootLabel : 'Main';
+}
+
 export const useBTStore = create<BTStore>((set, get) => ({
   nodes: [],
   edges: [],
   variables: [],
   functions: [],
   pages: [],
+  mainPageName: 'Main',
   selectedNodeIds: [],
   selectedVariableId: null,
   isRunning: false,
@@ -195,39 +212,6 @@ export const useBTStore = create<BTStore>((set, get) => ({
   activePageId: 'main',
 
   setActivePageId: (pageId) => set({ activePageId: pageId, selectedNodeIds: [] }),
-
-  addPage: (name) => {
-    const state = get();
-    const id = generateId('func');
-    const rootNode = createNode(BTNodeType.ROOT, { x: 100, y: 200 }, { label: name });
-    const func: BTFunction = {
-      id,
-      name,
-      body: '',
-      parameters: [],
-      nodes: [rootNode],
-      edges: [],
-    };
-    set({ functions: [...state.functions, func], activePageId: id });
-    return id;
-  },
-
-  renamePage: (pageId, name) => {
-    if (pageId === 'main') return;
-    set((state) => ({
-      functions: state.functions.map((f) =>
-        f.id === pageId ? { ...f, name } : f
-      ),
-    }));
-  },
-
-  deletePage: (pageId) => {
-    if (pageId === 'main') return;
-    set((state) => ({
-      functions: state.functions.filter((f) => f.id !== pageId),
-      activePageId: state.activePageId === pageId ? 'main' : state.activePageId,
-    }));
-  },
 
   // ----- Main tree nodes -----
   addNode: (type, position, dataOverride) => {
@@ -250,9 +234,10 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   updateNodeData: (id, data) => {
+    const safeData = omitLabelUpdate(data);
     set((state) => ({
       nodes: state.nodes.map((n) =>
-        n.id === id ? { ...n, data: { ...n.data, ...data } } : n
+        n.id === id ? { ...n, data: { ...n.data, ...safeData } } : n
       ),
     }));
   },
@@ -280,6 +265,8 @@ export const useBTStore = create<BTStore>((set, get) => ({
       edges: JSON.parse(JSON.stringify(snap.edges)),
       variables: JSON.parse(JSON.stringify(snap.variables)),
       functions: JSON.parse(JSON.stringify(snap.functions)),
+      pages: JSON.parse(JSON.stringify(snap.pages)),
+      mainPageName: snap.mainPageName,
       selectedNodeIds: [],
     });
     setTimeout(() => { _skipSnapshot = false; }, 0);
@@ -294,6 +281,8 @@ export const useBTStore = create<BTStore>((set, get) => ({
       edges: JSON.parse(JSON.stringify(snap.edges)),
       variables: JSON.parse(JSON.stringify(snap.variables)),
       functions: JSON.parse(JSON.stringify(snap.functions)),
+      pages: JSON.parse(JSON.stringify(snap.pages)),
+      mainPageName: snap.mainPageName,
       selectedNodeIds: [],
     });
     setTimeout(() => { _skipSnapshot = false; }, 0);
@@ -318,6 +307,14 @@ export const useBTStore = create<BTStore>((set, get) => ({
     get()._snapshot();
     set((state) => ({
       edges: state.edges.filter((e) => e.id !== id),
+    }));
+  },
+
+  updateEdgeReroutePoints: (id, reroutePoints) => {
+    set((state) => ({
+      edges: state.edges.map((e) =>
+        e.id === id ? { ...e, data: { ...e.data, reroutePoints } } : e
+      ),
     }));
   },
 
@@ -352,13 +349,14 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   updateFunctionNodeData: (funcId, nodeId, data) => {
+    const safeData = omitLabelUpdate(data);
     set((state) => ({
       functions: state.functions.map((f) =>
         f.id === funcId
           ? {
               ...f,
               nodes: f.nodes.map((n) =>
-                n.id === nodeId ? { ...n, data: { ...n.data, ...data } } : n
+                n.id === nodeId ? { ...n, data: { ...n.data, ...safeData } } : n
               ),
             }
           : f
@@ -408,6 +406,21 @@ export const useBTStore = create<BTStore>((set, get) => ({
     }));
   },
 
+  updateFunctionEdgeReroutePoints: (funcId, edgeId, reroutePoints) => {
+    set((state) => ({
+      functions: state.functions.map((f) =>
+        f.id === funcId
+          ? {
+              ...f,
+              edges: f.edges.map((e) =>
+                e.id === edgeId ? { ...e, data: { ...e.data, reroutePoints } } : e
+              ),
+            }
+          : f
+      ),
+    }));
+  },
+
   // ----- Page operations -----
   addPage: (name = 'New Page') => {
     const id = generateId('page');
@@ -418,15 +431,23 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   renamePage: (pageId, name) => {
+    const normalizedName = name.trim();
+    if (!normalizedName) return;
+    get()._snapshot();
+    if (pageId === 'main') {
+      set((state) => ({
+        mainPageName: normalizedName,
+        nodes: renameRootNode(state.nodes, normalizedName),
+      }));
+      return;
+    }
     set((state) => ({
       pages: state.pages.map((p) => {
         if (p.id !== pageId) return p;
         return {
           ...p,
-          name,
-          nodes: p.nodes.map((n) =>
-            n.data.type === BTNodeType.ROOT ? { ...n, data: { ...n.data, label: name } } : n
-          ),
+          name: normalizedName,
+          nodes: renameRootNode(p.nodes, normalizedName),
         };
       }),
     }));
@@ -477,6 +498,21 @@ export const useBTStore = create<BTStore>((set, get) => ({
     set((state) => ({
       pages: state.pages.map((p) =>
         p.id === pageId ? { ...p, edges: p.edges.filter((e) => e.id !== edgeId) } : p
+      ),
+    }));
+  },
+
+  updatePageEdgeReroutePoints: (pageId, edgeId, reroutePoints) => {
+    set((state) => ({
+      pages: state.pages.map((p) =>
+        p.id === pageId
+          ? {
+              ...p,
+              edges: p.edges.map((e) =>
+                e.id === edgeId ? { ...e, data: { ...e.data, reroutePoints } } : e
+              ),
+            }
+          : p
       ),
     }));
   },
@@ -539,9 +575,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
         const updated = { ...f, ...updates };
         // Also rename the root node label
         if (updates.name && updated.nodes.length > 0) {
-          updated.nodes = updated.nodes.map((n) =>
-            n.data.type === BTNodeType.ROOT ? { ...n, data: { ...n.data, label: updates.name } } : n
-          );
+          updated.nodes = renameRootNode(updated.nodes, updates.name);
         }
         return updated;
       }),
@@ -587,6 +621,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
         edges: state.edges,
         variables: state.variables,
         functions: state.functions,
+        mainPageName: state.mainPageName,
         pages: state.pages,
       },
       null,
@@ -597,8 +632,17 @@ export const useBTStore = create<BTStore>((set, get) => ({
   importTree: (json) => {
     try {
       const data = JSON.parse(json);
+      const importedNodes: BTNode[] = data.nodes ?? [];
+      const mainPageName = typeof data.mainPageName === 'string' && data.mainPageName.trim()
+        ? data.mainPageName.trim()
+        : getLegacyMainPageName(importedNodes);
+      const importedPages: BTPage[] = (data.pages ?? []).map((page: BTPage) => ({
+        ...page,
+        nodes: renameRootNode(page.nodes ?? [], page.name),
+        edges: page.edges ?? [],
+      }));
       set({
-        nodes: data.nodes ?? [],
+        nodes: renameRootNode(importedNodes, mainPageName),
         edges: data.edges ?? [],
         variables: data.variables ?? [],
         functions: (data.functions ?? []).map((f: BTFunction) => ({
@@ -606,7 +650,8 @@ export const useBTStore = create<BTStore>((set, get) => ({
           nodes: f.nodes ?? [],
           edges: f.edges ?? [],
         })),
-        pages: data.pages ?? [],
+        pages: importedPages,
+        mainPageName,
         selectedNodeIds: [],
         executionResults: new Map(),
         activePageId: 'main',
@@ -622,6 +667,8 @@ export const useBTStore = create<BTStore>((set, get) => ({
       edges: [],
       variables: [],
       functions: [],
+      pages: [],
+      mainPageName: 'Main',
       selectedNodeIds: [],
       executionResults: new Map(),
       activePageId: 'main',

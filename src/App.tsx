@@ -63,7 +63,7 @@ export default function App() {
     if (!hasRoot) {
       // Clear possibly corrupted saved state
       localStorage.removeItem(STORAGE_KEY);
-      state.addNode(BTNodeType.ROOT, { x: 100, y: 200 });
+      state.addNode(BTNodeType.ROOT, { x: 100, y: 200 }, { label: state.mainPageName });
     }
   }, []);
 
@@ -73,6 +73,7 @@ export default function App() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         nodes: state.nodes, edges: state.edges,
         variables: state.variables, functions: state.functions,
+        pages: state.pages, mainPageName: state.mainPageName,
       }));
     });
     return unsub;

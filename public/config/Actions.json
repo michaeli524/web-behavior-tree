@@ -1,0 +1,146 @@
+[
+  {
+    "actionId": "Khezu_CheckBite",
+    "actionName": "牵制咬",
+    "gifPath": "/ActionsGIF/牵制咬.gif",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_BackStep",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_Tail_Thrust",
+    "actionName": "尾巴突刺",
+    "gifPath": "/ActionsGIF/充能尾刺.gif",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_Tail_Sweep",
+    "actionName": "甩尾",
+    "gifPath": "/ActionsGIF/180甩尾.gif",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  },
+  {
+    "actionId": "Khezu_",
+    "actionName": "",
+    "gifPath": "/ActionsGIF/",
+    "comment": ""
+  }
+]

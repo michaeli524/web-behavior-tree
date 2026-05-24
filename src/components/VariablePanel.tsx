@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useBTStore } from '../store/useBTStore';
-import type { BTVariable, BTNodeType } from '../engine/types';
 
 export function VariablePanel() {
   const variables = useBTStore((s) => s.variables);

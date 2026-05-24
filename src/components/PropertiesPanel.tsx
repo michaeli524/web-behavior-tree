@@ -9,6 +9,8 @@ export function PropertiesPanel() {
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const updateNodeData = useBTStore((s) => s.updateNodeData);
   const updateVariable = useBTStore((s) => s.updateVariable);
+  const [isActionPickerOpen, setIsActionPickerOpen] = useState(false);
+  const [highlightedActionIndex, setHighlightedActionIndex] = useState(0);
 
   const selectedNode = selectedNodeIds.length === 1
     ? nodes.find((n) => n.id === selectedNodeIds[0])
@@ -26,19 +28,24 @@ export function PropertiesPanel() {
 
   const { data } = selectedNode;
   const selectedAction = data.actionId ? actionById.get(data.actionId) : undefined;
+  const actionQuery = data.actionId ?? '';
+  const filteredActions = actions.filter((action) =>
+    action.actionId.toLowerCase().includes(actionQuery.toLowerCase())
+  );
+  const actionOptions = actionQuery ? filteredActions : actions;
+  const activeActionIndex = actionOptions.length > 0
+    ? Math.min(highlightedActionIndex, actionOptions.length - 1)
+    : -1;
+
+  const selectActionId = (actionId: string) => {
+    updateNodeData(selectedNode.id, { actionId: actionId || undefined });
+    setIsActionPickerOpen(false);
+    setHighlightedActionIndex(0);
+  };
 
   return (
     <div className="properties-panel">
       <h3>属性面板</h3>
-
-      <div className="prop-group">
-        <label>节点名称</label>
-        <input
-          type="text"
-          value={data.label}
-          onChange={(e) => updateNodeData(selectedNode.id, { label: e.target.value })}
-        />
-      </div>
 
       <div className="prop-group">
         <label>节点类型</label>
@@ -61,43 +68,126 @@ export function PropertiesPanel() {
         <>
           <div className="prop-group">
             <label>技能配置</label>
-            <select
-              value={data.actionId ?? ''}
-              onChange={(e) => {
-                const actionId = e.target.value;
-                const action = actionById.get(actionId);
-                updateNodeData(selectedNode.id, {
-                  actionId: actionId || undefined,
-                  label: action?.actionName ?? 'Action',
-                });
-              }}
-            >
-              <option value="">-- 选择配表技能 --</option>
-              {actions.map((action) => (
-                <option key={action.actionId} value={action.actionId}>
-                  {action.actionName} ({action.actionId})
-                </option>
-              ))}
-            </select>
+            <div className="action-id-combobox">
+              <input
+                type="text"
+                className="action-id-input"
+                placeholder="Search ActionId..."
+                value={actionQuery}
+                autoComplete="off"
+                onFocus={() => {
+                  setIsActionPickerOpen(true);
+                  setHighlightedActionIndex(0);
+                }}
+                onBlur={() => window.setTimeout(() => setIsActionPickerOpen(false), 120)}
+                onChange={(e) => {
+                  updateNodeData(selectedNode.id, {
+                    actionId: e.target.value.trim() || undefined,
+                  });
+                  setIsActionPickerOpen(true);
+                  setHighlightedActionIndex(0);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    setIsActionPickerOpen(false);
+                    return;
+                  }
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    setIsActionPickerOpen(true);
+                    setHighlightedActionIndex((index) =>
+                      actionOptions.length ? (index + 1) % actionOptions.length : 0
+                    );
+                    return;
+                  }
+                  if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    setIsActionPickerOpen(true);
+                    setHighlightedActionIndex((index) =>
+                      actionOptions.length ? (index - 1 + actionOptions.length) % actionOptions.length : 0
+                    );
+                    return;
+                  }
+                  if (e.key === 'Enter' && activeActionIndex >= 0) {
+                    e.preventDefault();
+                    selectActionId(actionOptions[activeActionIndex].actionId);
+                  }
+                }}
+              />
+              {actionQuery && (
+                <button
+                  type="button"
+                  className="action-id-clear"
+                  title="清空 ActionId"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => selectActionId('')}
+                >
+                  ×
+                </button>
+              )}
+              <button
+                type="button"
+                className="action-id-toggle"
+                title="展开 ActionId 列表"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  setIsActionPickerOpen((open) => !open);
+                  setHighlightedActionIndex(0);
+                }}
+              >
+                ▾
+              </button>
+              {isActionPickerOpen && (
+                <div className="action-id-menu">
+                  {actionOptions.length > 0 ? (
+                    actionOptions.map((action, index) => (
+                      <button
+                        type="button"
+                        key={action.actionId}
+                        className={`action-id-option ${index === activeActionIndex ? 'highlighted' : ''} ${action.actionId === data.actionId ? 'selected' : ''}`}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onMouseEnter={() => setHighlightedActionIndex(index)}
+                        onClick={() => selectActionId(action.actionId)}
+                      >
+                        {action.actionId}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="action-id-empty">无匹配 ActionId</div>
+                  )}
+                </div>
+              )}
+            </div>
             {actionCatalogError && (
               <div className="prop-error">{actionCatalogError}</div>
             )}
           </div>
 
+          <div className="prop-group">
+            <label>中文名称</label>
+            <input
+              type="text"
+              value={selectedAction?.actionName ?? ''}
+              placeholder="根据 ActionId 自动映射"
+              disabled
+            />
+          </div>
+
           <div className="action-preview-panel">
             {selectedAction?.gifPath ? (
-              <ActionPreviewImage src={selectedAction.gifPath} alt={selectedAction.actionName} />
+              <ActionPreviewImage src={selectedAction.gifPath} alt={selectedAction.actionId} />
+            ) : data.actionId ? (
+              <div className="action-preview-empty">未找到 ActionId: {data.actionId}</div>
             ) : (
               <div className="action-preview-empty">选择一个 ActionId 后显示 GIF 预览</div>
             )}
             {selectedAction && (
               <>
-                <div className="action-preview-title">{selectedAction.actionName}</div>
+                <div className="action-preview-title">{selectedAction.actionId}</div>
                 <div className="action-preview-grid">
                   <span>ActionId</span><strong>{selectedAction.actionId}</strong>
                   <span>GIF</span><strong>{selectedAction.gifPath}</strong>
                 </div>
-                <div className="action-preview-note">{selectedAction.comment}</div>
               </>
             )}
           </div>
@@ -191,10 +281,8 @@ export function PropertiesPanel() {
             value={data.variableId ?? ''}
             onChange={(e) => {
               const varId = e.target.value;
-              const variable = variables.find((v) => v.id === varId);
               updateNodeData(selectedNode.id, {
                 variableId: varId || undefined,
-                label: variable?.name ?? 'Variable',
               });
             }}
           >
@@ -212,7 +300,7 @@ export function PropertiesPanel() {
             <label>运算符</label>
             <select
               value={data.operator ?? '<'}
-              onChange={(e) => updateNodeData(selectedNode.id, { operator: e.target.value, label: e.target.value })}
+              onChange={(e) => updateNodeData(selectedNode.id, { operator: e.target.value })}
             >
               <option value="<">&lt;</option>
               <option value="<=">&lt;=</option>

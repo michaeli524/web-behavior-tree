@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the designer-facing Action XLSX config from public/config/actions.json."""
+"""Generate the designer-facing Action XLSX config from public/config/Actions.json."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-JSON_PATH = ROOT / "public" / "config" / "actions.json"
-XLSX_PATH = ROOT / "public" / "config" / "actions.xlsx"
+JSON_PATH = ROOT / "public" / "config" / "Actions.json"
+XLSX_PATH = ROOT / "public" / "config" / "Actions.xlsx"
 
 HEADERS = [
     ("ActionId", "动作唯一ID，行为树节点只保存这个字段"),

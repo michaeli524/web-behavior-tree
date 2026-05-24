@@ -6,13 +6,15 @@ UE 蓝图风格的行为树可视化编辑器，纯前端应用。基于 React F
 
 这个工具的目标是做成一个 Web 端的 UE5 风格行为树编辑器，用来详细拆解《怪物猎人崛起》中“电龙”的 AI 行为。它既是一个怪物 AI 分析和设计工具，也是一个面向作品集/求职展示的项目，用来体现作者作为怪物设计方向战斗策划的能力。后续功能设计应优先服务于怪物行为拆解、技能释放逻辑、战斗状态切换、距离/部位/蓄电等条件表达，以及最终可部署到服务器上的展示体验。
 
-Action 节点采用策划资源映射配表驱动：节点自身只保存 `actionId`，动作名称和 GIF 路径来自项目内配置表。策划维护 `public/config/actions.xlsx`，行为树引用 ID，避免把资源路径散落在节点数据里；前端运行时读取 `public/config/actions.json`，两者字段保持一致。
+Action 节点采用策划资源映射配表驱动：节点自身只保存 `actionId`，动作名称和 GIF 路径来自项目内配置表。策划维护 `public/config/Actions.xlsx`，行为树引用 ID，避免把资源路径散落在节点数据里；前端运行时读取 `public/config/Actions.json`，两者字段保持一致。
 
 Action 配表不是技能参数表，不应包含距离、前摇/持续/后摇、冷却、威胁等级、设计意图等战斗设计字段。它只负责资源一一对应。当前字段为 `ActionId`, `ActionName`, `GifPath`, `Comment`。
 
 Action 配表结构采用双表头：第 1 行是英文程序字段名，第 2 行是中文策划注释。表格需要保持冻结双表头、按内容设置列宽、通过颜色区分 ID/名称/资源/备注等字段，方便策划维护和对外展示。
 
-正式导表流程是 `public/config/actions.xlsx` → `public/config/actions.json`。前端顶栏的“导表”按钮会调用 Vite 本地接口执行 Excel to JSON，并刷新 Action 配置；命令行也可运行 `npm run export:actions`。
+正式导表流程是 `public/config/Actions.xlsx` → `public/config/Actions.json`。前端顶栏的“导表”按钮会调用 Vite 本地接口执行 Excel to JSON，并刷新 Action 配置；命令行也可运行 `npm run export:actions`。
+
+策划资源命名采用“大写开头 + 下划线分割单词”的格式，不是全大写。例如技能动画 GIF 应命名为 `Khezu_Tail_Sweep.gif`，并且这类怪物技能动画资产需要带怪物名作为前缀。`BT` 是 BehaviorTree 的专有缩写，相关文件名或标识中可保持全大写，例如 `Khezu_BT.json`。
 
 ## 常用命令
 

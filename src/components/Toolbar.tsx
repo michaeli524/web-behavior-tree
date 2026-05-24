@@ -26,6 +26,7 @@ export function Toolbar() {
   const [tableState, setTableState] = useState<TableState>('idle');
   const tracksDirtyRef = useRef(false);
   const ignoreNextStoreChangeRef = useRef(false);
+  const tableResetTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const trackingTimer = window.setTimeout(() => {
@@ -46,6 +47,14 @@ export function Toolbar() {
     return () => {
       window.clearTimeout(trackingTimer);
       unsub();
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (tableResetTimerRef.current !== null) {
+        window.clearTimeout(tableResetTimerRef.current);
+      }
     };
   }, []);
 
@@ -141,11 +150,19 @@ export function Toolbar() {
   };
 
   const handleExportActions = async () => {
+    if (tableResetTimerRef.current !== null) {
+      window.clearTimeout(tableResetTimerRef.current);
+      tableResetTimerRef.current = null;
+    }
     setTableState('exporting');
     try {
       const result = await exportActionCatalogFromExcel();
       console.info(`Action 导表完成: ${result.source} -> ${result.target}, ${result.count} rows`);
       setTableState('exported');
+      tableResetTimerRef.current = window.setTimeout(() => {
+        setTableState('idle');
+        tableResetTimerRef.current = null;
+      }, 2400);
     } catch (error) {
       console.error('Action 导表失败:', error);
       setTableState('error');
@@ -212,7 +229,7 @@ export function Toolbar() {
           className="btn btn-secondary toolbar-btn"
           onClick={handleExportActions}
           disabled={tableState === 'exporting'}
-          title="将 public/config/actions.xlsx 导出为 actions.json"
+          title="将 public/config/Actions.xlsx 导出为 Actions.json"
         >
           <span className="toolbar-btn-icon">⇄</span>
           <span>{tableLabel}</span>

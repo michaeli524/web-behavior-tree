@@ -19,7 +19,7 @@ UE5 风格的行为树可视化编辑器。用于快速搭建、分析、拆解�
 - **框选多选** — 左键拖拽框选多个节点，一起移动
 - **撤销/重做** — Ctrl+Z / Ctrl+Shift+Z
 - **本地 JSON 保存桥** — 开发环境下可直接保存到默认桌面 JSON
-- **Action 导表** — 顶栏一键执行 `actions.xlsx` → `actions.json`
+- **Action 导表** — 顶栏一键执行 `Actions.xlsx` → `Actions.json`
 - **Action GIF 索引** — Action 节点通过 `actionId` 查表显示动作名和 GIF
 - **自动保存** — localStorage 自动保存，刷新不丢
 - **Figma 风格面板** — 可拖拽调整大小、一键收起面板
@@ -94,7 +94,7 @@ Action 节点不直接保存动作名或 GIF 路径。节点数据只保存 `act
 {
   "type": "action",
   "label": "原地放电",
-  "actionId": "khezu_idle_discharge"
+  "actionId": "Khezu_Idle_Discharge"
 }
 ```
 
@@ -102,9 +102,9 @@ Action 资源映射表示例：
 
 ```json
 {
-  "actionId": "khezu_idle_discharge",
+  "actionId": "Khezu_Idle_Discharge",
   "actionName": "原地放电",
-  "gifPath": "/actions/khezu/idle_discharge.gif",
+  "gifPath": "/actions/Khezu/Khezu_Idle_Discharge.gif",
   "comment": "电龙原地放电动作 GIF"
 }
 ```
@@ -114,7 +114,7 @@ Action 资源映射表示例：
 ```text
 Action 节点 actionId
         ↓
-public/config/actions.json 中同名 actionId
+public/config/Actions.json 中同名 actionId
         ↓
 actionName / gifPath / comment
         ↓
@@ -126,16 +126,16 @@ actionName / gifPath / comment
 策划维护的源表：
 
 ```text
-public/config/actions.xlsx
+public/config/Actions.xlsx
 ```
 
 前端运行时读取的导表产物：
 
 ```text
-public/config/actions.json
+public/config/Actions.json
 ```
 
-`actions.xlsx` 采用双表头结构：
+`Actions.xlsx` 采用双表头结构：
 
 | 行 | 内容 | 用途 |
 |---|---|---|
@@ -158,10 +158,10 @@ public/config/actions.json
 
 正常使用流程：
 
-1. 策划编辑 `public/config/actions.xlsx`
+1. 策划编辑 `public/config/Actions.xlsx`
 2. 回到 Web 应用，点击顶栏 **导表**
 3. Vite 本地接口执行 Excel to JSON
-4. 生成/覆盖 `public/config/actions.json`
+4. 生成/覆盖 `public/config/Actions.json`
 5. 前端刷新 Action 配置，Action 节点按最新表格显示
 
 也可以用命令行导表：
@@ -181,20 +181,22 @@ npm run generate:actions-xlsx
 GIF 文件建议放在：
 
 ```text
-public/actions/khezu/
+public/actions/Khezu/
 ```
 
 例如：
 
 ```text
-public/actions/khezu/idle_discharge.gif
+public/actions/Khezu/Khezu_Tail_Sweep.gif
 ```
 
 配表中的路径写成：
 
 ```text
-/actions/khezu/idle_discharge.gif
+/actions/Khezu/Khezu_Tail_Sweep.gif
 ```
+
+策划资源命名采用“大写开头 + 下划线分割单词”，不是全大写。怪物技能动画 GIF 需要带怪物名作为前缀，例如 `Khezu_Tail_Sweep.gif`。`BT` 是 BehaviorTree 的专有缩写，相关行为树文件名可保持全大写，例如 `Khezu_BT.json`。
 
 不要把 GIF 文件本体写进行为树 JSON。行为树只保存 `actionId`，资源路径由 Action 配表统一管理。
 

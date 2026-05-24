@@ -10,8 +10,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-XLSX_PATH = ROOT / "public" / "config" / "actions.xlsx"
-JSON_PATH = ROOT / "public" / "config" / "actions.json"
+XLSX_PATH = ROOT / "public" / "config" / "Actions.xlsx"
+JSON_PATH = ROOT / "public" / "config" / "Actions.json"
 
 NS = {"main": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 
@@ -83,12 +83,12 @@ def read_rows() -> list[list[str]]:
 def export_actions() -> list[dict[str, str]]:
     rows = read_rows()
     if len(rows) < 2:
-        raise ValueError("actions.xlsx must contain English headers and Chinese comments.")
+        raise ValueError("Actions.xlsx must contain English headers and Chinese comments.")
 
     headers = rows[0]
     missing = [header for header in REQUIRED_HEADERS if header not in headers]
     if missing:
-        raise ValueError(f"actions.xlsx missing required headers: {', '.join(missing)}")
+        raise ValueError(f"Actions.xlsx missing required headers: {', '.join(missing)}")
 
     actions: list[dict[str, str]] = []
     for row in rows[2:]:

@@ -1,18 +1,11 @@
-import { BTNodeType, BTExecutionStatus, type BTNode, type BTEdge, type BTVariable } from './types';
+import { BTNodeType, BTExecutionStatus, type BTFunction, type BTNode, type BTEdge, type BTVariable } from './types';
 
 interface ExecutionContext {
   variables: BTVariable[];
-  functions: Map<string, (ctx: ExecutionContext) => BTExecutionStatus>;
   onNodeTick: (nodeId: string, status: BTExecutionStatus) => void;
   getChildren: (nodeId: string) => string[];
   getEdgesBySource: (nodeId: string) => BTEdge[];
   getNodeById: (nodeId: string) => BTNode | undefined;
-}
-
-type NodeExecutor = (node: BTNode, ctx: ExecutionContext) => BTExecutionStatus;
-
-function getVariable(ctx: ExecutionContext, name: string): boolean | number | string | undefined {
-  return ctx.variables.find((v) => v.name === name)?.value;
 }
 
 function setVariable(ctx: ExecutionContext, name: string, value: boolean | number | string): void {
@@ -270,20 +263,18 @@ export class BehaviorTreeEngine {
   private nodes: Map<string, BTNode> = new Map();
   private edges: BTEdge[] = [];
   private variables: BTVariable[] = [];
-  private functions: BTFunction[] = [];
   private onNodeTick: ((nodeId: string, status: BTExecutionStatus) => void) | null = null;
 
   load(
     nodes: BTNode[],
     edges: BTEdge[],
     variables: BTVariable[],
-    functions: BTFunction[],
+    _functions: BTFunction[],
   ): void {
     this.nodes.clear();
     nodes.forEach((n) => this.nodes.set(n.id, n));
     this.edges = edges;
     this.variables = variables.map((v) => ({ ...v }));
-    this.functions = functions;
   }
 
   onTick(callback: (nodeId: string, status: BTExecutionStatus) => void): void {
@@ -302,7 +293,6 @@ export class BehaviorTreeEngine {
 
     const ctx: ExecutionContext = {
       variables: this.variables,
-      functions: new Map(),
       onNodeTick: (nodeId, status) => {
         results.set(nodeId, status);
         this.onNodeTick?.(nodeId, status);

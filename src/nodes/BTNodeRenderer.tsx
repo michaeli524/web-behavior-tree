@@ -31,16 +31,36 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.TEST]: { color: '#7a8a6b', icon: '🧪' },
 };
 
+const compositeTypes: BTNodeType[] = [
+  BTNodeType.ROOT,
+  BTNodeType.SELECTOR,
+  BTNodeType.SEQUENCE,
+  BTNodeType.PARALLEL,
+  BTNodeType.TEST,
+];
+
+const decoratorTypes: BTNodeType[] = [
+  BTNodeType.INVERTER,
+  BTNodeType.REPEATER,
+  BTNodeType.SUCCEEDER,
+];
+
+const leafTypes: BTNodeType[] = [
+  BTNodeType.ACTION,
+  BTNodeType.WAIT,
+  BTNodeType.FUNCTION,
+];
+
 function BTNodeComponent({ data, selected, id }: NodeProps) {
   const nodeData = data as unknown as BTNodeData;
   const config = typeConfig[nodeData.type] ?? typeConfig[BTNodeType.ACTION];
   const status = nodeData.status ?? BTExecutionStatus.IDLE;
   const borderColor = status !== BTExecutionStatus.IDLE ? statusColors[status] : config.color;
 
-  const isComposite = [BTNodeType.ROOT, BTNodeType.SELECTOR, BTNodeType.SEQUENCE, BTNodeType.PARALLEL, BTNodeType.TEST].includes(nodeData.type);
-  const isDecorator = [BTNodeType.INVERTER, BTNodeType.REPEATER, BTNodeType.SUCCEEDER].includes(nodeData.type);
+  const isComposite = compositeTypes.includes(nodeData.type);
+  const isDecorator = decoratorTypes.includes(nodeData.type);
   const isCondition = nodeData.type === BTNodeType.CONDITION;
-  const isLeaf = [BTNodeType.ACTION, BTNodeType.WAIT, BTNodeType.FUNCTION].includes(nodeData.type);
+  const isLeaf = leafTypes.includes(nodeData.type);
   const isDist = nodeData.type === BTNodeType.DIST_SELECTOR;
   const isGetVar = nodeData.type === BTNodeType.GET_VARIABLE;
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
@@ -48,12 +68,33 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isCompare = nodeData.type === BTNodeType.COMPARE;
   const { actionById } = useActionCatalog();
   const actionConfig = nodeData.actionId ? actionById.get(nodeData.actionId) : undefined;
-  const actionTitle = actionConfig?.actionName ?? nodeData.label;
+  const variables = useBTStore((s) => s.variables);
+  const functions = useBTStore((s) => s.functions);
 
   const showInput = nodeData.type !== BTNodeType.ROOT && !isGetVar && !isCondition && !isCompare;
   const showOutput = isComposite || isDecorator || isSetVar;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
+  const variableDisplayName =
+    nodeData.variableId
+      ? variables.find((variable) => variable.id === nodeData.variableId)?.name ?? 'Variable'
+      : 'Variable';
+  const functionDisplayName =
+    nodeData.functionId
+      ? functions.find((func) => func.id === nodeData.functionId)?.name ?? 'Function'
+      : 'Function';
+  const headerLabel =
+    isSetVar
+      ? `SET: ${variableDisplayName}`
+      : isGetVar
+        ? variableDisplayName
+        : nodeData.type === BTNodeType.FUNCTION
+          ? functionDisplayName
+          : isCompare
+            ? nodeData.operator ?? '<'
+            : nodeData.type === BTNodeType.ACTION
+              ? 'Action'
+              : nodeData.label;
 
   // Set node inline editing
   const updateNodeData = useBTStore((s) => s.updateNodeData);
@@ -82,9 +123,6 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   }, [id]);
 
   // ── Comment node: simple styled box ──
-  const [editingTitle, setEditingTitle] = useState(false);
-  const [titleVal, setTitleVal] = useState('');
-
   if (isComment) {
     const w = nodeData.commentWidth ?? 300;
     const h = nodeData.commentHeight ?? 150;
@@ -111,41 +149,14 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       window.addEventListener('mouseup', onUp);
     };
 
-    const startEdit = () => {
-      setEditingTitle(true);
-      setTitleVal(nodeData.label);
-    };
-    const commitEdit = () => {
-      if (titleVal.trim()) updateNodeData(id, { label: titleVal.trim() });
-      setEditingTitle(false);
-    };
-
     return (
       <div
         className={`bt-comment ${selected ? 'bt-comment-selected' : ''}`}
         style={{ width: w, height: h }}
       >
-        {editingTitle ? (
-          <input
-            className="bt-comment-title"
-            value={titleVal}
-            onChange={(e) => setTitleVal(e.target.value)}
-            onBlur={commitEdit}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') commitEdit();
-              if (e.key === 'Escape') setEditingTitle(false);
-            }}
-            autoFocus
-            onMouseDown={(e) => e.stopPropagation()}
-          />
-        ) : (
-          <div
-            className="bt-comment-title bt-comment-title-bar"
-            onDoubleClick={startEdit}
-          >
-            {nodeData.label || 'Comment'}
-          </div>
-        )}
+        <div className="bt-comment-title bt-comment-title-bar">
+          {nodeData.label || 'Comment'}
+        </div>
         <div
           className="bt-comment-resize-handle"
           onMouseDown={handleResizeStart}
@@ -168,8 +179,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         <div className="bt-node-header" style={{ background: config.color }}>
         <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-get' : ''}`}>
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
-          {isSetVar && 'SET: '}
-          {nodeData.type === BTNodeType.ACTION ? actionTitle : nodeData.label}
+          {headerLabel}
         </span>
 
         {/* Get red data output */}
@@ -244,7 +254,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           {nodeData.type === BTNodeType.ACTION && (
             <div className="bt-action-card">
               {actionConfig?.gifPath ? (
-                <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionName} />
+                <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
               ) : (
                 <div className="bt-action-thumb bt-action-thumb-empty">GIF</div>
               )}
@@ -252,8 +262,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
                 <div className="bt-action-id">
                   {actionConfig?.actionId ?? nodeData.actionId ?? '请选择动作'}
                 </div>
-                <div className="bt-action-comment">
-                  {actionConfig?.comment ?? '资源未配置'}
+                <div className="bt-action-name">
+                  {actionConfig?.actionName ?? (nodeData.actionId ? '未找到对应 Action 配置' : '资源未配置')}
                 </div>
               </div>
             </div>
