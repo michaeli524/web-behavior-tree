@@ -63,6 +63,10 @@ type CommentDragGroup = {
   containedNodes: Array<{ id: string; startPosition: FlowPosition }>;
 };
 
+type PaneSelectionDrag = {
+  startScreen: FlowPosition;
+};
+
 function isEditableTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
   return target.tagName === 'INPUT' ||
@@ -163,6 +167,8 @@ export function BTEditor() {
     edgeId: string;
     pointId: string;
   } | null>(null);
+  const [commentTitleEditRequestId, setCommentTitleEditRequestId] = useState<string | null>(null);
+  const paneSelectionDragRef = useRef<PaneSelectionDrag | null>(null);
 
   // Variable drop → Get/Set popup
   const [varDropPopup, setVarDropPopup] = useState<{
@@ -343,10 +349,19 @@ export function BTEditor() {
         type: 'bt-node',
         selected: selectedNodeIds.includes(n.id),
         data: { ...n.data },
+        ...(n.data.type === BTNodeType.COMMENT && commentTitleEditRequestId === n.id
+          ? {
+              data: {
+                ...n.data,
+                commentTitleEditRequested: true,
+                onCommentTitleEditStarted: () => setCommentTitleEditRequestId(null),
+              },
+            }
+          : {}),
         zIndex: n.data.type === BTNodeType.COMMENT ? -1 : undefined,
         dragHandle: n.data.type === BTNodeType.COMMENT ? '.bt-comment-title' : undefined,
       })) as Node[],
-    [nodes, selectedNodeIds]
+    [nodes, selectedNodeIds, commentTitleEditRequestId]
   );
 
   const rfEdges: Edge[] = useMemo(
@@ -436,6 +451,63 @@ export function BTEditor() {
     },
     [setSelectedNodes]
   );
+
+  const onEditorMouseDownCapture = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.button !== 0 || isEditableTarget(event.target)) return;
+    const target = event.target instanceof HTMLElement ? event.target : null;
+    if (!target || target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) {
+      return;
+    }
+    paneSelectionDragRef.current = {
+      startScreen: { x: event.clientX, y: event.clientY },
+    };
+  }, []);
+
+  const onEditorMouseUpCapture = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const selectionDrag = paneSelectionDragRef.current;
+    paneSelectionDragRef.current = null;
+    if (!selectionDrag) return;
+
+    const dx = event.clientX - selectionDrag.startScreen.x;
+    const dy = event.clientY - selectionDrag.startScreen.y;
+    if (Math.hypot(dx, dy) < 8) return;
+
+    const rfInstance = rfInstanceRef.current;
+    if (!rfInstance) return;
+
+    const start = rfInstance.screenToFlowPosition(selectionDrag.startScreen);
+    const end = rfInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY });
+    const bounds = {
+      left: Math.min(start.x, end.x),
+      right: Math.max(start.x, end.x),
+      top: Math.min(start.y, end.y),
+      bottom: Math.max(start.y, end.y),
+    };
+
+    const matchedPoint = edges
+      .flatMap((edge) =>
+        (edge.data?.reroutePoints ?? []).map((point) => ({
+          edgeId: edge.id,
+          pointId: point.id,
+          x: point.x,
+          y: point.y,
+        }))
+      )
+      .find((point) =>
+        point.x >= bounds.left &&
+        point.x <= bounds.right &&
+        point.y >= bounds.top &&
+        point.y <= bounds.bottom
+      );
+
+    if (!matchedPoint) return;
+    window.setTimeout(() => {
+      setSelectedReroutePoint({
+        edgeId: matchedPoint.edgeId,
+        pointId: matchedPoint.pointId,
+      });
+    }, 0);
+  }, [edges]);
 
   const onEdgesChange = useCallback(() => {}, []);
 
@@ -931,8 +1003,9 @@ export function BTEditor() {
 
       const cw = maxX - minX;
       const ch = maxY - minY;
+      let newCommentId: string | undefined;
       if (state.activePageId === 'main') {
-        state.addNode(BTNodeType.COMMENT, { x: minX, y: minY }, {
+        newCommentId = state.addNode(BTNodeType.COMMENT, { x: minX, y: minY }, {
           label: 'Comment',
           commentWidth: cw,
           commentHeight: ch,
@@ -940,18 +1013,22 @@ export function BTEditor() {
       } else {
         const page = state.pages.find((p) => p.id === state.activePageId);
         if (page) {
-          state.addPageNode(state.activePageId, BTNodeType.COMMENT, { x: minX, y: minY }, {
+          newCommentId = state.addPageNode(state.activePageId, BTNodeType.COMMENT, { x: minX, y: minY }, {
             label: 'Comment',
             commentWidth: cw,
             commentHeight: ch,
           });
         } else {
-          state.addFunctionNode(state.activePageId, BTNodeType.COMMENT, { x: minX, y: minY }, {
+          newCommentId = state.addFunctionNode(state.activePageId, BTNodeType.COMMENT, { x: minX, y: minY }, {
             label: 'Comment',
             commentWidth: cw,
             commentHeight: ch,
           });
         }
+      }
+      if (newCommentId) {
+        state.setSelectedNodes([newCommentId]);
+        setCommentTitleEditRequestId(newCommentId);
       }
 
       e.preventDefault();
@@ -981,7 +1058,12 @@ export function BTEditor() {
   }, [quickCreate]);
 
   return (
-    <div className="bt-editor" ref={reactFlowRef}>
+    <div
+      className="bt-editor"
+      ref={reactFlowRef}
+      onMouseDownCapture={onEditorMouseDownCapture}
+      onMouseUpCapture={onEditorMouseUpCapture}
+    >
       <ReactFlow
         nodes={rfNodes}
         edges={rfEdges}

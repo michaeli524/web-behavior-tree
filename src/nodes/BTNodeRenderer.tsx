@@ -1,4 +1,4 @@
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useEffect, useRef } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType, BTExecutionStatus, type BTNodeData } from '../engine/types';
@@ -54,7 +54,10 @@ const leafTypes: BTNodeType[] = [
 ];
 
 function BTNodeComponent({ data, selected, id }: NodeProps) {
-  const nodeData = data as unknown as BTNodeData;
+  const nodeData = data as unknown as BTNodeData & {
+    commentTitleEditRequested?: boolean;
+    onCommentTitleEditStarted?: () => void;
+  };
   const config = typeConfig[nodeData.type] ?? typeConfig[BTNodeType.ACTION];
   const status = nodeData.status ?? BTExecutionStatus.IDLE;
   const borderColor = status !== BTExecutionStatus.IDLE ? statusColors[status] : config.color;
@@ -109,6 +112,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const updateNodeData = useBTStore((s) => s.updateNodeData);
   const [localSetVal, setLocalSetVal] = useState<string | null>(null);
   const [commentTitleDraft, setCommentTitleDraft] = useState<string | null>(null);
+  const commentTitleInputRef = useRef<HTMLInputElement>(null);
   const displaySetVal = localSetVal ?? nodeData.setValue ?? '';
 
   const commitSetValue = useCallback(() => {
@@ -117,6 +121,17 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       setLocalSetVal(null);
     }
   }, [id, localSetVal, updateNodeData]);
+
+  useEffect(() => {
+    if (!isComment || !nodeData.commentTitleEditRequested) return;
+    setCommentTitleDraft(nodeData.label || 'Comment');
+    nodeData.onCommentTitleEditStarted?.();
+  }, [isComment, nodeData.commentTitleEditRequested, nodeData.label, nodeData]);
+
+  useEffect(() => {
+    if (commentTitleDraft === null) return;
+    commentTitleInputRef.current?.select();
+  }, [commentTitleDraft]);
 
   // Command/Ctrl + click handle → disconnect
   const handleClick = useCallback((e: React.MouseEvent, handleId?: string) => {
@@ -172,9 +187,11 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       >
         {isEditingCommentTitle ? (
           <input
+            ref={commentTitleInputRef}
             className="bt-comment-title-input"
             value={commentTitleDraft}
             autoFocus
+            onFocus={(e) => e.currentTarget.select()}
             onChange={(e) => setCommentTitleDraft(e.target.value)}
             onBlur={commitCommentTitle}
             onMouseDown={(e) => e.stopPropagation()}
