@@ -83,7 +83,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const edges = useBTStore((s) => s.edges);
 
   const showInput = nodeData.type !== BTNodeType.ROOT && !isGetVar && !isCondition && !isCompare;
-  const showOutput = isComposite || isDecorator || isSetVar || isFunction || nodeData.type === BTNodeType.APPROACH;
+  const showOutput = isComposite || isDecorator || isSetVar || isFunction || nodeData.type === BTNodeType.APPROACH || nodeData.type === BTNodeType.ACTION;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
   const randomWeights = nodeData.randomWeights ?? [50, 30, 20];
