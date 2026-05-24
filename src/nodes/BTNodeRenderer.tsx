@@ -55,7 +55,7 @@ const leafTypes: BTNodeType[] = [
 
 function BTNodeComponent({ data, selected, id }: NodeProps) {
   const nodeData = data as unknown as BTNodeData & {
-    commentTitleEditRequested?: boolean;
+    commentTitleEditRequestNonce?: number;
     onCommentTitleEditStarted?: () => void;
   };
   const config = typeConfig[nodeData.type] ?? typeConfig[BTNodeType.ACTION];
@@ -113,6 +113,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const [localSetVal, setLocalSetVal] = useState<string | null>(null);
   const [commentTitleDraft, setCommentTitleDraft] = useState<string | null>(null);
   const commentTitleInputRef = useRef<HTMLInputElement>(null);
+  const shouldSelectCommentTitleRef = useRef(false);
+  const handledCommentTitleEditNonceRef = useRef<number | null>(null);
   const displaySetVal = localSetVal ?? nodeData.setValue ?? '';
 
   const commitSetValue = useCallback(() => {
@@ -123,14 +125,22 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   }, [id, localSetVal, updateNodeData]);
 
   useEffect(() => {
-    if (!isComment || !nodeData.commentTitleEditRequested) return;
+    const requestNonce = nodeData.commentTitleEditRequestNonce;
+    if (!isComment || requestNonce == null || handledCommentTitleEditNonceRef.current === requestNonce) return;
+    handledCommentTitleEditNonceRef.current = requestNonce;
+    shouldSelectCommentTitleRef.current = true;
     setCommentTitleDraft(nodeData.label || 'Comment');
     nodeData.onCommentTitleEditStarted?.();
-  }, [isComment, nodeData.commentTitleEditRequested, nodeData.label, nodeData]);
+  }, [isComment, nodeData.commentTitleEditRequestNonce, nodeData.label, nodeData]);
 
   useEffect(() => {
-    if (commentTitleDraft === null) return;
-    commentTitleInputRef.current?.select();
+    if (commentTitleDraft === null || !shouldSelectCommentTitleRef.current) return;
+    const frame = window.requestAnimationFrame(() => {
+      commentTitleInputRef.current?.focus();
+      commentTitleInputRef.current?.select();
+    });
+    shouldSelectCommentTitleRef.current = false;
+    return () => window.cancelAnimationFrame(frame);
   }, [commentTitleDraft]);
 
   // Command/Ctrl + click handle → disconnect
@@ -191,7 +201,6 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             className="bt-comment-title-input"
             value={commentTitleDraft}
             autoFocus
-            onFocus={(e) => e.currentTarget.select()}
             onChange={(e) => setCommentTitleDraft(e.target.value)}
             onBlur={commitCommentTitle}
             onMouseDown={(e) => e.stopPropagation()}
@@ -209,7 +218,9 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           <div
             className="bt-comment-title bt-comment-title-bar"
             onDoubleClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
+              shouldSelectCommentTitleRef.current = true;
               setCommentTitleDraft(nodeData.label || 'Comment');
             }}
           >

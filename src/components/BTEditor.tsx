@@ -167,7 +167,10 @@ export function BTEditor() {
     edgeId: string;
     pointId: string;
   } | null>(null);
-  const [commentTitleEditRequestId, setCommentTitleEditRequestId] = useState<string | null>(null);
+  const [commentTitleEditRequest, setCommentTitleEditRequest] = useState<{
+    id: string;
+    nonce: number;
+  } | null>(null);
   const paneSelectionDragRef = useRef<PaneSelectionDrag | null>(null);
 
   // Variable drop → Get/Set popup
@@ -349,19 +352,19 @@ export function BTEditor() {
         type: 'bt-node',
         selected: selectedNodeIds.includes(n.id),
         data: { ...n.data },
-        ...(n.data.type === BTNodeType.COMMENT && commentTitleEditRequestId === n.id
+        ...(n.data.type === BTNodeType.COMMENT && commentTitleEditRequest?.id === n.id
           ? {
               data: {
                 ...n.data,
-                commentTitleEditRequested: true,
-                onCommentTitleEditStarted: () => setCommentTitleEditRequestId(null),
+                commentTitleEditRequestNonce: commentTitleEditRequest.nonce,
+                onCommentTitleEditStarted: () => setCommentTitleEditRequest(null),
               },
             }
           : {}),
         zIndex: n.data.type === BTNodeType.COMMENT ? -1 : undefined,
         dragHandle: n.data.type === BTNodeType.COMMENT ? '.bt-comment-title' : undefined,
       })) as Node[],
-    [nodes, selectedNodeIds, commentTitleEditRequestId]
+    [nodes, selectedNodeIds, commentTitleEditRequest]
   );
 
   const rfEdges: Edge[] = useMemo(
@@ -1028,7 +1031,12 @@ export function BTEditor() {
       }
       if (newCommentId) {
         state.setSelectedNodes([newCommentId]);
-        setCommentTitleEditRequestId(newCommentId);
+        window.setTimeout(() => {
+          setCommentTitleEditRequest({
+            id: newCommentId,
+            nonce: Date.now(),
+          });
+        }, 0);
       }
 
       e.preventDefault();
