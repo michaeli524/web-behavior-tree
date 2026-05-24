@@ -691,8 +691,8 @@
       "id": "approach_1779611581140_20",
       "type": "bt-node",
       "position": {
-        "x": 3390,
-        "y": 2520
+        "x": 3030,
+        "y": 2530
       },
       "data": {
         "label": "Approach",
@@ -722,8 +722,8 @@
       "id": "action_1779611587307_22",
       "type": "bt-node",
       "position": {
-        "x": 3590,
-        "y": 2520
+        "x": 3230,
+        "y": 2530
       },
       "data": {
         "label": "Action",
@@ -881,8 +881,8 @@
       "id": "condition_1779612216573_40",
       "type": "bt-node",
       "position": {
-        "x": 1040,
-        "y": 1110
+        "x": 1150,
+        "y": 1120
       },
       "data": {
         "label": "Condition",
@@ -912,8 +912,8 @@
       "id": "get-variable_1779612221191_42",
       "type": "bt-node",
       "position": {
-        "x": 870,
-        "y": 1190
+        "x": 990,
+        "y": 1200
       },
       "data": {
         "label": "Get",
@@ -944,8 +944,8 @@
       "id": "get-variable_1779612223510_43",
       "type": "bt-node",
       "position": {
-        "x": 1220,
-        "y": 1200
+        "x": 1350,
+        "y": 1190
       },
       "data": {
         "label": "Get",
@@ -976,8 +976,8 @@
       "id": "condition_1779612276538_45",
       "type": "bt-node",
       "position": {
-        "x": 1380,
-        "y": 1120
+        "x": 1510,
+        "y": 1140
       },
       "data": {
         "label": "Condition",
@@ -1540,8 +1540,8 @@
       "id": "dist-selector_1779617389054_1",
       "type": "bt-node",
       "position": {
-        "x": 1920,
-        "y": 10
+        "x": 1940,
+        "y": 220
       },
       "data": {
         "label": "Dist Selector",
@@ -1624,7 +1624,7 @@
         ],
         "randomWeights": [
           50,
-          30,
+          50,
           20
         ],
         "operator": "<",
@@ -1763,6 +1763,345 @@
           30,
           20
         ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1779628586470_1",
+      "type": "bt-node",
+      "position": {
+        "x": 2560,
+        "y": 140
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Back_Step",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1779628597070_3",
+      "type": "bt-node",
+      "position": {
+        "x": 2840,
+        "y": 140
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Double_Breath_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1779628606190_5",
+      "type": "bt-node",
+      "position": {
+        "x": 3800,
+        "y": 190
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Dash_Wing_Press_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1779628632683_7",
+      "type": "bt-node",
+      "position": {
+        "x": 1910,
+        "y": 190
+      },
+      "data": {
+        "label": "头、翅膀都充电",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 212,
+        "commentHeight": 228,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "combo-show_1779628913916_1",
+      "type": "bt-node",
+      "position": {
+        "x": 4090,
+        "y": 180
+      },
+      "data": {
+        "label": "ComboShow",
+        "type": "combo-show",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Head_Tail_Combo",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "condition_1779630543908_2",
+      "type": "bt-node",
+      "position": {
+        "x": 3310,
+        "y": 140
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "distance-2d_1779630559351_4",
+      "type": "bt-node",
+      "position": {
+        "x": 3120,
+        "y": 200
+      },
+      "data": {
+        "label": "2D Distance Between",
+        "type": "distance-2d",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1779630821237_5",
+      "type": "bt-node",
+      "position": {
+        "x": 3500,
+        "y": 100
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Back_Step",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "approach_1779631476059_1",
+      "type": "bt-node",
+      "position": {
+        "x": 2680,
+        "y": 2660
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 1200,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1779631508340_3",
+      "type": "bt-node",
+      "position": {
+        "x": 960,
+        "y": 1090
+      },
+      "data": {
+        "label": "战斗节奏在头、翅膀都充电的前后有较大变化",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 700,
+        "commentHeight": 210,
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
@@ -2107,6 +2446,57 @@
       "source": "action_1779623629050_5",
       "target": "action_1779623641915_7",
       "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779628586471_2",
+      "source": "random-selector_1779623537313_1",
+      "target": "action_1779628586470_1",
+      "sourceHandle": "random-1"
+    },
+    {
+      "id": "edge_1779628597071_4",
+      "source": "action_1779628586470_1",
+      "target": "action_1779628597070_3",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779630543909_3",
+      "source": "action_1779628597070_3",
+      "target": "condition_1779630543908_2",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779630821238_6",
+      "source": "condition_1779630543908_2",
+      "target": "action_1779630821237_5",
+      "sourceHandle": "exec-true"
+    },
+    {
+      "id": "edge_1779630836951_7",
+      "source": "action_1779630821237_5",
+      "target": "action_1779628606190_5",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779630839881_8",
+      "source": "condition_1779630543908_2",
+      "target": "action_1779628606190_5",
+      "sourceHandle": "exec-false",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779630865376_9",
+      "source": "distance-2d_1779630559351_4",
+      "target": "condition_1779630543908_2",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779631476060_2",
+      "source": "dist-selector_1779609575943_7",
+      "target": "approach_1779631476059_1",
+      "sourceHandle": "dist-last"
     }
   ],
   "variables": [
