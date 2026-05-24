@@ -1212,6 +1212,28 @@
   min-width: 190px;
 }
 
+/* ComboShow — proportionally scaled Action card */
+.bt-combo-card {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+  min-width: 250px;
+}
+
+.bt-combo-card .bt-action-thumb {
+  width: 96px;
+  height: 64px;
+}
+
+.bt-combo-card .bt-action-id {
+  font-size: 13px;
+}
+
+.bt-combo-card .bt-action-name {
+  font-size: 13px;
+}
+
 .bt-action-thumb {
   width: 72px;
   height: 48px;

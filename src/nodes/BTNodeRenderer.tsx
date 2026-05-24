@@ -313,7 +313,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       style={{
         borderColor,
         borderRadius: '6px',
-        minWidth: isComboShow ? 260 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
+        minWidth: isComboShow ? 250 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
         background: nodeData.type === BTNodeType.ROOT ? '#484850' : '#484848',
       }}
     >
@@ -481,7 +481,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       {/* ── ComboShow node — Action card without execution ports ── */}
       {isComboShow && (
         <div className="bt-node-body">
-          <div className="bt-action-card">
+          <div className="bt-combo-card">
             {actionConfig?.gifPath ? (
               <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
             ) : (
