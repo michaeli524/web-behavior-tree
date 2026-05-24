@@ -259,6 +259,12 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.SUCCESS;
     }
 
+    case BTNodeType.RESET: {
+      // Terminal node: signals tree reset and restart from root
+      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+      return BTExecutionStatus.SUCCESS;
+    }
+
     case BTNodeType.GET_VARIABLE: {
       ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
       return BTExecutionStatus.SUCCESS;

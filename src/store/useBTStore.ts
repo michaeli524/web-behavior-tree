@@ -140,6 +140,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.TEST]: 'Test',
   [BTNodeType.APPROACH]: 'Approach',
   [BTNodeType.DISTANCE_2D]: '2D Distance Between',
+  [BTNodeType.RESET]: 'Reset',
 };
 
 function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTNodeData {

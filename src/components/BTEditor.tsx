@@ -158,6 +158,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.ACTION, icon: '⚡', label: 'Action' },
   { type: BTNodeType.APPROACH, icon: '🏃', label: 'Approach' },
   { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Distance Between' },
+  { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
   { type: BTNodeType.WAIT, icon: '⏱', label: 'Wait' },
 ];
 

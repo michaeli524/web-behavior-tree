@@ -32,6 +32,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.TEST]: { color: '#7a8a6b', icon: '🧪' },
   [BTNodeType.APPROACH]: { color: '#6b7a8a', icon: '🏃' },
   [BTNodeType.DISTANCE_2D]: { color: '#7a6b8a', icon: '📐' },
+  [BTNodeType.RESET]: { color: '#8a5a5a', icon: '🔄' },
 };
 
 const compositeTypes: BTNodeType[] = [
@@ -71,6 +72,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isDist = nodeData.type === BTNodeType.DIST_SELECTOR;
   const isRandom = nodeData.type === BTNodeType.RANDOM_SELECTOR;
   const isDistance2D = nodeData.type === BTNodeType.DISTANCE_2D;
+  const isReset = nodeData.type === BTNodeType.RESET;
   const isMultiOutputSelector = isDist || isRandom;
   const isGetVar = nodeData.type === BTNodeType.GET_VARIABLE;
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
@@ -467,6 +469,11 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             />
           </div>
         </div>
+      )}
+
+      {/* ── Reset node — terminal, empty body ── */}
+      {isReset && (
+        <div className="bt-node-body" />
       )}
 
       {/* ── Set Variable body ── */}

@@ -19,6 +19,7 @@ export const BTNodeType = {
   TEST: 'test',
   APPROACH: 'approach',
   DISTANCE_2D: 'distance-2d',
+  RESET: 'reset',
 } as const;
 
 export type BTNodeType = (typeof BTNodeType)[keyof typeof BTNodeType];
