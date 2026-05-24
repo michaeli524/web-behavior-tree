@@ -1,6 +1,5 @@
 import {
   BaseEdge,
-  EdgeLabelRenderer,
   getBezierPath,
   getStraightPath,
   useReactFlow,
@@ -83,7 +82,7 @@ export function BTEdge({
     ? getReroutedBezierPath(sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, reroutePoints)
     : defaultPath;
 
-  const startPointDrag = (event: React.MouseEvent, point: BTEdgeReroutePoint) => {
+  const startPointDrag = (event: React.MouseEvent<SVGCircleElement>, point: BTEdgeReroutePoint) => {
     event.preventDefault();
     event.stopPropagation();
     edgeData.onReroutePointSelect?.(id, point.id);
@@ -131,34 +130,39 @@ export function BTEdge({
           strokeWidth: selected ? 3 : 2,
         }}
       />
-      {reroutePoints.length > 0 && (
-        <EdgeLabelRenderer>
-          {reroutePoints.map((point) => {
-            const pointSelected = edgeData.selectedReroutePointId === point.id;
-            return (
-              <button
-                key={point.id}
-                type="button"
-                aria-label="Reroute point"
-                className="bt-edge-reroute-point"
-                onMouseDown={(event) => startPointDrag(event, point)}
-                onClick={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  edgeData.onReroutePointSelect?.(id, point.id);
-                }}
-                style={{
-                  transform: `translate(-50%, -50%) translate(${point.x}px, ${point.y}px)`,
-                  borderColor: pointSelected ? '#f8fafc' : '#64748b',
-                  boxShadow: pointSelected
-                    ? '0 0 0 2px rgba(99, 102, 241, 0.45)'
-                    : '0 0 0 1px rgba(15, 23, 42, 0.85)',
-                }}
+      {reroutePoints.map((point) => {
+        const pointSelected = edgeData.selectedReroutePointId === point.id;
+        return (
+          <g key={point.id} className="bt-edge-reroute-point">
+            <circle
+              className="bt-edge-reroute-point-hit"
+              cx={point.x}
+              cy={point.y}
+              r={10}
+              onMouseDown={(event) => startPointDrag(event, point)}
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                edgeData.onReroutePointSelect?.(id, point.id);
+              }}
+            />
+            <circle
+              className="bt-edge-reroute-point-dot"
+              cx={point.x}
+              cy={point.y}
+              r={pointSelected ? 5 : 4.5}
+            />
+            {pointSelected && (
+              <circle
+                className="bt-edge-reroute-point-ring"
+                cx={point.x}
+                cy={point.y}
+                r={8}
               />
-            );
-          })}
-        </EdgeLabelRenderer>
-      )}
+            )}
+          </g>
+        );
+      })}
     </>
   );
 }

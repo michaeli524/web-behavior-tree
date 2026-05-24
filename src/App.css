@@ -1090,20 +1090,32 @@
 }
 
 .bt-edge-reroute-point {
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  padding: 0;
-  border: 1.5px solid #64748b;
-  border-radius: 50%;
-  background: #111827;
   cursor: grab;
   pointer-events: all;
-  z-index: 10;
 }
 
 .bt-edge-reroute-point:active {
   cursor: grabbing;
+}
+
+.bt-edge-reroute-point-hit {
+  fill: transparent;
+  stroke: transparent;
+  pointer-events: all;
+}
+
+.bt-edge-reroute-point-dot {
+  fill: #111827;
+  stroke: #64748b;
+  stroke-width: 1.5px;
+  pointer-events: none;
+}
+
+.bt-edge-reroute-point-ring {
+  fill: none;
+  stroke: rgba(99, 102, 241, 0.55);
+  stroke-width: 3px;
+  pointer-events: none;
 }
 
 .bt-edge-hit-area {
