@@ -350,7 +350,7 @@ export function PropertiesPanel() {
         </div>
       )}
 
-      {data.type === BTNodeType.DISTANCE_2D && (
+      {(data.type === BTNodeType.DISTANCE_2D || data.type === BTNodeType.ANGLE_BETWEEN_CW) && (
         <>
           <div className="prop-group">
             <label>Start 值</label>

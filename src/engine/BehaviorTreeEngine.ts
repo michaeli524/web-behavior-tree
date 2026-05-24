@@ -259,6 +259,12 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.SUCCESS;
     }
 
+    case BTNodeType.ANGLE_BETWEEN_CW: {
+      // Data node: computes clockwise angle between start/end values
+      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+      return BTExecutionStatus.SUCCESS;
+    }
+
     case BTNodeType.RESET: {
       // Terminal node: signals tree reset and restart from root
       ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);

@@ -32,6 +32,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.TEST]: { color: '#7a8a6b', icon: '🧪' },
   [BTNodeType.APPROACH]: { color: '#6b7a8a', icon: '🏃' },
   [BTNodeType.DISTANCE_2D]: { color: '#7a6b8a', icon: '📐' },
+  [BTNodeType.ANGLE_BETWEEN_CW]: { color: '#7a6b8a', icon: '↻' },
   [BTNodeType.RESET]: { color: '#8a5a5a', icon: '🔄' },
   [BTNodeType.COMBO_SHOW]: { color: '#7a6b5a', icon: '🎬' },
 };
@@ -73,8 +74,10 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isDist = nodeData.type === BTNodeType.DIST_SELECTOR;
   const isRandom = nodeData.type === BTNodeType.RANDOM_SELECTOR;
   const isDistance2D = nodeData.type === BTNodeType.DISTANCE_2D;
+  const isAngleBetweenCW = nodeData.type === BTNodeType.ANGLE_BETWEEN_CW;
   const isReset = nodeData.type === BTNodeType.RESET;
   const isComboShow = nodeData.type === BTNodeType.COMBO_SHOW;
+  const isDataCalcNode = isDistance2D || isAngleBetweenCW;
   const isMultiOutputSelector = isDist || isRandom;
   const isGetVar = nodeData.type === BTNodeType.GET_VARIABLE;
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
@@ -331,7 +334,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       </div>
 
       {/* ── Execution row ── */}
-      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && !isDistance2D && !isComboShow && (
+      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && !isDataCalcNode && !isComboShow && (
         <div className="bt-node-exec-row">
           {(showInput || isCondition) && (
             <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
@@ -436,8 +439,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         </div>
       )}
 
-      {/* ── 2D Distance Between body ── */}
-      {isDistance2D && (
+      {/* ── Data calculation node body ── */}
+      {isDataCalcNode && (
         <div className="bt-node-body bt-distance2d-body">
           {/* Row 1: Start */}
           <div className="bt-distance2d-row">
@@ -451,7 +454,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             />
             <span className="bt-distance2d-label">Start</span>
           </div>
-          {/* Row 2: End + bool out */}
+          {/* Row 2: End + data out */}
           <div className="bt-distance2d-row">
             <input
               className="bt-distance2d-input"

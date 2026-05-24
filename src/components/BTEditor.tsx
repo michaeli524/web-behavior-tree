@@ -158,6 +158,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.ACTION, icon: '⚡', label: 'Action' },
   { type: BTNodeType.APPROACH, icon: '🏃', label: 'Approach' },
   { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Distance Between' },
+  { type: BTNodeType.ANGLE_BETWEEN_CW, icon: '↻', label: 'Angle Between CW' },
   { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
   { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'ComboShow' },
   { type: BTNodeType.WAIT, icon: '⏱', label: 'Wait' },
@@ -1128,6 +1129,8 @@ export function BTEditor() {
         snapToGrid
         snapGrid={SNAP_GRID}
         fitView
+        minZoom={0.05}
+        maxZoom={2}
         deleteKeyCode={['Backspace', 'Delete']}
         panOnDrag={[2]}
         selectionOnDrag
