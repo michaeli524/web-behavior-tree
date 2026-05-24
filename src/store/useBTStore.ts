@@ -180,7 +180,8 @@ function createEdge(source: string, target: string, sourceHandle?: string, targe
   };
 }
 
-function omitLabelUpdate(data: Partial<BTNodeData>): Partial<BTNodeData> {
+function sanitizeNodeDataUpdate(node: BTNode | undefined, data: Partial<BTNodeData>): Partial<BTNodeData> {
+  if (node?.data.type === BTNodeType.COMMENT) return data;
   const { label: _label, ...rest } = data;
   return rest;
 }
@@ -234,11 +235,24 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   updateNodeData: (id, data) => {
-    const safeData = omitLabelUpdate(data);
+    const state = get();
+    const mainNode = state.nodes.find((n) => n.id === id);
     set((state) => ({
       nodes: state.nodes.map((n) =>
-        n.id === id ? { ...n, data: { ...n.data, ...safeData } } : n
+        n.id === id ? { ...n, data: { ...n.data, ...sanitizeNodeDataUpdate(mainNode, data) } } : n
       ),
+      pages: state.pages.map((p) => ({
+        ...p,
+        nodes: p.nodes.map((n) =>
+          n.id === id ? { ...n, data: { ...n.data, ...sanitizeNodeDataUpdate(n, data) } } : n
+        ),
+      })),
+      functions: state.functions.map((f) => ({
+        ...f,
+        nodes: f.nodes.map((n) =>
+          n.id === id ? { ...n, data: { ...n.data, ...sanitizeNodeDataUpdate(n, data) } } : n
+        ),
+      })),
     }));
   },
 
@@ -349,14 +363,13 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   updateFunctionNodeData: (funcId, nodeId, data) => {
-    const safeData = omitLabelUpdate(data);
     set((state) => ({
       functions: state.functions.map((f) =>
         f.id === funcId
           ? {
               ...f,
               nodes: f.nodes.map((n) =>
-                n.id === nodeId ? { ...n, data: { ...n.data, ...safeData } } : n
+                n.id === nodeId ? { ...n, data: { ...n.data, ...sanitizeNodeDataUpdate(n, data) } } : n
               ),
             }
           : f

@@ -106,6 +106,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   // Set node inline editing
   const updateNodeData = useBTStore((s) => s.updateNodeData);
   const [localSetVal, setLocalSetVal] = useState<string | null>(null);
+  const [commentTitleDraft, setCommentTitleDraft] = useState<string | null>(null);
   const displaySetVal = localSetVal ?? nodeData.setValue ?? '';
 
   const commitSetValue = useCallback(() => {
@@ -133,6 +134,12 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   if (isComment) {
     const w = nodeData.commentWidth ?? 300;
     const h = nodeData.commentHeight ?? 150;
+    const isEditingCommentTitle = commentTitleDraft !== null;
+    const commitCommentTitle = () => {
+      if (commentTitleDraft === null) return;
+      updateNodeData(id, { label: commentTitleDraft.trim() || 'Comment' });
+      setCommentTitleDraft(null);
+    };
 
     const handleResizeStart = (e: React.MouseEvent) => {
       e.preventDefault();
@@ -161,9 +168,35 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         className={`bt-comment ${selected ? 'bt-comment-selected' : ''}`}
         style={{ width: w, height: h }}
       >
-        <div className="bt-comment-title bt-comment-title-bar">
-          {nodeData.label || 'Comment'}
-        </div>
+        {isEditingCommentTitle ? (
+          <input
+            className="bt-comment-title-input"
+            value={commentTitleDraft}
+            autoFocus
+            onChange={(e) => setCommentTitleDraft(e.target.value)}
+            onBlur={commitCommentTitle}
+            onMouseDown={(e) => e.stopPropagation()}
+            onDoubleClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+              if (e.key === 'Escape') {
+                setCommentTitleDraft(null);
+              }
+            }}
+          />
+        ) : (
+          <div
+            className="bt-comment-title bt-comment-title-bar"
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              setCommentTitleDraft(nodeData.label || 'Comment');
+            }}
+          >
+            {nodeData.label || 'Comment'}
+          </div>
+        )}
         <div
           className="bt-comment-resize-handle"
           onMouseDown={handleResizeStart}

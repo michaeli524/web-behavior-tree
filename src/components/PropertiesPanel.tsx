@@ -5,6 +5,9 @@ import { useActionCatalog } from '../config/actionCatalog';
 
 export function PropertiesPanel() {
   const nodes = useBTStore((s) => s.nodes);
+  const pages = useBTStore((s) => s.pages);
+  const functions = useBTStore((s) => s.functions);
+  const activePageId = useBTStore((s) => s.activePageId);
   const variables = useBTStore((s) => s.variables);
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const updateNodeData = useBTStore((s) => s.updateNodeData);
@@ -12,8 +15,13 @@ export function PropertiesPanel() {
   const [isActionPickerOpen, setIsActionPickerOpen] = useState(false);
   const [highlightedActionIndex, setHighlightedActionIndex] = useState(0);
 
+  const activeNodes = activePageId === 'main'
+    ? nodes
+    : pages.find((p) => p.id === activePageId)?.nodes
+      ?? functions.find((f) => f.id === activePageId)?.nodes
+      ?? [];
   const selectedNode = selectedNodeIds.length === 1
-    ? nodes.find((n) => n.id === selectedNodeIds[0])
+    ? activeNodes.find((n) => n.id === selectedNodeIds[0])
     : undefined;
   const { actions, actionById, error: actionCatalogError } = useActionCatalog();
 
@@ -51,6 +59,18 @@ export function PropertiesPanel() {
         <label>节点类型</label>
         <input type="text" value={data.type} disabled />
       </div>
+
+      {data.type === BTNodeType.COMMENT && (
+        <div className="prop-group">
+          <label>注释标题</label>
+          <input
+            type="text"
+            value={data.label ?? ''}
+            placeholder="Comment"
+            onChange={(e) => updateNodeData(selectedNode.id, { label: e.target.value })}
+          />
+        </div>
+      )}
 
       {data.type === BTNodeType.CONDITION && (
         <div className="prop-group">
