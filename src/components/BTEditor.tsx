@@ -55,6 +55,14 @@ type NodeClipboard = {
   edges: BTStoreEdge[];
 };
 
+type FlowPosition = { x: number; y: number };
+
+type CommentDragGroup = {
+  commentId: string;
+  startPosition: FlowPosition;
+  containedNodes: Array<{ id: string; startPosition: FlowPosition }>;
+};
+
 function isEditableTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
   return target.tagName === 'INPUT' ||
@@ -68,6 +76,39 @@ function cloneNodeData(data: BTNodeData): BTNodeData {
     ...JSON.parse(JSON.stringify(data)),
     status: BTExecutionStatus.IDLE,
   };
+}
+
+function getNodeSize(node: Node): { width: number; height: number } {
+  const data = node.data as unknown as BTNodeData;
+  if (data.type === BTNodeType.COMMENT) {
+    return {
+      width: data.commentWidth ?? node.measured?.width ?? node.width ?? 300,
+      height: data.commentHeight ?? node.measured?.height ?? node.height ?? 150,
+    };
+  }
+  return {
+    width: node.measured?.width ?? node.width ?? 130,
+    height: node.measured?.height ?? node.height ?? 60,
+  };
+}
+
+function isFullyInsideComment(node: Node, comment: Node): boolean {
+  const nodeSize = getNodeSize(node);
+  const commentSize = getNodeSize(comment);
+  const nodeLeft = node.position.x;
+  const nodeTop = node.position.y;
+  const nodeRight = nodeLeft + nodeSize.width;
+  const nodeBottom = nodeTop + nodeSize.height;
+  const commentLeft = comment.position.x;
+  const commentTop = comment.position.y;
+  const commentRight = commentLeft + commentSize.width;
+  const commentBottom = commentTop + commentSize.height;
+  return (
+    nodeLeft >= commentLeft &&
+    nodeTop >= commentTop &&
+    nodeRight <= commentRight &&
+    nodeBottom <= commentBottom
+  );
 }
 
 function isExecutionEdge(edge: {
@@ -102,6 +143,7 @@ export function BTEditor() {
   // Connection drag tracking — manual approach instead of onConnectEnd
   const connectDragRef = useRef<{ nodeId: string; handleId: string | null } | null>(null);
   const connectMadeRef = useRef(false);
+  const commentDragGroupRef = useRef<CommentDragGroup | null>(null);
 
   const [quickCreate, setQuickCreate] = useState<{
     sourceId: string;
@@ -307,13 +349,64 @@ export function BTEditor() {
   // ----- React Flow event handlers -----
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
+      const changedNodeIds = new Set(
+        changes.flatMap((change) => ('id' in change ? [change.id] : []))
+      );
       for (const change of changes) {
         if (change.type === 'position' && change.position) {
           updateNodePosition(change.id, change.position);
+
+          const movingNode = nodes.find((node) => node.id === change.id);
+          if (
+            movingNode?.data.type === BTNodeType.COMMENT &&
+            (change.dragging || commentDragGroupRef.current?.commentId === change.id)
+          ) {
+            let dragGroup = commentDragGroupRef.current;
+            if (change.dragging && (!dragGroup || dragGroup.commentId !== change.id)) {
+              const rfNodes = rfInstanceRef.current?.getNodes() ?? [];
+              const commentNode = rfNodes.find((node) => node.id === change.id);
+              if (commentNode) {
+                dragGroup = {
+                  commentId: change.id,
+                  startPosition: { ...movingNode.position },
+                  containedNodes: rfNodes
+                    .filter((node) => {
+                      if (node.id === change.id || changedNodeIds.has(node.id)) return false;
+                      const nodeData = node.data as unknown as BTNodeData;
+                      if (nodeData.type === BTNodeType.COMMENT) return false;
+                      return isFullyInsideComment(node, commentNode);
+                    })
+                    .map((node) => ({
+                      id: node.id,
+                      startPosition: { ...node.position },
+                    })),
+                };
+                commentDragGroupRef.current = dragGroup;
+              }
+            }
+
+            if (dragGroup) {
+              const snappedCommentPosition = snapPosition(change.position);
+              const delta = {
+                x: snappedCommentPosition.x - dragGroup.startPosition.x,
+                y: snappedCommentPosition.y - dragGroup.startPosition.y,
+              };
+              dragGroup.containedNodes.forEach((node) => {
+                updateNodePosition(node.id, {
+                  x: node.startPosition.x + delta.x,
+                  y: node.startPosition.y + delta.y,
+                });
+              });
+            }
+
+            if (change.dragging === false) {
+              commentDragGroupRef.current = null;
+            }
+          }
         }
       }
     },
-    [updateNodePosition]
+    [nodes, updateNodePosition]
   );
 
   const onSelectionChange = useCallback(
