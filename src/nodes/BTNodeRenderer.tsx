@@ -66,13 +66,15 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
   const isComment = nodeData.type === BTNodeType.COMMENT;
   const isCompare = nodeData.type === BTNodeType.COMPARE;
+  const isFunction = nodeData.type === BTNodeType.FUNCTION;
   const { actionById } = useActionCatalog();
   const actionConfig = nodeData.actionId ? actionById.get(nodeData.actionId) : undefined;
   const variables = useBTStore((s) => s.variables);
   const functions = useBTStore((s) => s.functions);
+  const pages = useBTStore((s) => s.pages);
 
   const showInput = nodeData.type !== BTNodeType.ROOT && !isGetVar && !isCondition && !isCompare;
-  const showOutput = isComposite || isDecorator || isSetVar;
+  const showOutput = isComposite || isDecorator || isSetVar || isFunction;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
   const variableDisplayName =
@@ -81,8 +83,13 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       : 'Variable';
   const functionDisplayName =
     nodeData.functionId
-      ? functions.find((func) => func.id === nodeData.functionId)?.name ?? 'Function'
-      : 'Function';
+      ? functions.find((func) => func.id === nodeData.functionId)?.name
+        ?? pages
+          .find((page) => page.id === nodeData.functionId)
+          ?.nodes.find((node) => node.data.type === BTNodeType.ROOT)?.data.label
+        ?? nodeData.label
+        ?? 'Function'
+      : nodeData.label ?? 'Function';
   const headerLabel =
     isSetVar
       ? `SET: ${variableDisplayName}`

@@ -55,8 +55,13 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
   };
 
   const pageList = [
-    { id: 'main', name: mainPageName, nodeCount: useBTStore.getState().nodes.length },
-    ...pages.map((p) => ({ id: p.id, name: p.name, nodeCount: p.nodes.length })),
+    { id: 'main', name: mainPageName, rootLabel: mainPageName, nodeCount: useBTStore.getState().nodes.length },
+    ...pages.map((p) => ({
+      id: p.id,
+      name: p.name,
+      rootLabel: p.nodes.find((node) => node.data.type === BTNodeType.ROOT)?.data.label ?? p.name,
+      nodeCount: p.nodes.length,
+    })),
   ];
 
   return (
@@ -85,6 +90,7 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
                 if (page.id === 'main' || page.id === activePageId) { e.preventDefault(); return; }
                 e.dataTransfer.setData('application/node-type', BTNodeType.FUNCTION);
                 e.dataTransfer.setData('application/function-id', page.id);
+                e.dataTransfer.setData('application/function-label', page.rootLabel);
                 e.dataTransfer.effectAllowed = 'move';
               }}
             >

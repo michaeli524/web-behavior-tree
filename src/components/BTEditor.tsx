@@ -754,8 +754,12 @@ export function BTEditor() {
       const data: Partial<BTNodeData> = {};
       if (nodeType === BTNodeType.FUNCTION) {
         const functionId = event.dataTransfer.getData('application/function-id');
+        const functionLabel = event.dataTransfer.getData('application/function-label');
         if (functionId) {
           data.functionId = functionId;
+        }
+        if (functionLabel) {
+          data.label = functionLabel;
         }
       }
 
