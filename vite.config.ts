@@ -6,7 +6,7 @@ import { execFile } from 'node:child_process'
 import type { IncomingMessage } from 'node:http'
 import { promisify } from 'node:util'
 
-const defaultTreeFile = process.env.BT_TREE_FILE ?? '/Users/miko/Desktop/电龙AI.json'
+const defaultTreeFile = process.env.BT_TREE_FILE ?? path.resolve(process.cwd(), 'public/电龙AI.json')
 const execFileAsync = promisify(execFile)
 
 function localTreeFilePlugin(): Plugin {
