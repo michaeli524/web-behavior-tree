@@ -1676,6 +1676,11 @@ input.bt-comment-title:focus {
 }
 
 /* ===== React Flow Overrides ===== */
+/* Draw edges on top of nodes so triangle handles visually connect */
+.react-flow__edges {
+  z-index: 1001 !important;
+}
+
 .react-flow__node {
   cursor: default !important;
 }

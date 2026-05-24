@@ -8,7 +8,6 @@ import {
   type Edge,
   type Connection,
   type OnConnectStartParams,
-  MarkerType,
   SelectionMode,
   type ReactFlowInstance,
   type NodeChange,
@@ -39,7 +38,6 @@ const edgeTypes = {
 
 const defaultEdgeOptions = {
   type: 'bt-edge' as const,
-  markerEnd: { type: MarkerType.ArrowClosed, color: '#475569' },
 };
 
 const SNAP_GRID: [number, number] = [10, 10];
