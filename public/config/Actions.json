@@ -26,13 +26,13 @@
   {
     "actionId": "Khezu_Tail_Thrust",
     "actionName": "尾刺-尾充能",
-    "gifPath": "/ActionsGIF/技能/尾巴插地放电-未充能.gif",
-    "comment": ""
+    "gifPath": "/ActionsGIF/技能/充能尾刺.gif",
+    "comment": "/ActionsGIF/技能/尾巴插地放电-未充能.gif"
   },
   {
     "actionId": "Khezu_Tail_Ground_Spike_Uncharged",
     "actionName": "尾巴插地放电-未充能",
-    "gifPath": "/ActionsGIF/技能/充能尾刺.gif",
+    "gifPath": "/ActionsGIF/技能/尾巴插地放电-未充能.gif",
     "comment": ""
   },
   {
