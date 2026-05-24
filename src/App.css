@@ -1803,3 +1803,48 @@
 .react-flow__pane {
   cursor: default !important;
 }
+
+/* ===== 2D Distance Between Node ===== */
+.bt-distance2d-body {
+  padding: 4px 10px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bt-distance2d-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  height: 28px;
+}
+
+.bt-distance2d-input {
+  width: 56px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg-primary);
+  border: 1px solid #666;
+  color: var(--text-primary);
+  border-radius: 3px;
+  outline: none;
+}
+
+.bt-distance2d-input:focus {
+  border-color: var(--accent);
+}
+
+.bt-distance2d-label {
+  font-size: 11px;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.bt-distance2d-pin {
+  position: absolute !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}

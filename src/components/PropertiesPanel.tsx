@@ -254,6 +254,31 @@ export function PropertiesPanel() {
         </div>
       )}
 
+      {data.type === BTNodeType.DISTANCE_2D && (
+        <>
+          <div className="prop-group">
+            <label>Start 值</label>
+            <input
+              type="text"
+              value={data.startValue ?? '0'}
+              onChange={(e) =>
+                updateNodeData(selectedNode.id, { startValue: e.target.value })
+              }
+            />
+          </div>
+          <div className="prop-group">
+            <label>End 值</label>
+            <input
+              type="text"
+              value={data.endValue ?? '0'}
+              onChange={(e) =>
+                updateNodeData(selectedNode.id, { endValue: e.target.value })
+              }
+            />
+          </div>
+        </>
+      )}
+
       {data.type === BTNodeType.REPEATER && (
         <div className="prop-group">
           <label>重复次数</label>

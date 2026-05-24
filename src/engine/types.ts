@@ -18,6 +18,7 @@ export const BTNodeType = {
   COMPARE: 'compare',
   TEST: 'test',
   APPROACH: 'approach',
+  DISTANCE_2D: 'distance-2d',
 } as const;
 
 export type BTNodeType = (typeof BTNodeType)[keyof typeof BTNodeType];
@@ -70,6 +71,8 @@ export interface BTNodeData {
   compareLeftValue?: string;
   compareValue?: string;
   approachDistance?: BTNumericValue;
+  startValue?: string;
+  endValue?: string;
 }
 
 export interface BTNode {

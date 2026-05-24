@@ -253,6 +253,12 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.SUCCESS;
     }
 
+    case BTNodeType.DISTANCE_2D: {
+      // Data node: computes 2D distance between start/end values
+      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+      return BTExecutionStatus.SUCCESS;
+    }
+
     case BTNodeType.GET_VARIABLE: {
       ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
       return BTExecutionStatus.SUCCESS;

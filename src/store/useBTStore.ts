@@ -139,6 +139,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.COMPARE]: '<',
   [BTNodeType.TEST]: 'Test',
   [BTNodeType.APPROACH]: 'Approach',
+  [BTNodeType.DISTANCE_2D]: '2D Distance Between',
 };
 
 function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTNodeData {
@@ -162,6 +163,8 @@ function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTN
     compareLeftValue: dataOverride?.compareLeftValue ?? '0',
     compareValue: dataOverride?.compareValue ?? '0',
     approachDistance: dataOverride?.approachDistance ?? 500,
+    startValue: dataOverride?.startValue ?? '0',
+    endValue: dataOverride?.endValue ?? '0',
   };
 }
 

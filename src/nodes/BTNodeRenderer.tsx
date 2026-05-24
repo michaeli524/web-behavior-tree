@@ -31,6 +31,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.COMPARE]: { color: '#7a5a5a', icon: '' },
   [BTNodeType.TEST]: { color: '#7a8a6b', icon: '🧪' },
   [BTNodeType.APPROACH]: { color: '#6b7a8a', icon: '🏃' },
+  [BTNodeType.DISTANCE_2D]: { color: '#7a6b8a', icon: '📐' },
 };
 
 const compositeTypes: BTNodeType[] = [
@@ -69,6 +70,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isLeaf = leafTypes.includes(nodeData.type);
   const isDist = nodeData.type === BTNodeType.DIST_SELECTOR;
   const isRandom = nodeData.type === BTNodeType.RANDOM_SELECTOR;
+  const isDistance2D = nodeData.type === BTNodeType.DISTANCE_2D;
   const isMultiOutputSelector = isDist || isRandom;
   const isGetVar = nodeData.type === BTNodeType.GET_VARIABLE;
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
@@ -325,7 +327,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       </div>
 
       {/* ── Execution row ── */}
-      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && (
+      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && !isDistance2D && (
         <div className="bt-node-exec-row">
           {(showInput || isCondition) && (
             <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
@@ -427,6 +429,43 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               {nodeData.approachDistance === '' ? '距目标' : `距目标 ≤ ${nodeData.approachDistance ?? 500}`}
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── 2D Distance Between body ── */}
+      {isDistance2D && (
+        <div className="bt-node-body bt-distance2d-body">
+          {/* Row 1: Start */}
+          <div className="bt-distance2d-row">
+            <input
+              className="bt-distance2d-input"
+              type="text"
+              placeholder="0"
+              value={nodeData.startValue ?? '0'}
+              onChange={(e) => updateNodeData(id, { startValue: e.target.value })}
+              onClick={(e) => e.stopPropagation()}
+            />
+            <span className="bt-distance2d-label">Start</span>
+          </div>
+          {/* Row 2: End + bool out */}
+          <div className="bt-distance2d-row">
+            <input
+              className="bt-distance2d-input"
+              type="text"
+              placeholder="0"
+              value={nodeData.endValue ?? '0'}
+              onChange={(e) => updateNodeData(id, { endValue: e.target.value })}
+              onClick={(e) => e.stopPropagation()}
+            />
+            <span className="bt-distance2d-label">End</span>
+            <Handle
+              type="source"
+              position={Position.Right}
+              id="data-out"
+              className="bt-handle bt-handle-data bt-distance2d-pin"
+              onClick={(e) => handleClick(e, 'data-out')}
+            />
+          </div>
         </div>
       )}
 

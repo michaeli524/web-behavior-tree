@@ -157,6 +157,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.SUCCEEDER, icon: '✓', label: 'Succeeder' },
   { type: BTNodeType.ACTION, icon: '⚡', label: 'Action' },
   { type: BTNodeType.APPROACH, icon: '🏃', label: 'Approach' },
+  { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Distance Between' },
   { type: BTNodeType.WAIT, icon: '⏱', label: 'Wait' },
 ];
 
