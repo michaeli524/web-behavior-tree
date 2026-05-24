@@ -1625,6 +1625,7 @@
         "randomWeights": [
           50,
           50,
+          20,
           20
         ],
         "operator": "<",
@@ -1912,7 +1913,7 @@
       "id": "combo-show_1779628913916_1",
       "type": "bt-node",
       "position": {
-        "x": 4200,
+        "x": 4145,
         "y": 195
       },
       "data": {
@@ -1920,7 +1921,7 @@
         "type": "combo-show",
         "condition": "",
         "action": "",
-        "actionId": "Khezu_Head_Tail_Combo",
+        "actionId": "Khezu_Double_Breath_Combo",
         "duration": 1000,
         "repeatCount": 1,
         "status": "idle",
@@ -2114,8 +2115,8 @@
       "id": "random-selector_1779633330512_3",
       "type": "bt-node",
       "position": {
-        "x": 2215,
-        "y": 395
+        "x": 2095,
+        "y": 970
       },
       "data": {
         "label": "Random Selector",
@@ -2147,8 +2148,8 @@
       "id": "action_1779633339894_5",
       "type": "bt-node",
       "position": {
-        "x": 2550,
-        "y": 425
+        "x": 2430,
+        "y": 1000
       },
       "data": {
         "label": "Action",
@@ -2181,8 +2182,8 @@
       "id": "action_1779633350820_7",
       "type": "bt-node",
       "position": {
-        "x": 3485,
-        "y": 475
+        "x": 3365,
+        "y": 1050
       },
       "data": {
         "label": "Action",
@@ -2215,8 +2216,8 @@
       "id": "condition_1779633350821_8",
       "type": "bt-node",
       "position": {
-        "x": 3030,
-        "y": 425
+        "x": 2910,
+        "y": 1000
       },
       "data": {
         "label": "Condition",
@@ -2248,8 +2249,8 @@
       "id": "distance-2d_1779633350821_9",
       "type": "bt-node",
       "position": {
-        "x": 2850,
-        "y": 485
+        "x": 2730,
+        "y": 1060
       },
       "data": {
         "label": "2D Dist Between",
@@ -2281,8 +2282,8 @@
       "id": "action_1779633350821_10",
       "type": "bt-node",
       "position": {
-        "x": 3210,
-        "y": 380
+        "x": 3090,
+        "y": 955
       },
       "data": {
         "label": "Action",
@@ -2290,6 +2291,173 @@
         "condition": "",
         "action": "",
         "actionId": "Khezu_Back_Step",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "angle-between-cw_1779634382692_1",
+      "type": "bt-node",
+      "position": {
+        "x": 2900,
+        "y": 455
+      },
+      "data": {
+        "label": "Angle Between CW",
+        "type": "angle-between-cw",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "120",
+        "endValue": "240"
+      }
+    },
+    {
+      "id": "action_1779634740196_2",
+      "type": "bt-node",
+      "position": {
+        "x": 2560,
+        "y": 365
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Head_Double_Swing_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "condition_1779634749129_3",
+      "type": "bt-node",
+      "position": {
+        "x": 3080,
+        "y": 365
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "reset_1779634758107_4",
+      "type": "bt-node",
+      "position": {
+        "x": 3275,
+        "y": 465
+      },
+      "data": {
+        "label": "Reset",
+        "type": "reset",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1779634764842_6",
+      "type": "bt-node",
+      "position": {
+        "x": 3275,
+        "y": 340
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Tail_Thrust",
         "duration": 1000,
         "repeatCount": 1,
         "status": "idle",
@@ -2748,6 +2916,39 @@
       "source": "action_1779633339894_5",
       "target": "condition_1779633350821_8",
       "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779634758108_5",
+      "source": "condition_1779634749129_3",
+      "target": "reset_1779634758107_4",
+      "sourceHandle": "exec-false"
+    },
+    {
+      "id": "edge_1779634764842_7",
+      "source": "condition_1779634749129_3",
+      "target": "action_1779634764842_6",
+      "sourceHandle": "exec-true"
+    },
+    {
+      "id": "edge_1779634789683_8",
+      "source": "angle-between-cw_1779634382692_1",
+      "target": "condition_1779634749129_3",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779634843207_9",
+      "source": "action_1779634740196_2",
+      "target": "condition_1779634749129_3",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779634879759_10",
+      "source": "random-selector_1779623537313_1",
+      "target": "action_1779634740196_2",
+      "sourceHandle": "random-2",
       "targetHandle": "exec-in"
     }
   ],

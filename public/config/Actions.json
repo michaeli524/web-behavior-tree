@@ -78,6 +78,12 @@
     "comment": ""
   },
   {
+    "actionId": "Khezu_Head_Double_Swing_Charged",
+    "actionName": "二连甩头-头、翅膀充能",
+    "gifPath": "/ActionsGIF/技能/二连甩头.gif",
+    "comment": ""
+  },
+  {
     "actionId": "Khezu_Overhead_Slam_Charged",
     "actionName": "斩舰刀-头充能",
     "gifPath": "/ActionsGIF/技能/斩舰刀-充能.gif",
@@ -96,9 +102,9 @@
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
-    "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "actionId": "Khezu_Double_Breath_Combo",
+    "actionName": "二连吐息+冲刺翅膀拍-头翅膀充电",
+    "gifPath": "/ActionsGIF/Combo/二连吐息+冲刺翅膀拍-头翅膀充电.gif",
     "comment": ""
   },
   {
