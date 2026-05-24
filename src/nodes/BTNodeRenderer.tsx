@@ -462,14 +462,14 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               onClick={(e) => e.stopPropagation()}
             />
             <span className="bt-distance2d-label">End</span>
-            <Handle
-              type="source"
-              position={Position.Right}
-              id="data-out"
-              className="bt-handle bt-handle-data bt-distance2d-pin"
-              onClick={(e) => handleClick(e, 'data-out')}
-            />
           </div>
+          <Handle
+            type="source"
+            position={Position.Right}
+            id="data-out"
+            className="bt-handle bt-handle-data bt-distance2d-pin"
+            onClick={(e) => handleClick(e, 'data-out')}
+          />
         </div>
       )}
 

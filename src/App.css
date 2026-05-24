@@ -1828,6 +1828,7 @@
 
 /* ===== 2D Distance Between Node ===== */
 .bt-distance2d-body {
+  position: relative;
   padding: 4px 10px 6px;
   display: flex;
   flex-direction: column;
@@ -1864,9 +1865,8 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
-.bt-distance2d-pin {
-  position: absolute !important;
-  right: 0 !important;
+.react-flow__handle-right.bt-handle.bt-distance2d-pin {
+  right: 12px !important;
   top: 50% !important;
-  transform: translateY(-50%) !important;
+  transform: translate(50%, -50%) !important;
 }
