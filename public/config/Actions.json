@@ -2,85 +2,85 @@
   {
     "actionId": "Khezu_Check_Bite",
     "actionName": "牵制咬",
-    "gifPath": "/ActionsGIF/牵制咬.gif",
+    "gifPath": "/ActionsGIF/技能/牵制咬.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Back_Step",
     "actionName": "后撤步",
-    "gifPath": "/ActionsGIF/正面后撤步.gif",
+    "gifPath": "/ActionsGIF/技能/正面后撤步.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Dash_Bite",
     "actionName": "前冲咬",
-    "gifPath": "/ActionsGIF/前冲咬.gif",
+    "gifPath": "/ActionsGIF/技能/前冲咬.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Tail_Sweep",
     "actionName": "甩尾",
-    "gifPath": "/ActionsGIF/180甩尾.gif",
+    "gifPath": "/ActionsGIF/技能/180甩尾.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Tail_Thrust",
     "actionName": "尾刺-尾充能",
-    "gifPath": "/ActionsGIF/尾巴插地放电-未充能.gif",
+    "gifPath": "/ActionsGIF/技能/尾巴插地放电-未充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Tail_Ground_Spike_Uncharged",
     "actionName": "尾巴插地放电-未充能",
-    "gifPath": "/ActionsGIF/充能尾刺.gif",
+    "gifPath": "/ActionsGIF/技能/充能尾刺.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Head_Slam_Uncharged",
     "actionName": "头顶二连-未充能",
-    "gifPath": "/ActionsGIF/头顶二连-未充能.gif",
+    "gifPath": "/ActionsGIF/技能/头顶二连-未充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Head_Slam_Charged",
     "actionName": "头顶二连-头充能",
-    "gifPath": "/ActionsGIF/头顶二连-充能.gif",
+    "gifPath": "/ActionsGIF/技能/头顶二连-充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Wing_Press_Uncharged",
     "actionName": "翅膀单次下拍-未充能",
-    "gifPath": "/ActionsGIF/翅膀单次下拍-未充能.gif",
+    "gifPath": "/ActionsGIF/技能/翅膀单次下拍-未充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Wing_Double_Press_Charged",
     "actionName": "翅膀下拍二连-翅膀充能",
-    "gifPath": "/ActionsGIF/翅膀二连拍-充能.gif",
+    "gifPath": "/ActionsGIF/技能/翅膀二连拍-充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Dash_Wing_Press_Charged",
     "actionName": "冲刺翅膀下拍-翅膀充能",
-    "gifPath": "/ActionsGIF/冲刺翅膀下拍-充能.gif",
+    "gifPath": "/ActionsGIF/技能/冲刺翅膀下拍-充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Double_Breath_Charged",
     "actionName": "二连吐息-头、翅膀充能",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "/ActionsGIF/技能/二连吐息-头、翅膀充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_Overhead_Slam_Charged",
     "actionName": "斩舰刀-头充能",
-    "gifPath": "/ActionsGIF/斩舰刀-充能.gif",
+    "gifPath": "/ActionsGIF/技能/斩舰刀-充能.gif",
     "comment": ""
   },
   {
     "actionId": "Khezu_AllCharged_Roar",
     "actionName": "全身充能吼叫",
-    "gifPath": "/ActionsGIF/进入完全充电状态.gif",
+    "gifPath": "/ActionsGIF/技能/进入完全充电状态.gif",
     "comment": ""
   },
   {
@@ -152,7 +152,7 @@
   {
     "actionId": "Khezu_Ult_Lightning_Dive",
     "actionName": "大招-闪电俯冲",
-    "gifPath": "/ActionsGIF/大招-闪电俯冲.gif",
+    "gifPath": "/ActionsGIF/技能/大招-闪电俯冲.gif",
     "comment": ""
   }
 ]
