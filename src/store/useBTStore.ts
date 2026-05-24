@@ -139,7 +139,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.COMPARE]: '<',
   [BTNodeType.TEST]: 'Test',
   [BTNodeType.APPROACH]: 'Approach',
-  [BTNodeType.DISTANCE_2D]: '2D Distance Between',
+  [BTNodeType.DISTANCE_2D]: '2D Dist Between',
   [BTNodeType.ANGLE_BETWEEN_CW]: 'Angle Between CW',
   [BTNodeType.RESET]: 'Reset',
   [BTNodeType.COMBO_SHOW]: 'ComboShow',

@@ -1073,7 +1073,7 @@
         "y": 2205
       },
       "data": {
-        "label": "2D Distance Between",
+        "label": "2D Dist Between",
         "type": "distance-2d",
         "condition": "",
         "action": "",
@@ -1983,7 +1983,7 @@
         "y": 200
       },
       "data": {
-        "label": "2D Distance Between",
+        "label": "2D Dist Between",
         "type": "distance-2d",
         "condition": "",
         "action": "",
@@ -2252,7 +2252,7 @@
         "y": 485
       },
       "data": {
-        "label": "2D Distance Between",
+        "label": "2D Dist Between",
         "type": "distance-2d",
         "condition": "",
         "action": "",

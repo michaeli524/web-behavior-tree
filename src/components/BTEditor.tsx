@@ -157,7 +157,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.SUCCEEDER, icon: '✓', label: 'Succeeder' },
   { type: BTNodeType.ACTION, icon: '⚡', label: 'Action' },
   { type: BTNodeType.APPROACH, icon: '🏃', label: 'Approach' },
-  { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Distance Between' },
+  { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Dist Between' },
   { type: BTNodeType.ANGLE_BETWEEN_CW, icon: '↻', label: 'Angle Between CW' },
   { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
   { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'ComboShow' },
