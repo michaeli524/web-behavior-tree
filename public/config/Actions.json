@@ -66,6 +66,12 @@
     "comment": ""
   },
   {
+    "actionId": "Khezu_Breath_Uncharged",
+    "actionName": "吐息-未充能",
+    "gifPath": "/ActionsGIF/技能/电流吐息-未充能.gif",
+    "comment": ""
+  },
+  {
     "actionId": "Khezu_Double_Breath_Charged",
     "actionName": "二连吐息-头、翅膀充能",
     "gifPath": "/ActionsGIF/技能/二连吐息-头、翅膀充能.gif",
