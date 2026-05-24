@@ -1,0 +1,1909 @@
+{
+  "nodes": [
+    {
+      "id": "root_1779032679753_1",
+      "type": "bt-node",
+      "position": {
+        "x": -130,
+        "y": 230
+      },
+      "data": {
+        "label": "Combat_Main",
+        "type": "root",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ]
+      }
+    },
+    {
+      "id": "action_1779033829786_10",
+      "type": "bt-node",
+      "position": {
+        "x": 1850,
+        "y": -490
+      },
+      "data": {
+        "label": "飞扑咬击",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "actionId": "Khezu_Tail_Sweep"
+      }
+    },
+    {
+      "id": "condition_1779587148130_5",
+      "type": "bt-node",
+      "position": {
+        "x": 240,
+        "y": 230
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "operator": "<",
+        "compareValue": "0"
+      }
+    },
+    {
+      "id": "get-variable_1779587153361_7",
+      "type": "bt-node",
+      "position": {
+        "x": 100,
+        "y": 300
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "variableId": "var_1779033673960_5",
+        "operator": "<",
+        "compareValue": "0"
+      }
+    },
+    {
+      "id": "sequence_1779588939265_2",
+      "type": "bt-node",
+      "position": {
+        "x": 620,
+        "y": -370
+      },
+      "data": {
+        "label": "Sequence",
+        "type": "sequence",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "operator": "<",
+        "compareValue": "0"
+      }
+    },
+    {
+      "id": "comment_1779588940394_4",
+      "type": "bt-node",
+      "position": {
+        "x": 590,
+        "y": -400
+      },
+      "data": {
+        "label": "身体完全充电的战斗分支",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "commentWidth": 190,
+        "commentHeight": 120,
+        "operator": "<",
+        "compareValue": "0"
+      }
+    },
+    {
+      "id": "sequence_1779589026810_5",
+      "type": "bt-node",
+      "position": {
+        "x": 600,
+        "y": 740
+      },
+      "data": {
+        "label": "Sequence",
+        "type": "sequence",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "operator": "<",
+        "compareValue": "0"
+      }
+    },
+    {
+      "id": "comment_1779589026810_6",
+      "type": "bt-node",
+      "position": {
+        "x": 570,
+        "y": 710
+      },
+      "data": {
+        "label": "未完全充电的战斗分支",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "commentWidth": 190,
+        "commentHeight": 120,
+        "operator": "<",
+        "compareValue": "0"
+      }
+    },
+    {
+      "id": "condition_1779590371092_1",
+      "type": "bt-node",
+      "position": {
+        "x": 1160,
+        "y": -370
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "get-variable_1779590452238_4",
+      "type": "bt-node",
+      "position": {
+        "x": 980,
+        "y": -280
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "variableId": "var_1779590375524_3",
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "comment_1779590468927_6",
+      "type": "bt-node",
+      "position": {
+        "x": 970,
+        "y": -410
+      },
+      "data": {
+        "label": "大招倒计时是否结束",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "commentWidth": 360,
+        "commentHeight": 190,
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779590633705_8",
+      "type": "bt-node",
+      "position": {
+        "x": 1470,
+        "y": -650
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Ult_Lightning_Dive",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "dist-selector_1779601930686_1",
+      "type": "bt-node",
+      "position": {
+        "x": 1470,
+        "y": -450
+      },
+      "data": {
+        "label": "Dist Selector",
+        "type": "dist-selector",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779602454600_10",
+      "type": "bt-node",
+      "position": {
+        "x": 2000,
+        "y": -250
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Overhead_Slam_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "comment_1779607904817_3",
+      "type": "bt-node",
+      "position": {
+        "x": 70,
+        "y": 200
+      },
+      "data": {
+        "label": "是否全身充电",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "commentWidth": 330,
+        "commentHeight": 190,
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "dist-selector_1779609575943_7",
+      "type": "bt-node",
+      "position": {
+        "x": 1550,
+        "y": 780
+      },
+      "data": {
+        "label": "Dist Selector",
+        "type": "dist-selector",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          600,
+          1200
+        ],
+        "operator": "<",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "random-selector_1779610292977_5",
+      "type": "bt-node",
+      "position": {
+        "x": 1760,
+        "y": 1570
+      },
+      "data": {
+        "label": "Random Selector",
+        "type": "random-selector",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          15,
+          30,
+          30
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "approach_1779610603807_3",
+      "type": "bt-node",
+      "position": {
+        "x": 2110,
+        "y": 1760
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 300
+      }
+    },
+    {
+      "id": "action_1779610739182_5",
+      "type": "bt-node",
+      "position": {
+        "x": 2480,
+        "y": 1760
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Wing_Press_Uncharged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "random-selector_1779610790344_7",
+      "type": "bt-node",
+      "position": {
+        "x": 2490,
+        "y": 510
+      },
+      "data": {
+        "label": "Random Selector",
+        "type": "random-selector",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          20,
+          10,
+          20,
+          40,
+          10
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779611023261_1",
+      "type": "bt-node",
+      "position": {
+        "x": 3060,
+        "y": 390
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Head_Slam_Uncharged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779611152797_9",
+      "type": "bt-node",
+      "position": {
+        "x": 2770,
+        "y": 520
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Tail_Sweep",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779611206569_11",
+      "type": "bt-node",
+      "position": {
+        "x": 2770,
+        "y": 640
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Back_Step",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779611404007_13",
+      "type": "bt-node",
+      "position": {
+        "x": 3060,
+        "y": 640
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Breath_Uncharged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "random-selector_1779611576703_18",
+      "type": "bt-node",
+      "position": {
+        "x": 1680,
+        "y": 1990
+      },
+      "data": {
+        "label": "Random Selector",
+        "type": "random-selector",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "approach_1779611581140_20",
+      "type": "bt-node",
+      "position": {
+        "x": 2390,
+        "y": 2040
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 300
+      }
+    },
+    {
+      "id": "action_1779611587307_22",
+      "type": "bt-node",
+      "position": {
+        "x": 2590,
+        "y": 2040
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Check_Bite",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779611718787_26",
+      "type": "bt-node",
+      "position": {
+        "x": 3060,
+        "y": 910
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Wing_Press_Uncharged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "approach_1779611805191_29",
+      "type": "bt-node",
+      "position": {
+        "x": 2110,
+        "y": 1630
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 300
+      }
+    },
+    {
+      "id": "action_1779611805192_30",
+      "type": "bt-node",
+      "position": {
+        "x": 2480,
+        "y": 1630
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Head_Slam_Uncharged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779611863028_33",
+      "type": "bt-node",
+      "position": {
+        "x": 2480,
+        "y": 1510
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Dash_Bite",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "condition_1779612216573_40",
+      "type": "bt-node",
+      "position": {
+        "x": 1050,
+        "y": 710
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "get-variable_1779612221191_42",
+      "type": "bt-node",
+      "position": {
+        "x": 880,
+        "y": 790
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1779033681780_6",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "get-variable_1779612223510_43",
+      "type": "bt-node",
+      "position": {
+        "x": 1320,
+        "y": 650
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1779033689313_7",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "condition_1779612276538_45",
+      "type": "bt-node",
+      "position": {
+        "x": 1480,
+        "y": 570
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "action_1779612567443_52",
+      "type": "bt-node",
+      "position": {
+        "x": 3290,
+        "y": 1160
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "condition_1779612575242_54",
+      "type": "bt-node",
+      "position": {
+        "x": 2760,
+        "y": 1220
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500
+      }
+    },
+    {
+      "id": "distance-2d_1779614333020_1",
+      "type": "bt-node",
+      "position": {
+        "x": 2570,
+        "y": 1250
+      },
+      "data": {
+        "label": "2D Distance Between",
+        "type": "distance-2d",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "100"
+      }
+    },
+    {
+      "id": "comment_1779614510274_2",
+      "type": "bt-node",
+      "position": {
+        "x": 2540,
+        "y": 1190
+      },
+      "data": {
+        "label": "距离非常近时释放尾巴插地技能",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 394,
+        "commentHeight": 192,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1779615474274_4",
+      "type": "bt-node",
+      "position": {
+        "x": 2440,
+        "y": 290
+      },
+      "data": {
+        "label": "头、翅膀充电未同时满足时",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 200,
+        "commentHeight": 80,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "condition_1779615586196_7",
+      "type": "bt-node",
+      "position": {
+        "x": 2840,
+        "y": 310
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "get-variable_1779615625778_12",
+      "type": "bt-node",
+      "position": {
+        "x": 2670,
+        "y": 350
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1779033681780_6",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1779615631782_14",
+      "type": "bt-node",
+      "position": {
+        "x": 3060,
+        "y": 270
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Head_Slam_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "reset_1779615964989_1",
+      "type": "bt-node",
+      "position": {
+        "x": 2940,
+        "y": 1360
+      },
+      "data": {
+        "label": "Reset",
+        "type": "reset",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "condition_1779615978505_3",
+      "type": "bt-node",
+      "position": {
+        "x": 3080,
+        "y": 1160
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "get-variable_1779615983000_4",
+      "type": "bt-node",
+      "position": {
+        "x": 2940,
+        "y": 1230
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1779033704242_8",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "reset_1779616135977_8",
+      "type": "bt-node",
+      "position": {
+        "x": 790,
+        "y": -260
+      },
+      "data": {
+        "label": "Reset",
+        "type": "reset",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "reset_1779616146491_10",
+      "type": "bt-node",
+      "position": {
+        "x": 810,
+        "y": 840
+      },
+      "data": {
+        "label": "Reset",
+        "type": "reset",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "condition_1779616572435_12",
+      "type": "bt-node",
+      "position": {
+        "x": 2840,
+        "y": 820
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "get-variable_1779616581583_14",
+      "type": "bt-node",
+      "position": {
+        "x": 2690,
+        "y": 870
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1779033689313_7",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1779616596353_17",
+      "type": "bt-node",
+      "position": {
+        "x": 3060,
+        "y": 790
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Wing_Double_Press_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge_1779587154777_8",
+      "source": "get-variable_1779587153361_7",
+      "target": "condition_1779587148130_5",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779588939266_3",
+      "source": "condition_1779587148130_5",
+      "target": "sequence_1779588939265_2",
+      "sourceHandle": "exec-true",
+      "data": {
+        "reroutePoints": []
+      }
+    },
+    {
+      "id": "edge_1779589031355_7",
+      "source": "condition_1779587148130_5",
+      "target": "sequence_1779589026810_5",
+      "sourceHandle": "exec-false",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779589923440_1",
+      "source": "root_1779032679753_1",
+      "target": "condition_1779587148130_5",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779590371092_2",
+      "source": "sequence_1779588939265_2",
+      "target": "condition_1779590371092_1",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779590460158_5",
+      "source": "get-variable_1779590452238_4",
+      "target": "condition_1779590371092_1",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779590633706_9",
+      "source": "condition_1779590371092_1",
+      "target": "action_1779590633705_8",
+      "sourceHandle": "exec-true"
+    },
+    {
+      "id": "edge_1779601930686_2",
+      "source": "condition_1779590371092_1",
+      "target": "dist-selector_1779601930686_1",
+      "sourceHandle": "exec-false"
+    },
+    {
+      "id": "edge_1779602454600_11",
+      "source": "dist-selector_1779601930686_1",
+      "target": "action_1779602454600_10",
+      "sourceHandle": "dist-1"
+    },
+    {
+      "id": "edge_1779610593456_2",
+      "source": "dist-selector_1779609575943_7",
+      "target": "random-selector_1779610292977_5",
+      "sourceHandle": "dist-1",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779610603808_4",
+      "source": "random-selector_1779610292977_5",
+      "target": "approach_1779610603807_3",
+      "sourceHandle": "random-2"
+    },
+    {
+      "id": "edge_1779610739182_6",
+      "source": "approach_1779610603807_3",
+      "target": "action_1779610739182_5",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779611404007_14",
+      "source": "action_1779611206569_11",
+      "target": "action_1779611404007_13",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779611576703_19",
+      "source": "dist-selector_1779609575943_7",
+      "target": "random-selector_1779611576703_18",
+      "sourceHandle": "dist-2"
+    },
+    {
+      "id": "edge_1779611581140_21",
+      "source": "random-selector_1779611576703_18",
+      "target": "approach_1779611581140_20",
+      "sourceHandle": "random-1"
+    },
+    {
+      "id": "edge_1779611587308_23",
+      "source": "approach_1779611581140_20",
+      "target": "action_1779611587307_22",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779611805192_31",
+      "source": "approach_1779611805191_29",
+      "target": "action_1779611805192_30",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779611810608_32",
+      "source": "random-selector_1779610292977_5",
+      "target": "approach_1779611805191_29",
+      "sourceHandle": "random-1",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779611863029_34",
+      "source": "random-selector_1779610292977_5",
+      "target": "action_1779611863028_33",
+      "sourceHandle": "random-0"
+    },
+    {
+      "id": "edge_1779612136323_37",
+      "source": "random-selector_1779610790344_7",
+      "target": "action_1779611152797_9",
+      "sourceHandle": "random-1",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779612148741_38",
+      "source": "random-selector_1779610790344_7",
+      "target": "action_1779611206569_11",
+      "sourceHandle": "random-2",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779612253437_44",
+      "source": "get-variable_1779612221191_42",
+      "target": "condition_1779612216573_40",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779612288143_47",
+      "source": "get-variable_1779612223510_43",
+      "target": "condition_1779612276538_45",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779612635853_56",
+      "source": "condition_1779612216573_40",
+      "target": "condition_1779612276538_45",
+      "sourceHandle": "exec-true",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779614156951_60",
+      "source": "random-selector_1779610790344_7",
+      "target": "condition_1779612575242_54",
+      "sourceHandle": "random-4",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779614505356_1",
+      "source": "distance-2d_1779614333020_1",
+      "target": "condition_1779612575242_54",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779615586197_8",
+      "source": "random-selector_1779610790344_7",
+      "target": "condition_1779615586196_7",
+      "sourceHandle": "random-0"
+    },
+    {
+      "id": "edge_1779615609661_11",
+      "source": "condition_1779615586196_7",
+      "target": "action_1779611023261_1",
+      "sourceHandle": "exec-false",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779615628237_13",
+      "source": "get-variable_1779615625778_12",
+      "target": "condition_1779615586196_7",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779615647168_15",
+      "source": "condition_1779615586196_7",
+      "target": "action_1779615631782_14",
+      "sourceHandle": "exec-true",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779615964989_2",
+      "source": "condition_1779612575242_54",
+      "target": "reset_1779615964989_1",
+      "sourceHandle": "exec-false"
+    },
+    {
+      "id": "edge_1779615985014_5",
+      "source": "get-variable_1779615983000_4",
+      "target": "condition_1779615978505_3",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779615987105_6",
+      "source": "condition_1779612575242_54",
+      "target": "condition_1779615978505_3",
+      "sourceHandle": "exec-true",
+      "targetHandle": "exec-in",
+      "data": {
+        "reroutePoints": []
+      }
+    },
+    {
+      "id": "edge_1779616135979_9",
+      "source": "sequence_1779588939265_2",
+      "target": "reset_1779616135977_8",
+      "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1779616572436_13",
+      "source": "random-selector_1779610790344_7",
+      "target": "condition_1779616572435_12",
+      "sourceHandle": "random-3"
+    },
+    {
+      "id": "edge_1779616584771_15",
+      "source": "get-variable_1779616581583_14",
+      "target": "condition_1779616572435_12",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1779616593778_16",
+      "source": "condition_1779616572435_12",
+      "target": "action_1779611718787_26",
+      "sourceHandle": "exec-false",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779616600799_18",
+      "source": "condition_1779616572435_12",
+      "target": "action_1779616596353_17",
+      "sourceHandle": "exec-true",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779616715413_19",
+      "source": "sequence_1779589026810_5",
+      "target": "reset_1779616146491_10",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1779616901008_22",
+      "source": "sequence_1779589026810_5",
+      "target": "condition_1779612216573_40",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_1779033673960_5",
+      "name": "AllCharged",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "id": "var_1779033681780_6",
+      "name": "HeadCharged",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "id": "var_1779033689313_7",
+      "name": "WingCharged",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "id": "var_1779033704242_8",
+      "name": "TailCharged",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "id": "var_1779590375524_3",
+      "name": "ChargeTimedUp",
+      "type": "boolean",
+      "value": false
+    }
+  ],
+  "functions": [],
+  "mainPageName": "Combat_Main",
+  "pages": [
+    {
+      "id": "page_1779587115504_1",
+      "name": "Combat_NoCharged",
+      "nodes": [
+        {
+          "id": "root_1779587115504_2",
+          "type": "bt-node",
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "data": {
+            "label": "Combat_NoCharged",
+            "type": "root",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "operator": "<",
+            "compareValue": "0"
+          }
+        }
+      ],
+      "edges": []
+    },
+    {
+      "id": "page_1779587127574_3",
+      "name": "Combat_AllCharged",
+      "nodes": [
+        {
+          "id": "root_1779587127574_4",
+          "type": "bt-node",
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "data": {
+            "label": "Combat_AllCharged",
+            "type": "root",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "operator": "<",
+            "compareValue": "0"
+          }
+        }
+      ],
+      "edges": []
+    }
+  ]
+}
