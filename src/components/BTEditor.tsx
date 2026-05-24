@@ -316,6 +316,25 @@ export function BTEditor() {
     [edges, updateEdgeReroutePoints]
   );
 
+  const addReroutePoint = useCallback(
+    (edgeId: string, position: { x: number; y: number }) => {
+      const edge = edges.find((item) => item.id === edgeId);
+      if (!edge || !isExecutionEdge(edge)) return;
+
+      const point = {
+        id: generateId('reroute'),
+        ...snapPosition(position),
+      };
+      const reroutePoints = [
+        ...((edge.data?.reroutePoints as BTEdgeReroutePoint[] | undefined) ?? []),
+        point,
+      ];
+      updateEdgeReroutePoints(edge.id, reroutePoints);
+      setSelectedReroutePoint({ edgeId: edge.id, pointId: point.id });
+    },
+    [edges, updateEdgeReroutePoints]
+  );
+
   // ----- React Flow node/edge derivation -----
   const rfNodes: Node[] = useMemo(
     () =>
@@ -341,9 +360,10 @@ export function BTEditor() {
             selectedReroutePoint?.edgeId === e.id ? selectedReroutePoint.pointId : null,
           onReroutePointSelect: selectReroutePoint,
           onReroutePointMove: moveReroutePoint,
+          onReroutePointAdd: addReroutePoint,
         },
       })) as Edge[],
-    [edges, selectedReroutePoint, selectReroutePoint, moveReroutePoint]
+    [edges, selectedReroutePoint, selectReroutePoint, moveReroutePoint, addReroutePoint]
   );
 
   // ----- React Flow event handlers -----
@@ -738,24 +758,17 @@ export function BTEditor() {
 
   const onEdgeDoubleClick = useCallback(
     (event: React.MouseEvent, edge: Edge) => {
-      if (!isExecutionEdge(edge)) return;
       const rfInstance = rfInstanceRef.current;
       if (!rfInstance) return;
       event.preventDefault();
       event.stopPropagation();
 
-      const point = {
-        id: generateId('reroute'),
-        ...snapPosition(rfInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY })),
-      };
-      const reroutePoints = [
-        ...((edge.data?.reroutePoints as BTEdgeReroutePoint[] | undefined) ?? []),
-        point,
-      ];
-      updateEdgeReroutePoints(edge.id, reroutePoints);
-      setSelectedReroutePoint({ edgeId: edge.id, pointId: point.id });
+      addReroutePoint(
+        edge.id,
+        rfInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY })
+      );
     },
-    [updateEdgeReroutePoints]
+    [addReroutePoint]
   );
 
   const onEdgesDelete = useCallback(

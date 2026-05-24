@@ -19,13 +19,20 @@ type BTEdgeRenderData = {
     pointId: string,
     position: { x: number; y: number }
   ) => void;
+  onReroutePointAdd?: (edgeId: string, position: { x: number; y: number }) => void;
 };
 
-function getReroutedPath(
+function stripMoveCommand(path: string) {
+  return path.replace(/^M\s*[-\d.]+[,\s]+[-\d.]+\s*/, '');
+}
+
+function getReroutedBezierPath(
   sourceX: number,
   sourceY: number,
   targetX: number,
   targetY: number,
+  sourcePosition: EdgeProps['sourcePosition'],
+  targetPosition: EdgeProps['targetPosition'],
   points: BTEdgeReroutePoint[]
 ) {
   const pathPoints = [
@@ -35,7 +42,19 @@ function getReroutedPath(
   ];
 
   return pathPoints
-    .map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`)
+    .slice(0, -1)
+    .map((point, index) => {
+      const nextPoint = pathPoints[index + 1];
+      const [segmentPath] = getBezierPath({
+        sourceX: point.x,
+        sourceY: point.y,
+        sourcePosition,
+        targetX: nextPoint.x,
+        targetY: nextPoint.y,
+        targetPosition,
+      });
+      return index === 0 ? segmentPath : stripMoveCommand(segmentPath);
+    })
     .join(' ');
 }
 
@@ -61,7 +80,7 @@ export function BTEdge({
     ? getStraightPath({ sourceX, sourceY, targetX, targetY })
     : getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
   const edgePath = reroutePoints.length > 0
-    ? getReroutedPath(sourceX, sourceY, targetX, targetY, reroutePoints)
+    ? getReroutedBezierPath(sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, reroutePoints)
     : defaultPath;
 
   const startPointDrag = (event: React.MouseEvent, point: BTEdgeReroutePoint) => {
@@ -87,10 +106,26 @@ export function BTEdge({
 
   return (
     <>
+      <path
+        d={edgePath}
+        fill="none"
+        stroke="transparent"
+        strokeWidth={22}
+        className="bt-edge-hit-area"
+        onDoubleClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          edgeData.onReroutePointAdd?.(
+            id,
+            reactFlow.screenToFlowPosition({ x: event.clientX, y: event.clientY })
+          );
+        }}
+      />
       <BaseEdge
         id={id}
         path={edgePath}
         markerEnd={markerEnd}
+        interactionWidth={0}
         style={{
           stroke: selected ? '#6366f1' : '#475569',
           strokeWidth: selected ? 3 : 2,
@@ -116,8 +151,8 @@ export function BTEdge({
                   transform: `translate(-50%, -50%) translate(${point.x}px, ${point.y}px)`,
                   borderColor: pointSelected ? '#f8fafc' : '#64748b',
                   boxShadow: pointSelected
-                    ? '0 0 0 3px rgba(99, 102, 241, 0.45)'
-                    : '0 0 0 2px rgba(15, 23, 42, 0.85)',
+                    ? '0 0 0 2px rgba(99, 102, 241, 0.45)'
+                    : '0 0 0 1px rgba(15, 23, 42, 0.85)',
                 }}
               />
             );

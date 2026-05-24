@@ -1091,10 +1091,10 @@
 
 .bt-edge-reroute-point {
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 9px;
+  height: 9px;
   padding: 0;
-  border: 2px solid #64748b;
+  border: 1.5px solid #64748b;
   border-radius: 50%;
   background: #111827;
   cursor: grab;
@@ -1104,6 +1104,11 @@
 
 .bt-edge-reroute-point:active {
   cursor: grabbing;
+}
+
+.bt-edge-hit-area {
+  pointer-events: stroke;
+  cursor: crosshair;
 }
 
 .bt-node-header {
