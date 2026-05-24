@@ -33,6 +33,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.APPROACH]: { color: '#6b7a8a', icon: '🏃' },
   [BTNodeType.DISTANCE_2D]: { color: '#7a6b8a', icon: '📐' },
   [BTNodeType.RESET]: { color: '#8a5a5a', icon: '🔄' },
+  [BTNodeType.COMBO_SHOW]: { color: '#7a6b5a', icon: '🎬' },
 };
 
 const compositeTypes: BTNodeType[] = [
@@ -73,6 +74,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isRandom = nodeData.type === BTNodeType.RANDOM_SELECTOR;
   const isDistance2D = nodeData.type === BTNodeType.DISTANCE_2D;
   const isReset = nodeData.type === BTNodeType.RESET;
+  const isComboShow = nodeData.type === BTNodeType.COMBO_SHOW;
   const isMultiOutputSelector = isDist || isRandom;
   const isGetVar = nodeData.type === BTNodeType.GET_VARIABLE;
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
@@ -311,7 +313,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       style={{
         borderColor,
         borderRadius: '6px',
-        minWidth: isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
+        minWidth: isComboShow ? 260 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
         background: nodeData.type === BTNodeType.ROOT ? '#484850' : '#484848',
       }}
     >
@@ -329,7 +331,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       </div>
 
       {/* ── Execution row ── */}
-      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && !isDistance2D && (
+      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && !isDistance2D && !isComboShow && (
         <div className="bt-node-exec-row">
           {(showInput || isCondition) && (
             <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
@@ -474,6 +476,27 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       {/* ── Reset node — terminal, empty body ── */}
       {isReset && (
         <div className="bt-node-body" />
+      )}
+
+      {/* ── ComboShow node — Action card without execution ports ── */}
+      {isComboShow && (
+        <div className="bt-node-body">
+          <div className="bt-action-card">
+            {actionConfig?.gifPath ? (
+              <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
+            ) : (
+              <div className="bt-action-thumb bt-action-thumb-empty">GIF</div>
+            )}
+            <div className="bt-action-meta">
+              <div className="bt-action-id">
+                {actionConfig?.actionId ?? nodeData.actionId ?? '请选择动作'}
+              </div>
+              <div className="bt-action-name">
+                {actionConfig?.actionName ?? (nodeData.actionId ? '未找到对应 Action 配置' : '资源未配置')}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ── Set Variable body ── */}

@@ -141,6 +141,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.APPROACH]: 'Approach',
   [BTNodeType.DISTANCE_2D]: '2D Distance Between',
   [BTNodeType.RESET]: 'Reset',
+  [BTNodeType.COMBO_SHOW]: 'ComboShow',
 };
 
 function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTNodeData {

@@ -159,6 +159,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.APPROACH, icon: '🏃', label: 'Approach' },
   { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Distance Between' },
   { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
+  { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'ComboShow' },
   { type: BTNodeType.WAIT, icon: '⏱', label: 'Wait' },
 ];
 
@@ -744,7 +745,7 @@ export function BTEditor() {
       if (data.type === BTNodeType.FUNCTION && data.functionId) {
         setActivePageId(data.functionId);
       }
-      if (data.type === BTNodeType.ACTION && data.actionId) {
+      if ((data.type === BTNodeType.ACTION || data.type === BTNodeType.COMBO_SHOW) && data.actionId) {
         const actionConfig = actionById.get(data.actionId);
         if (!actionConfig?.gifPath) return;
         setActionPreview({

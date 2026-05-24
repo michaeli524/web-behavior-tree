@@ -228,6 +228,102 @@ export function PropertiesPanel() {
         </>
       )}
 
+      {data.type === BTNodeType.COMBO_SHOW && (
+        <>
+          <div className="prop-group">
+            <label>技能配置</label>
+            <div className="action-id-combobox">
+              <input
+                type="text"
+                className="action-id-input"
+                placeholder="Search ActionId..."
+                value={actionQuery}
+                autoComplete="off"
+                onFocus={() => {
+                  setIsActionPickerOpen(true);
+                  setHighlightedActionIndex(0);
+                }}
+                onBlur={() => window.setTimeout(() => setIsActionPickerOpen(false), 120)}
+                onChange={(e) => {
+                  updateNodeData(selectedNode.id, {
+                    actionId: e.target.value.trim() || undefined,
+                  });
+                  setIsActionPickerOpen(true);
+                  setHighlightedActionIndex(0);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') { setIsActionPickerOpen(false); return; }
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    setIsActionPickerOpen(true);
+                    setHighlightedActionIndex((index) => actionOptions.length ? (index + 1) % actionOptions.length : 0);
+                    return;
+                  }
+                  if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    setIsActionPickerOpen(true);
+                    setHighlightedActionIndex((index) => actionOptions.length ? (index - 1 + actionOptions.length) % actionOptions.length : 0);
+                    return;
+                  }
+                  if (e.key === 'Enter' && activeActionIndex >= 0) {
+                    e.preventDefault();
+                    selectActionId(actionOptions[activeActionIndex].actionId);
+                  }
+                }}
+              />
+              {actionQuery && (
+                <button type="button" className="action-id-clear" title="清空 ActionId"
+                  onMouseDown={(e) => e.preventDefault()} onClick={() => selectActionId('')}>×</button>
+              )}
+              <button type="button" className="action-id-toggle" title="展开 ActionId 列表"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => { setIsActionPickerOpen((open) => !open); setHighlightedActionIndex(0); }}>▾</button>
+              {isActionPickerOpen && (
+                <div className="action-id-menu">
+                  {actionOptions.length > 0 ? (
+                    actionOptions.map((action, index) => (
+                      <button type="button" key={action.actionId}
+                        className={`action-id-option ${index === activeActionIndex ? 'highlighted' : ''} ${action.actionId === data.actionId ? 'selected' : ''}`}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onMouseEnter={() => setHighlightedActionIndex(index)}
+                        onClick={() => selectActionId(action.actionId)}>{action.actionId}</button>
+                    ))
+                  ) : (
+                    <div className="action-id-empty">无匹配 ActionId</div>
+                  )}
+                </div>
+              )}
+            </div>
+            {actionCatalogError && <div className="prop-error">{actionCatalogError}</div>}
+          </div>
+
+          <div className="prop-group">
+            <label>中文名称</label>
+            <input type="text" value={selectedAction?.actionName ?? ''}
+              placeholder="根据 ActionId 自动映射" disabled />
+          </div>
+
+          <div className="action-preview-panel">
+            {selectedAction?.gifPath ? (
+              <ActionPreviewImage src={selectedAction.gifPath} alt={selectedAction.actionId} />
+            ) : data.actionId ? (
+              <div className="action-preview-empty">未找到 ActionId: {data.actionId}</div>
+            ) : (
+              <div className="action-preview-empty">选择一个 ActionId 后显示 GIF 预览</div>
+            )}
+            {selectedAction && (
+              <>
+                <div className="action-preview-title">{selectedAction.actionId}</div>
+                <div className="action-preview-grid">
+                  <span>ActionId</span><strong>{selectedAction.actionId}</strong>
+                  <span>GIF</span><strong>{selectedAction.gifPath}</strong>
+                </div>
+              </>
+            )}
+          </div>
+        </>
+      )}
+
       {data.type === BTNodeType.WAIT && (
         <div className="prop-group">
           <label>等待时长 (ms)</label>

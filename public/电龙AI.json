@@ -1736,6 +1736,40 @@
         "startValue": "0",
         "endValue": "0"
       }
+    },
+    {
+      "id": "combo-show_1779627119406_1",
+      "type": "bt-node",
+      "position": {
+        "x": 3350,
+        "y": -50
+      },
+      "data": {
+        "label": "ComboShow",
+        "type": "combo-show",
+        "condition": "",
+        "action": "",
+        "actionId": "Khezu_Head_Tail_Combo",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
     }
   ],
   "edges": [

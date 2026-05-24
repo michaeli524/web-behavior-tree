@@ -265,6 +265,12 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.SUCCESS;
     }
 
+    case BTNodeType.COMBO_SHOW: {
+      // Display node: renders Action card but does not execute
+      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+      return BTExecutionStatus.SUCCESS;
+    }
+
     case BTNodeType.GET_VARIABLE: {
       ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
       return BTExecutionStatus.SUCCESS;

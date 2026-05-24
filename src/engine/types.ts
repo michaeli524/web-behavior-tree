@@ -20,6 +20,7 @@ export const BTNodeType = {
   APPROACH: 'approach',
   DISTANCE_2D: 'distance-2d',
   RESET: 'reset',
+  COMBO_SHOW: 'combo-show',
 } as const;
 
 export type BTNodeType = (typeof BTNodeType)[keyof typeof BTNodeType];
