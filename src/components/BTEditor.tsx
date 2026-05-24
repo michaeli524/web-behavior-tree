@@ -1012,6 +1012,11 @@ function ActionLightbox({
   onClose: () => void;
 }) {
   const [failed, setFailed] = useState(false);
+  const replayGifPath = useMemo(() => {
+    const [pathAndQuery, hash = ''] = gifPath.split('#');
+    const separator = pathAndQuery.includes('?') ? '&' : '?';
+    return `${pathAndQuery}${separator}replay=${Date.now()}${hash ? `#${hash}` : ''}`;
+  }, [gifPath]);
 
   return (
     <div className="action-lightbox" onMouseDown={onClose}>
@@ -1028,7 +1033,7 @@ function ActionLightbox({
           {failed ? (
             <div className="action-lightbox-empty">GIF 文件待放入项目资源目录</div>
           ) : (
-            <img src={gifPath} alt={actionId} onError={() => setFailed(true)} />
+            <img src={replayGifPath} alt={actionId} onError={() => setFailed(true)} />
           )}
         </div>
         <div className="action-lightbox-meta">
