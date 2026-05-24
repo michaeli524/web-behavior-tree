@@ -205,6 +205,34 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.FAILURE;
     }
 
+    case BTNodeType.RANDOM_SELECTOR: {
+      const edges = ctx.getEdgesBySource(node.id)
+        .filter((edge) => edge.sourceHandle?.startsWith('random-'));
+      if (edges.length === 0) {
+        ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+        return BTExecutionStatus.SUCCESS;
+      }
+
+      const weights = node.data.randomWeights ?? [50, 30, 20];
+      const options = edges.map((edge) => {
+        const index = Number(edge.sourceHandle?.replace('random-', '') ?? 0);
+        return {
+          target: edge.target,
+          weight: Math.max(0, weights[index] ?? 0),
+        };
+      });
+      const totalWeight = options.reduce((sum, option) => sum + option.weight, 0);
+      let pick = totalWeight > 0 ? Math.random() * totalWeight : Math.random() * options.length;
+      const selected = options.find((option) => {
+        pick -= totalWeight > 0 ? option.weight : 1;
+        return pick <= 0;
+      }) ?? options[options.length - 1];
+
+      const status = tickChild(selected.target, ctx);
+      ctx.onNodeTick(node.id, status);
+      return status;
+    }
+
     case BTNodeType.ACTION: {
       const status = executeAction(node.data.action ?? '', ctx);
       ctx.onNodeTick(node.id, status);

@@ -11,6 +11,7 @@ export const BTNodeType = {
   SUCCEEDER: 'succeeder',
   FUNCTION: 'function',
   DIST_SELECTOR: 'dist-selector',
+  RANDOM_SELECTOR: 'random-selector',
   GET_VARIABLE: 'get-variable',
   SET_VARIABLE: 'set-variable',
   COMMENT: 'comment',
@@ -58,11 +59,13 @@ export interface BTNodeData {
   status?: BTExecutionStatus;
   functionId?: string;
   distances?: number[];
+  randomWeights?: number[];
   variableId?: string;
   setValue?: string;
   commentWidth?: number;
   commentHeight?: number;
   operator?: string;
+  compareLeftValue?: string;
   compareValue?: string;
   approachDistance?: number;
 }

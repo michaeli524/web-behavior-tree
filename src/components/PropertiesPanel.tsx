@@ -307,6 +307,49 @@ export function PropertiesPanel() {
         </div>
       )}
 
+      {data.type === BTNodeType.RANDOM_SELECTOR && (
+        <div className="prop-group">
+          <label>随机权重</label>
+          <div className="dist-list">
+            {(data.randomWeights ?? [50, 30, 20]).map((weight, i) => (
+              <div key={i} className="dist-row">
+                <input
+                  type="number"
+                  min="0"
+                  value={weight}
+                  onChange={(e) => {
+                    const newWeights = [...(data.randomWeights ?? [50, 30, 20])];
+                    newWeights[i] = Number(e.target.value);
+                    updateNodeData(selectedNode.id, { randomWeights: newWeights });
+                  }}
+                />
+                <button
+                  className="btn btn-small btn-danger"
+                  onClick={() => {
+                    const newWeights = [...(data.randomWeights ?? [50, 30, 20])];
+                    if (newWeights.length <= 1) return;
+                    newWeights.splice(i, 1);
+                    updateNodeData(selectedNode.id, { randomWeights: newWeights });
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            className="btn btn-secondary btn-small"
+            style={{ marginTop: 6 }}
+            onClick={() => {
+              const cur = data.randomWeights ?? [50, 30, 20];
+              updateNodeData(selectedNode.id, { randomWeights: [...cur, 10] });
+            }}
+          >
+            + 新增权重
+          </button>
+        </div>
+      )}
+
       {(data.type === BTNodeType.GET_VARIABLE || data.type === BTNodeType.SET_VARIABLE) && (
         <div className="prop-group">
           <label>变量</label>
@@ -339,6 +382,7 @@ export function PropertiesPanel() {
               <option value="<=">&lt;=</option>
               <option value=">">&gt;</option>
               <option value=">=">&gt;=</option>
+              <option value="=">=</option>
               <option value="==">==</option>
             </select>
           </div>

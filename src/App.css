@@ -1574,20 +1574,75 @@
 }
 
 /* ===== Compare Node ===== */
-.bt-compare-body {
+.bt-compare-node {
+  position: relative;
+  width: 136px;
+  padding: 4px 16px 4px 20px;
+  border: 2px solid #5f6f86;
+  border-radius: 6px;
+  background: #2b2d33;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 12px rgba(0,0,0,0.45);
+}
+
+.bt-compare-center {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 4px 8px 6px;
+  justify-content: center;
+  min-height: 20px;
+  margin: -1px 0;
 }
 
 .bt-compare-op {
-  font-size: 18px;
+  min-width: 36px;
+  padding: 1px 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  background: #171a20;
+  color: #f4d06f;
+  font-size: 17px;
   font-weight: 700;
-  color: #e07070;
   font-family: 'JetBrains Mono', monospace;
   line-height: 1;
+  text-align: center;
+}
+
+.bt-compare-pin-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 18px;
+  padding-left: 10px;
+}
+
+.bt-compare-value-input {
+  width: 76px;
+  min-width: 0;
+  padding: 1px 5px;
+  border: 1px solid #4b5563;
+  border-radius: 3px;
+  background: #111827;
+  color: var(--text-primary);
+  font-size: 10px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  outline: none;
+}
+
+.bt-compare-value-input:focus {
+  border-color: #f4d06f;
+}
+
+.bt-compare-pin {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+.react-flow__handle-left.bt-compare-pin-left {
+  left: -7px !important;
+}
+
+.react-flow__handle-right.bt-compare-pin-right {
+  right: -8px !important;
 }
 
 /* ===== Variable Nodes ===== */

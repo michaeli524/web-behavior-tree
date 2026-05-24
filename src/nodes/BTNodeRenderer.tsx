@@ -24,6 +24,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.SUCCEEDER]: { color: '#7a8c5a', icon: '✓' },
   [BTNodeType.FUNCTION]: { color: '#8a6e4a', icon: '📦' },
   [BTNodeType.DIST_SELECTOR]: { color: '#6b8a7a', icon: '📏' },
+  [BTNodeType.RANDOM_SELECTOR]: { color: '#8a6b78', icon: '🎲' },
   [BTNodeType.GET_VARIABLE]: { color: '#8a5a6a', icon: '📤' },
   [BTNodeType.SET_VARIABLE]: { color: '#6a7a5a', icon: '📥' },
   [BTNodeType.COMMENT]: { color: '#5a6a5a', icon: '💬' },
@@ -67,6 +68,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isCondition = nodeData.type === BTNodeType.CONDITION;
   const isLeaf = leafTypes.includes(nodeData.type);
   const isDist = nodeData.type === BTNodeType.DIST_SELECTOR;
+  const isRandom = nodeData.type === BTNodeType.RANDOM_SELECTOR;
+  const isMultiOutputSelector = isDist || isRandom;
   const isGetVar = nodeData.type === BTNodeType.GET_VARIABLE;
   const isSetVar = nodeData.type === BTNodeType.SET_VARIABLE;
   const isComment = nodeData.type === BTNodeType.COMMENT;
@@ -77,11 +80,13 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const variables = useBTStore((s) => s.variables);
   const functions = useBTStore((s) => s.functions);
   const pages = useBTStore((s) => s.pages);
+  const edges = useBTStore((s) => s.edges);
 
   const showInput = nodeData.type !== BTNodeType.ROOT && !isGetVar && !isCondition && !isCompare;
   const showOutput = isComposite || isDecorator || isSetVar || isFunction || nodeData.type === BTNodeType.APPROACH;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
+  const randomWeights = nodeData.randomWeights ?? [50, 30, 20];
   const variableDisplayName =
     nodeData.variableId
       ? variables.find((variable) => variable.id === nodeData.variableId)?.name ?? 'Variable'
@@ -235,13 +240,74 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     );
   }
 
+  if (isCompare) {
+    const operator = nodeData.operator ?? '<';
+    const hasLeftInput = edges.some((edge) => edge.target === id && edge.targetHandle === 'data-in-a');
+    const hasRightInput = edges.some((edge) => edge.target === id && edge.targetHandle === 'data-in-b');
+    return (
+      <div
+        className={`bt-node bt-compare-node ${selected ? 'selected' : ''}`}
+        style={{ borderColor }}
+      >
+        <div className="bt-compare-pin-row">
+          <Handle
+            type="target"
+            position={Position.Left}
+            id="data-in-a"
+            className="bt-handle bt-handle-data bt-compare-pin bt-compare-pin-left"
+            onClick={(e) => handleClick(e, 'data-in-a')}
+          />
+          {!hasLeftInput && (
+            <input
+              className="bt-compare-value-input"
+              type="text"
+              value={nodeData.compareLeftValue ?? '0'}
+              onChange={(e) => updateNodeData(id, { compareLeftValue: e.target.value })}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+        </div>
+        <div className="bt-compare-center">
+          <span className="bt-compare-op">{operator}</span>
+          <Handle
+            type="source"
+            position={Position.Right}
+            id="data-out"
+            className="bt-handle bt-handle-data bt-compare-pin bt-compare-pin-right"
+            onClick={(e) => handleClick(e, 'data-out')}
+          />
+        </div>
+        <div className="bt-compare-pin-row">
+          <Handle
+            type="target"
+            position={Position.Left}
+            id="data-in-b"
+            className="bt-handle bt-handle-data bt-compare-pin bt-compare-pin-left"
+            onClick={(e) => handleClick(e, 'data-in-b')}
+          />
+          {!hasRightInput && (
+            <input
+              className="bt-compare-value-input"
+              type="text"
+              value={nodeData.compareValue ?? '0'}
+              onChange={(e) => updateNodeData(id, { compareValue: e.target.value })}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`bt-node ${nodeData.type === BTNodeType.TEST ? 'bt-node-test' : ''} ${selected ? 'selected' : ''}`}
       style={{
         borderColor,
         borderRadius: '6px',
-        minWidth: isDist ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
+        minWidth: isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
         background: nodeData.type === BTNodeType.ROOT ? '#484850' : '#484848',
       }}
     >
@@ -259,7 +325,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       </div>
 
       {/* ── Execution row ── */}
-      {!isDist && !isGetVar && !isComment && !isCompare && (
+      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && (
         <div className="bt-node-exec-row">
           {(showInput || isCondition) && (
             <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
@@ -289,8 +355,23 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         </div>
       )}
 
+      {/* ── RandomSelector body ── */}
+      {isRandom && (
+        <div className="bt-node-body bt-node-dist-body">
+          <div className="bt-node-exec-row">
+            <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
+          </div>
+          {randomWeights.map((weight, i) => (
+            <div key={`random-${i}`} className="bt-node-dist-row">
+              <span className="bt-node-dist-label">{weight}</span>
+              <Handle type="source" position={Position.Right} id={`random-${i}`} className="bt-handle bt-handle-dist" onClick={(e) => handleClick(e, `random-${i}`)} />
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* ── Regular composite/decorator body ── */}
-      {(isComposite || isDecorator) && !isDist && (
+      {(isComposite || isDecorator) && !isMultiOutputSelector && (
         <div className="bt-node-body">
           {nodeData.type === BTNodeType.REPEATER && (
             <div className="bt-node-cond">×{nodeData.repeatCount ?? 1}</div>
@@ -344,28 +425,6 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           {nodeData.type === BTNodeType.APPROACH && (
             <div className="bt-node-cond">距目标 &le; {nodeData.approachDistance ?? 500}</div>
           )}
-        </div>
-      )}
-
-      {/* ── Compare data row ── */}
-      {isCompare && (
-        <div className="bt-node-exec-row">
-          <Handle type="target" position={Position.Left} id="data-in" className="bt-handle bt-handle-data bt-handle-exec-row" onClick={(e) => handleClick(e, 'data-in')} />
-          <Handle type="source" position={Position.Right} id="data-out" className="bt-handle bt-handle-data bt-handle-exec-row" onClick={(e) => handleClick(e, 'data-out')} />
-        </div>
-      )}
-
-      {/* ── Compare node ── */}
-      {isCompare && (
-        <div className="bt-node-body bt-compare-body">
-          <span className="bt-compare-op">{nodeData.operator ?? '<'}</span>
-          <input
-            className="bt-node-set-input"
-            type="text"
-            value={nodeData.compareValue ?? '0'}
-            onChange={(e) => updateNodeData(id, { compareValue: e.target.value })}
-            onClick={(e) => e.stopPropagation()}
-          />
         </div>
       )}
 

@@ -119,14 +119,36 @@ function isExecutionEdge(edge: {
   sourceHandle?: string | null;
   targetHandle?: string | null;
 }) {
-  return edge.sourceHandle !== 'data-out' && edge.targetHandle !== 'data-in';
+  return edge.sourceHandle !== 'data-out' &&
+    edge.targetHandle !== 'data-in' &&
+    !edge.targetHandle?.startsWith('data-in-');
 }
 
-const staticQuickCreateTypes: { type: BTNodeType; icon: string; label: string }[] = [
+type QuickCreateItem = {
+  type: BTNodeType;
+  icon: string;
+  label: string;
+  functionId?: string;
+  variableId?: string;
+  operator?: string;
+};
+
+const compareQuickCreateTypes: QuickCreateItem[] = [
+  { type: BTNodeType.COMPARE, icon: '<', label: 'Compare <', operator: '<' },
+  { type: BTNodeType.COMPARE, icon: '>', label: 'Compare >', operator: '>' },
+  { type: BTNodeType.COMPARE, icon: '<=', label: 'Compare <=', operator: '<=' },
+  { type: BTNodeType.COMPARE, icon: '>=', label: 'Compare >=', operator: '>=' },
+  { type: BTNodeType.COMPARE, icon: '=', label: 'Compare =', operator: '=' },
+  { type: BTNodeType.COMPARE, icon: '==', label: 'Compare ==', operator: '==' },
+];
+
+const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.SELECTOR, icon: '❓', label: 'Selector' },
   { type: BTNodeType.SEQUENCE, icon: '→', label: 'Sequence' },
   { type: BTNodeType.PARALLEL, icon: '⇉', label: 'Parallel' },
   { type: BTNodeType.DIST_SELECTOR, icon: '📏', label: 'Dist Selector' },
+  { type: BTNodeType.RANDOM_SELECTOR, icon: '🎲', label: 'Random Selector' },
+  ...compareQuickCreateTypes,
   { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare' },
   { type: BTNodeType.TEST, icon: '🧪', label: 'Test' },
   { type: BTNodeType.CONDITION, icon: '◆', label: 'Condition' },
@@ -574,18 +596,22 @@ export function BTEditor() {
   }, []);
 
   const handleQuickCreate = useCallback(
-    (nodeType: BTNodeType, extraId?: string) => {
+    (item: QuickCreateItem) => {
       if (!quickCreate) return;
 
       const data: Partial<BTNodeData> = {};
-      if (nodeType === BTNodeType.FUNCTION && extraId) {
-        data.functionId = extraId;
+      if (item.type === BTNodeType.FUNCTION && item.functionId) {
+        data.functionId = item.functionId;
       }
-      if ((nodeType === BTNodeType.GET_VARIABLE || nodeType === BTNodeType.SET_VARIABLE) && extraId) {
-        data.variableId = extraId;
+      if ((item.type === BTNodeType.GET_VARIABLE || item.type === BTNodeType.SET_VARIABLE) && item.variableId) {
+        data.variableId = item.variableId;
+      }
+      if (item.type === BTNodeType.COMPARE && item.operator) {
+        data.operator = item.operator;
+        data.label = item.operator;
       }
 
-      const newId = addNode(nodeType, quickCreate.flowPosition, data);
+      const newId = addNode(item.type, quickCreate.flowPosition, data);
       if (quickCreate.sourceId) {
         addEdgeStore(quickCreate.sourceId, newId, quickCreate.sourceHandleId, undefined);
       }
@@ -608,7 +634,7 @@ export function BTEditor() {
   }, [varDropPopup, addNode]);
 
   // Dynamic quick-create list including user functions + variables
-  const allQuickCreateTypes = useMemo(() => {
+  const allQuickCreateTypes = useMemo<QuickCreateItem[]>(() => {
     const funcTypes = functions.map((f) => ({
       type: BTNodeType.FUNCTION,
       icon: '📦',
@@ -952,7 +978,7 @@ export function BTEditor() {
     const sourceHandle = conn.sourceHandle ?? null;
     const targetHandle = conn.targetHandle ?? null;
     const sourceIsData = sourceHandle === 'data-out';
-    const targetIsData = targetHandle === 'data-in';
+    const targetIsData = targetHandle === 'data-in' || targetHandle?.startsWith('data-in-') === true;
     if (sourceIsData || targetIsData) {
       return sourceIsData && targetIsData;
     }
@@ -1136,7 +1162,7 @@ export function BTEditor() {
                   }
                   if (e.key === 'Enter' && filteredQuickCreateTypes.length === 1) {
                     const item = filteredQuickCreateTypes[0];
-                    handleQuickCreate(item.type, (item as { functionId?: string; variableId?: string }).functionId ?? (item as { variableId?: string }).variableId);
+                    handleQuickCreate(item);
                   }
                 }}
               />
@@ -1144,9 +1170,9 @@ export function BTEditor() {
             <div className="quick-create-list">
               {filteredQuickCreateTypes.map((item) => (
                 <button
-                  key={item.type === BTNodeType.FUNCTION ? `func-${item.label}` : item.type}
+                  key={`${item.type}-${item.label}-${item.functionId ?? item.variableId ?? item.operator ?? ''}`}
                   className="quick-create-item"
-                  onClick={() => handleQuickCreate(item.type, (item as { functionId?: string; variableId?: string }).functionId ?? (item as { variableId?: string }).variableId)}
+                  onClick={() => handleQuickCreate(item)}
                 >
                   <span className="quick-create-icon">{item.icon}</span>
                   <span>{item.label}</span>
