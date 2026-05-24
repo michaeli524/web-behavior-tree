@@ -66,12 +66,6 @@
     "comment": ""
   },
   {
-    "actionId": "Khezu_Double",
-    "actionName": "",
-    "gifPath": "/ActionsGIF/",
-    "comment": ""
-  },
-  {
     "actionId": "Khezu_Double_Breath_Charged",
     "actionName": "二连吐息-头、翅膀充能",
     "gifPath": "/ActionsGIF/",
