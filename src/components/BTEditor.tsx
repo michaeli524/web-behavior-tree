@@ -40,7 +40,7 @@ const defaultEdgeOptions = {
   type: 'bt-edge' as const,
 };
 
-const SNAP_GRID: [number, number] = [10, 10];
+const SNAP_GRID: [number, number] = [5, 5];
 const PASTE_OFFSET = 40;
 
 function snapPosition(position: { x: number; y: number }) {
@@ -1134,7 +1134,7 @@ export function BTEditor() {
         selectionMode={SelectionMode.Partial}
       >
         <Controls />
-        <Background variant={BackgroundVariant.Dots} gap={10} size={1} color="#333" />
+        <Background variant={BackgroundVariant.Dots} gap={5} size={1} color="#333" />
       </ReactFlow>
 
       {quickCreate && (

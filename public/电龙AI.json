@@ -148,8 +148,8 @@
       "id": "sequence_1779589026810_5",
       "type": "bt-node",
       "position": {
-        "x": 630,
-        "y": 1110
+        "x": 615,
+        "y": 1120
       },
       "data": {
         "label": "Sequence",
@@ -944,8 +944,8 @@
       "id": "get-variable_1779612223510_43",
       "type": "bt-node",
       "position": {
-        "x": 1350,
-        "y": 1190
+        "x": 1355,
+        "y": 1210
       },
       "data": {
         "label": "Get",
@@ -977,7 +977,7 @@
       "type": "bt-node",
       "position": {
         "x": 1510,
-        "y": 1140
+        "y": 1145
       },
       "data": {
         "label": "Condition",
@@ -1406,8 +1406,8 @@
       "id": "reset_1779616146491_10",
       "type": "bt-node",
       "position": {
-        "x": 800,
-        "y": 1240
+        "x": 785,
+        "y": 1225
       },
       "data": {
         "label": "Reset",
