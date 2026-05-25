@@ -730,6 +730,26 @@
   margin-bottom: 4px;
 }
 
+.combo-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.combo-toggle-control {
+  display: flex !important;
+  align-items: center;
+  margin: 0 !important;
+}
+
+.combo-toggle-control input {
+  margin: 0;
+}
+
 .prop-group textarea {
   resize: vertical;
   min-height: 50px;

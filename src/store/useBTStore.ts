@@ -152,6 +152,7 @@ function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTN
     condition: dataOverride?.condition ?? '',
     action: dataOverride?.action ?? '',
     actionId: dataOverride?.actionId,
+    isCombo: dataOverride?.isCombo,
     duration: dataOverride?.duration ?? 1000,
     repeatCount: dataOverride?.repeatCount ?? 1,
     status: BTExecutionStatus.IDLE,

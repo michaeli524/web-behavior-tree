@@ -337,7 +337,7 @@ export function BTEditor() {
   const makeComboData = useCallback((label = 'Combo'): Partial<BTNodeData> => {
     const pageId = addPage(label);
     setActivePageId(activePageId);
-    return { label, functionId: pageId };
+    return { label, functionId: pageId, isCombo: true };
   }, [activePageId, addPage, setActivePageId]);
 
   const openComboPage = useCallback(
@@ -355,6 +355,7 @@ export function BTEditor() {
 
   const previewComboGif = useCallback(
     (data: BTNodeData) => {
+      if (data.isCombo === false) return;
       if (!data.actionId) return;
       const actionConfig = actionById.get(data.actionId);
       if (!actionConfig?.gifPath) return;
@@ -1029,9 +1030,11 @@ export function BTEditor() {
         const functionId = event.dataTransfer.getData('application/function-id');
         const functionLabel = event.dataTransfer.getData('application/function-label');
         const actionId = event.dataTransfer.getData('application/action-id');
+        const isCombo = event.dataTransfer.getData('application/is-combo');
         if (functionId) {
           data.functionId = functionId;
           data.label = functionLabel || 'Combo';
+          data.isCombo = isCombo ? isCombo === 'true' : Boolean(actionId);
           if (actionId) {
             data.actionId = actionId;
           }

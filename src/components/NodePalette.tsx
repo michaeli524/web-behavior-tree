@@ -95,6 +95,9 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
                 e.dataTransfer.setData('application/node-type', BTNodeType.COMBO_SHOW);
                 e.dataTransfer.setData('application/function-id', page.id);
                 e.dataTransfer.setData('application/function-label', comboNode?.data.label ?? page.rootLabel);
+                if (comboNode) {
+                  e.dataTransfer.setData('application/is-combo', String(comboNode.data.isCombo !== false));
+                }
                 if (comboNode?.data.actionId) {
                   e.dataTransfer.setData('application/action-id', comboNode.data.actionId);
                 }

@@ -60,6 +60,7 @@ export interface BTNodeData {
   condition?: string;
   action?: string;
   actionId?: string;
+  isCombo?: boolean;
   duration?: BTNumericValue;
   repeatCount?: BTNumericValue;
   status?: BTExecutionStatus;

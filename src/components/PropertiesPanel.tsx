@@ -247,6 +247,17 @@ export function PropertiesPanel() {
             />
           </div>
 
+          <div className="prop-group combo-toggle-row">
+            <span>是否为 Combo</span>
+            <label className="combo-toggle-control">
+              <input
+                type="checkbox"
+                checked={data.isCombo !== false}
+                onChange={(e) => updateNodeData(selectedNode.id, { isCombo: e.target.checked })}
+              />
+            </label>
+          </div>
+
           <div className="prop-group">
             <label>技能配置</label>
             <div className="action-id-combobox">

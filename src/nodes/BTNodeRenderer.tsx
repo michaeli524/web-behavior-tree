@@ -79,6 +79,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isAngleBetweenCW = nodeData.type === BTNodeType.ANGLE_BETWEEN_CW;
   const isReset = nodeData.type === BTNodeType.RESET;
   const isComboShow = nodeData.type === BTNodeType.COMBO_SHOW;
+  const isComboDisplay = isComboShow && nodeData.isCombo !== false;
   const isDataCalcNode = isDistance2D || isAngleBetweenCW;
   const isMultiOutputSelector = isDist || isRandom;
   const isGetVar = nodeData.type === BTNodeType.GET_VARIABLE;
@@ -320,7 +321,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       style={{
         borderColor,
         borderRadius: '6px',
-        minWidth: isComboShow ? 250 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
+        minWidth: isComboDisplay ? 250 : isComboShow ? 130 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
         background: nodeData.type === BTNodeType.ROOT ? '#484850' : '#484848',
       }}
     >
@@ -328,7 +329,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         <div
           className={`bt-node-header ${isComboShow ? 'bt-node-header-clickable' : ''}`}
           style={{ background: config.color }}
-          onClick={isComboShow ? (e) => {
+          onDoubleClick={isComboShow ? (e) => {
             e.preventDefault();
             e.stopPropagation();
             nodeData.onComboTitleClick?.();
@@ -494,7 +495,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       )}
 
       {/* ── Combo node — Action card without execution ports ── */}
-      {isComboShow && (
+      {isComboDisplay && (
         <div className="bt-node-body">
           <div
             className="bt-combo-card"
