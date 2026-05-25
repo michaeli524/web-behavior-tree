@@ -16,6 +16,7 @@ export function PropertiesPanel() {
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const updateNodeData = useBTStore((s) => s.updateNodeData);
   const updateVariable = useBTStore((s) => s.updateVariable);
+  const renamePage = useBTStore((s) => s.renamePage);
   const [isActionPickerOpen, setIsActionPickerOpen] = useState(false);
   const [highlightedActionIndex, setHighlightedActionIndex] = useState(0);
 
@@ -53,6 +54,13 @@ export function PropertiesPanel() {
     updateNodeData(selectedNode.id, { actionId: actionId || undefined });
     setIsActionPickerOpen(false);
     setHighlightedActionIndex(0);
+  };
+
+  const updateComboTitle = (title: string) => {
+    updateNodeData(selectedNode.id, { label: title });
+    if (data.functionId) {
+      renamePage(data.functionId, title);
+    }
   };
 
   return (
@@ -230,6 +238,15 @@ export function PropertiesPanel() {
 
       {data.type === BTNodeType.COMBO_SHOW && (
         <>
+          <div className="prop-group">
+            <label>Combo 标题</label>
+            <input
+              type="text"
+              value={data.label === 'ComboShow' ? 'Combo' : data.label}
+              onChange={(e) => updateComboTitle(e.target.value)}
+            />
+          </div>
+
           <div className="prop-group">
             <label>技能配置</label>
             <div className="action-id-combobox">

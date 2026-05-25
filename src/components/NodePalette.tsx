@@ -10,6 +10,7 @@ interface Props {
 
 export function NodePalette({ width, onToggleCollapse }: Props) {
   const pages = useBTStore((s) => s.pages);
+  const nodes = useBTStore((s) => s.nodes);
   const mainPageName = useBTStore((s) => s.mainPageName);
   const activePageId = useBTStore((s) => s.activePageId);
   const setActivePageId = useBTStore((s) => s.setActivePageId);
@@ -88,9 +89,15 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
               draggable={page.id !== 'main' && page.id !== activePageId}
               onDragStart={(e) => {
                 if (page.id === 'main' || page.id === activePageId) { e.preventDefault(); return; }
-                e.dataTransfer.setData('application/node-type', BTNodeType.FUNCTION);
+                const comboNode = nodes.find((node) =>
+                  node.data.type === BTNodeType.COMBO_SHOW && node.data.functionId === page.id
+                );
+                e.dataTransfer.setData('application/node-type', BTNodeType.COMBO_SHOW);
                 e.dataTransfer.setData('application/function-id', page.id);
-                e.dataTransfer.setData('application/function-label', page.rootLabel);
+                e.dataTransfer.setData('application/function-label', comboNode?.data.label ?? page.rootLabel);
+                if (comboNode?.data.actionId) {
+                  e.dataTransfer.setData('application/action-id', comboNode.data.actionId);
+                }
                 e.dataTransfer.effectAllowed = 'move';
               }}
             >

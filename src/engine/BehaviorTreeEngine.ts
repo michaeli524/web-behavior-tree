@@ -272,9 +272,12 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
     }
 
     case BTNodeType.COMBO_SHOW: {
-      // Display node: renders Action card but does not execute
-      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
-      return BTExecutionStatus.SUCCESS;
+      const children = ctx.getChildren(node.id);
+      const status = children.length > 0
+        ? tickChild(children[0], ctx)
+        : BTExecutionStatus.SUCCESS;
+      ctx.onNodeTick(node.id, status);
+      return status;
     }
 
     case BTNodeType.GET_VARIABLE: {
@@ -336,6 +339,7 @@ export class BehaviorTreeEngine {
     nodes.forEach((n) => this.nodes.set(n.id, n));
     this.edges = edges;
     this.variables = variables.map((v) => ({ ...v }));
+    void _functions;
   }
 
   onTick(callback: (nodeId: string, status: BTExecutionStatus) => void): void {

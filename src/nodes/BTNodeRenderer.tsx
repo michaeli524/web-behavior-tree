@@ -62,6 +62,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const nodeData = data as unknown as BTNodeData & {
     commentTitleEditRequestNonce?: number;
     onCommentTitleEditStarted?: () => void;
+    onComboTitleClick?: () => void;
+    onComboPreviewClick?: () => void;
   };
   const config = typeConfig[nodeData.type] ?? typeConfig[BTNodeType.ACTION];
   const status = nodeData.status ?? BTExecutionStatus.IDLE;
@@ -92,7 +94,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const edges = useBTStore((s) => s.edges);
 
   const showInput = nodeData.type !== BTNodeType.ROOT && !isGetVar && !isCondition && !isCompare;
-  const showOutput = isComposite || isDecorator || isSetVar || isFunction || nodeData.type === BTNodeType.APPROACH || nodeData.type === BTNodeType.ACTION;
+  const showOutput = isComposite || isDecorator || isSetVar || isFunction || isComboShow || nodeData.type === BTNodeType.APPROACH || nodeData.type === BTNodeType.ACTION;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
   const randomWeights = nodeData.randomWeights ?? [50, 30, 20];
@@ -116,6 +118,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         ? variableDisplayName
         : nodeData.type === BTNodeType.FUNCTION
           ? functionDisplayName
+          : isComboShow
+            ? (nodeData.label === 'ComboShow' ? 'Combo' : nodeData.label)
           : isCompare
             ? nodeData.operator ?? '<'
             : nodeData.type === BTNodeType.ACTION
@@ -321,7 +325,15 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       }}
     >
       {/* ── Header bar ── */}
-        <div className="bt-node-header" style={{ background: config.color }}>
+        <div
+          className={`bt-node-header ${isComboShow ? 'bt-node-header-clickable' : ''}`}
+          style={{ background: config.color }}
+          onClick={isComboShow ? (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            nodeData.onComboTitleClick?.();
+          } : undefined}
+        >
         <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-get' : ''}`}>
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
           {headerLabel}
@@ -334,7 +346,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       </div>
 
       {/* ── Execution row ── */}
-      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && !isDataCalcNode && !isComboShow && (
+      {!isMultiOutputSelector && !isGetVar && !isComment && !isCompare && !isDataCalcNode && (
         <div className="bt-node-exec-row">
           {(showInput || isCondition) && (
             <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
@@ -481,10 +493,17 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         <div className="bt-node-body" />
       )}
 
-      {/* ── ComboShow node — Action card without execution ports ── */}
+      {/* ── Combo node — Action card without execution ports ── */}
       {isComboShow && (
         <div className="bt-node-body">
-          <div className="bt-combo-card">
+          <div
+            className="bt-combo-card"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              nodeData.onComboPreviewClick?.();
+            }}
+          >
             {actionConfig?.gifPath ? (
               <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
             ) : (

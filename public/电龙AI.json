@@ -1746,7 +1746,7 @@
         "y": -55
       },
       "data": {
-        "label": "ComboShow",
+        "label": "Combat_NoCharged",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1769,7 +1769,8 @@
         "compareValue": "0",
         "approachDistance": 500,
         "startValue": "0",
-        "endValue": "0"
+        "endValue": "0",
+        "functionId": "page_1779587115504_1"
       }
     },
     {
@@ -1917,7 +1918,7 @@
         "y": 195
       },
       "data": {
-        "label": "ComboShow",
+        "label": "Combat_AllCharged",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1940,7 +1941,8 @@
         "compareValue": "0",
         "approachDistance": 500,
         "startValue": "0",
-        "endValue": "0"
+        "endValue": "0",
+        "functionId": "page_1779587127574_3"
       }
     },
     {

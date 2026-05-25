@@ -37,7 +37,7 @@ export function VariableDetail() {
           value={variable.type}
           onChange={(e) => {
             const newType = e.target.value as 'boolean' | 'number' | 'string';
-            let newValue: boolean | number | string = '';
+            let newValue: boolean | number | string;
             if (newType === 'boolean') newValue = false;
             else if (newType === 'number') newValue = 0;
             else newValue = '';

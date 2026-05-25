@@ -142,7 +142,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.DISTANCE_2D]: '2D Dist Between',
   [BTNodeType.ANGLE_BETWEEN_CW]: 'Angle Between CW',
   [BTNodeType.RESET]: 'Reset',
-  [BTNodeType.COMBO_SHOW]: 'ComboShow',
+  [BTNodeType.COMBO_SHOW]: 'Combo',
 };
 
 function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTNodeData {
@@ -192,9 +192,10 @@ function createEdge(source: string, target: string, sourceHandle?: string, targe
 }
 
 function sanitizeNodeDataUpdate(node: BTNode | undefined, data: Partial<BTNodeData>): Partial<BTNodeData> {
-  if (node?.data.type === BTNodeType.COMMENT) return data;
-  const { label: _label, ...rest } = data;
-  return rest;
+  if (node?.data.type === BTNodeType.COMMENT || node?.data.type === BTNodeType.COMBO_SHOW) return data;
+  const sanitized = { ...data };
+  delete sanitized.label;
+  return sanitized;
 }
 
 function renameRootNode(nodes: BTNode[], name: string): BTNode[] {

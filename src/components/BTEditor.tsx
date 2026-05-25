@@ -160,7 +160,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Dist Between' },
   { type: BTNodeType.ANGLE_BETWEEN_CW, icon: '↻', label: 'Angle Between CW' },
   { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
-  { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'ComboShow' },
+  { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'Combo' },
   { type: BTNodeType.WAIT, icon: '⏱', label: 'Wait' },
 ];
 
@@ -206,11 +206,6 @@ export function BTEditor() {
     screenX: number;
     screenY: number;
   } | null>(null);
-
-  // Reset search when popup opens/closes
-  useEffect(() => {
-    if (!quickCreate) setSearchFilter('');
-  }, [quickCreate]);
 
   const storeNodes = useBTStore((s) => s.nodes);
   const storeEdges = useBTStore((s) => s.edges);
@@ -264,6 +259,8 @@ export function BTEditor() {
 
   const setSelectedNodes = useBTStore((s) => s.setSelectedNodes);
   const setActivePageId = useBTStore((s) => s.setActivePageId);
+  const addPage = useBTStore((s) => s.addPage);
+  const updateNodeDataStore = useBTStore((s) => s.updateNodeData);
 
   // Route actions to main / page / function tree
   const addNode = useCallback(
@@ -328,6 +325,39 @@ export function BTEditor() {
     ]
   );
 
+  const makeComboData = useCallback((label = 'Combo'): Partial<BTNodeData> => {
+    const pageId = addPage(label);
+    setActivePageId(activePageId);
+    return { label, functionId: pageId };
+  }, [activePageId, addPage, setActivePageId]);
+
+  const openComboPage = useCallback(
+    (nodeId: string, data: BTNodeData) => {
+      const label = data.label && data.label !== 'ComboShow' ? data.label : 'Combo';
+      let pageId = data.functionId;
+      if (!pageId || !useBTStore.getState().pages.some((page) => page.id === pageId)) {
+        pageId = addPage(label);
+        updateNodeDataStore(nodeId, { label, functionId: pageId });
+      }
+      setActivePageId(pageId);
+    },
+    [addPage, setActivePageId, updateNodeDataStore]
+  );
+
+  const previewComboGif = useCallback(
+    (data: BTNodeData) => {
+      if (!data.actionId) return;
+      const actionConfig = actionById.get(data.actionId);
+      if (!actionConfig?.gifPath) return;
+      setActionPreview({
+        actionId: actionConfig.actionId,
+        actionName: actionConfig.actionName,
+        gifPath: actionConfig.gifPath,
+      });
+    },
+    [actionById]
+  );
+
   const selectReroutePoint = useCallback(
     (edgeId: string, pointId: string) => {
       setSelectedNodes([]);
@@ -387,10 +417,19 @@ export function BTEditor() {
               },
             }
           : {}),
+        ...(n.data.type === BTNodeType.COMBO_SHOW
+          ? {
+              data: {
+                ...n.data,
+                onComboTitleClick: () => openComboPage(n.id, n.data),
+                onComboPreviewClick: () => previewComboGif(n.data),
+              },
+            }
+          : {}),
         zIndex: n.data.type === BTNodeType.COMMENT ? -1 : undefined,
         dragHandle: n.data.type === BTNodeType.COMMENT ? '.bt-comment-title' : undefined,
       })) as Node[],
-    [nodes, selectedNodeIds, commentTitleEditRequest]
+    [nodes, selectedNodeIds, commentTitleEditRequest, openComboPage, previewComboGif]
   );
 
   const rfEdges: Edge[] = useMemo(
@@ -583,6 +622,7 @@ export function BTEditor() {
 
         const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY }));
 
+        setSearchFilter('');
         setQuickCreate({
           sourceId: connectDragRef.current!.nodeId,
           sourceHandleId: connectDragRef.current!.handleId ?? undefined,
@@ -614,6 +654,9 @@ export function BTEditor() {
         data.operator = item.operator;
         data.label = item.operator;
       }
+      if (item.type === BTNodeType.COMBO_SHOW) {
+        Object.assign(data, makeComboData('Combo'));
+      }
 
       const newId = addNode(item.type, quickCreate.flowPosition, data);
       if (quickCreate.sourceId) {
@@ -621,7 +664,7 @@ export function BTEditor() {
       }
       setQuickCreate(null);
     },
-    [quickCreate, addNode, addEdgeStore]
+    [quickCreate, addNode, addEdgeStore, makeComboData]
   );
 
   const dismissQuickCreate = useCallback(() => {
@@ -746,7 +789,7 @@ export function BTEditor() {
       if (data.type === BTNodeType.FUNCTION && data.functionId) {
         setActivePageId(data.functionId);
       }
-      if ((data.type === BTNodeType.ACTION || data.type === BTNodeType.COMBO_SHOW) && data.actionId) {
+      if (data.type === BTNodeType.ACTION && data.actionId) {
         const actionConfig = actionById.get(data.actionId);
         if (!actionConfig?.gifPath) return;
         setActionPreview({
@@ -892,6 +935,7 @@ export function BTEditor() {
       const rfInstance = rfInstanceRef.current;
       if (!rfInstance) return;
       const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY }));
+      setSearchFilter('');
       setQuickCreate({
         sourceId: '',
         sourceHandleId: undefined,
@@ -972,10 +1016,24 @@ export function BTEditor() {
           data.label = functionLabel;
         }
       }
+      if (nodeType === BTNodeType.COMBO_SHOW) {
+        const functionId = event.dataTransfer.getData('application/function-id');
+        const functionLabel = event.dataTransfer.getData('application/function-label');
+        const actionId = event.dataTransfer.getData('application/action-id');
+        if (functionId) {
+          data.functionId = functionId;
+          data.label = functionLabel || 'Combo';
+          if (actionId) {
+            data.actionId = actionId;
+          }
+        } else {
+          Object.assign(data, makeComboData('Combo'));
+        }
+      }
 
       addNode(nodeType, position, data);
     },
-    [addNode]
+    [addNode, makeComboData]
   );
 
   const isValidConnection = useCallback((conn: Connection | Edge) => {
@@ -1085,7 +1143,7 @@ export function BTEditor() {
         rfInstance.setCenter(rootNode.position.x + 80, rootNode.position.y + 30, { zoom: 1, duration: 300 });
       }, 50);
     }
-  }, [activePageId]);
+  }, [activePageId, nodes]);
 
   // Auto-focus search input when popup opens
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -1240,11 +1298,12 @@ function ActionLightbox({
   onClose: () => void;
 }) {
   const [failed, setFailed] = useState(false);
+  const [replayNonce] = useState(() => Date.now());
   const replayGifPath = useMemo(() => {
     const [pathAndQuery, hash = ''] = gifPath.split('#');
     const separator = pathAndQuery.includes('?') ? '&' : '?';
-    return `${pathAndQuery}${separator}replay=${Date.now()}${hash ? `#${hash}` : ''}`;
-  }, [gifPath]);
+    return `${pathAndQuery}${separator}replay=${replayNonce}${hash ? `#${hash}` : ''}`;
+  }, [gifPath, replayNonce]);
 
   return (
     <div className="action-lightbox" onMouseDown={onClose}>
