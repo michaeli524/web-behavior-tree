@@ -56,6 +56,7 @@ type NodeClipboard = {
 };
 
 type FlowPosition = { x: number; y: number };
+type FlowViewport = { x: number; y: number; zoom: number };
 
 type CommentDragGroup = {
   commentId: string;
@@ -169,6 +170,8 @@ export function BTEditor() {
   const rfInstanceRef = useRef<ReactFlowInstance | null>(null);
   const nodeClipboardRef = useRef<NodeClipboard | null>(null);
   const pasteCountRef = useRef(0);
+  const viewportByPageRef = useRef(new Map<string, FlowViewport>());
+  const previousPageIdRef = useRef<string | null>(null);
 
   // Connection drag tracking — manual approach instead of onConnectEnd
   const connectDragRef = useRef<{ nodeId: string; handleId: string | null } | null>(null);
@@ -261,6 +264,12 @@ export function BTEditor() {
   const setActivePageId = useBTStore((s) => s.setActivePageId);
   const addPage = useBTStore((s) => s.addPage);
   const updateNodeDataStore = useBTStore((s) => s.updateNodeData);
+
+  const saveCurrentViewport = useCallback((pageId: string) => {
+    const rfInstance = rfInstanceRef.current;
+    if (!rfInstance) return;
+    viewportByPageRef.current.set(pageId, rfInstance.getViewport());
+  }, []);
 
   // Route actions to main / page / function tree
   const addNode = useCallback(
@@ -1052,6 +1061,10 @@ export function BTEditor() {
     setTimeout(() => instance.fitView({ padding: 0.2 }), 100);
   }, []);
 
+  const onMoveEnd = useCallback(() => {
+    saveCurrentViewport(activePageId);
+  }, [activePageId, saveCurrentViewport]);
+
   // Press 'C' to create a comment box around the current node selection.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -1133,17 +1146,23 @@ export function BTEditor() {
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
-  // When switching pages, center on the root node
+  // Restore each page/function to the viewport where the user last left it.
   useEffect(() => {
     const rfInstance = rfInstanceRef.current;
     if (!rfInstance) return;
-    const rootNode = nodes.find((n) => n.data.type === BTNodeType.ROOT);
-    if (rootNode) {
-      setTimeout(() => {
-        rfInstance.setCenter(rootNode.position.x + 80, rootNode.position.y + 30, { zoom: 1, duration: 300 });
-      }, 50);
+    const previousPageId = previousPageIdRef.current;
+    if (previousPageId && previousPageId !== activePageId) {
+      viewportByPageRef.current.set(previousPageId, rfInstance.getViewport());
     }
-  }, [activePageId, nodes]);
+
+    const savedViewport = viewportByPageRef.current.get(activePageId);
+    if (savedViewport) {
+      requestAnimationFrame(() => {
+        rfInstance.setViewport(savedViewport, { duration: 0 });
+      });
+    }
+    previousPageIdRef.current = activePageId;
+  }, [activePageId]);
 
   // Auto-focus search input when popup opens
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -1180,6 +1199,7 @@ export function BTEditor() {
         onDragOver={onDragOver}
         onDrop={onDrop}
         onInit={onInit}
+        onMoveEnd={onMoveEnd}
         isValidConnection={isValidConnection}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
