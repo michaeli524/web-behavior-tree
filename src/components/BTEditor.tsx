@@ -1249,6 +1249,7 @@ export function BTEditor() {
         fitView
         minZoom={0.05}
         maxZoom={2}
+        zoomOnDoubleClick={false}
         deleteKeyCode={['Backspace', 'Delete']}
         panOnDrag={[2]}
         selectionOnDrag
