@@ -53,6 +53,13 @@ function snapPosition(position: { x: number; y: number }) {
 type NodeClipboard = {
   nodes: BTNode[];
   edges: BTStoreEdge[];
+  sourcePageId: string;
+  bounds: {
+    minX: number;
+    minY: number;
+    width: number;
+    height: number;
+  };
 };
 
 type FlowPosition = { x: number; y: number };
@@ -80,6 +87,19 @@ function cloneNodeData(data: BTNodeData): BTNodeData {
   return {
     ...JSON.parse(JSON.stringify(data)),
     status: BTExecutionStatus.IDLE,
+  };
+}
+
+function getNodeClipboardBounds(nodes: BTNode[]) {
+  const minX = Math.min(...nodes.map((node) => node.position.x));
+  const minY = Math.min(...nodes.map((node) => node.position.y));
+  const maxX = Math.max(...nodes.map((node) => node.position.x));
+  const maxY = Math.max(...nodes.map((node) => node.position.y));
+  return {
+    minX,
+    minY,
+    width: maxX - minX,
+    height: maxY - minY,
   };
 }
 
@@ -864,6 +884,8 @@ export function BTEditor() {
         nodeClipboardRef.current = {
           nodes: copiedNodes,
           edges: copiedEdges,
+          sourcePageId: activePageId,
+          bounds: getNodeClipboardBounds(copiedNodes),
         };
         pasteCountRef.current = 0;
         e.preventDefault();
@@ -875,6 +897,21 @@ export function BTEditor() {
 
       pasteCountRef.current += 1;
       const offset = PASTE_OFFSET * pasteCountRef.current;
+      const isCrossPagePaste = clipboard.sourcePageId !== activePageId;
+      const viewportCenter = (() => {
+        const rect = reactFlowRef.current?.getBoundingClientRect();
+        if (!rect) return null;
+        return rfInstance.screenToFlowPosition({
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        });
+      })();
+      const crossPageDelta = isCrossPagePaste && viewportCenter
+        ? {
+            x: viewportCenter.x - (clipboard.bounds.minX + clipboard.bounds.width / 2),
+            y: viewportCenter.y - (clipboard.bounds.minY + clipboard.bounds.height / 2),
+          }
+        : null;
       const idMap = new Map<string, string>();
       const newSelectedIds: string[] = [];
 
@@ -882,8 +919,8 @@ export function BTEditor() {
         if (node.data.type === BTNodeType.ROOT) return;
 
         const newId = addNode(node.data.type, snapPosition({
-          x: node.position.x + offset,
-          y: node.position.y + offset,
+          x: node.position.x + (crossPageDelta?.x ?? offset),
+          y: node.position.y + (crossPageDelta?.y ?? offset),
         }), cloneNodeData(node.data));
         idMap.set(node.id, newId);
         newSelectedIds.push(newId);
@@ -902,7 +939,7 @@ export function BTEditor() {
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [addEdgeStore, addNode, edges, nodes, selectedNodeIds, setSelectedNodes]);
+  }, [activePageId, addEdgeStore, addNode, edges, nodes, selectedNodeIds, setSelectedNodes]);
 
   const onEdgeClick = useCallback(
     (_event: React.MouseEvent, edge: Edge) => {
