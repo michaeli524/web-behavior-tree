@@ -1442,16 +1442,14 @@
   cursor: pointer !important;
 }
 
-/* ===== UE5-style triangle handles ===== */
+/* ===== UE5-style execution handles ===== */
 .bt-handle {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
+  width: 12px !important;
+  height: 11px !important;
+  background: #e8eef4 !important;
   border-radius: 0 !important;
-  border-top: 5px solid transparent !important;
-  border-bottom: 5px solid transparent !important;
-  border-left: 9px solid #e8eef4 !important;
-  border-right: none !important;
+  border: none !important;
+  clip-path: polygon(0 0, 48% 0, 100% 50%, 48% 100%, 0 100%);
   cursor: pointer !important;
 }
 
@@ -1470,6 +1468,7 @@
   border-radius: 50% !important;
   background: transparent !important;
   border: 2px solid #f07070 !important;
+  clip-path: none;
 }
 
 /* DistSelector handles — more inward, centered */
