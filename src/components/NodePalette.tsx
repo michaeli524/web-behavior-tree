@@ -14,6 +14,7 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
   const mainPageName = useBTStore((s) => s.mainPageName);
   const activePageId = useBTStore((s) => s.activePageId);
   const setActivePageId = useBTStore((s) => s.setActivePageId);
+  const requestRootFocus = useBTStore((s) => s.requestRootFocus);
   const addPage = useBTStore((s) => s.addPage);
   const renamePage = useBTStore((s) => s.renamePage);
   const deletePage = useBTStore((s) => s.deletePage);
@@ -85,7 +86,12 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
               className={`page-item ${activePageId === page.id ? 'active' : ''}`}
               onClick={() => setActivePageId(page.id)}
               onContextMenu={(e) => { e.preventDefault(); setContextPageId(page.id); setContextMenuPos({ x: e.clientX, y: e.clientY }); }}
-              onDoubleClick={() => handleRenameStart(page.id, page.name)}
+              onDoubleClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActivePageId(page.id);
+                requestRootFocus(page.id);
+              }}
               draggable={page.id !== 'main' && page.id !== activePageId}
               onDragStart={(e) => {
                 if (page.id === 'main' || page.id === activePageId) { e.preventDefault(); return; }

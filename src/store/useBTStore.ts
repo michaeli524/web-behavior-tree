@@ -22,11 +22,14 @@ interface BTStore {
   selectedNodeIds: string[];
   selectedVariableId: string | null;
   setSelectedVariableId: (id: string | null) => void;
+  rootFocusRequest: { pageId: string; nonce: number } | null;
   isRunning: boolean;
   executionResults: Map<string, BTExecutionStatus>;
   activePageId: string; // 'main' or functionId
 
   setActivePageId: (pageId: string) => void;
+  requestRootFocus: (pageId: string) => void;
+  clearRootFocusRequest: () => void;
 
   // Node operations (main tree)
   addNode: (type: BTNodeType, position: { x: number; y: number }, data?: Partial<BTNodeData>) => string;
@@ -207,6 +210,24 @@ function renameRootNode(nodes: BTNode[], name: string): BTNode[] {
   );
 }
 
+function renameComboNodesForPage(nodes: BTNode[], pageId: string, name: string): BTNode[] {
+  return nodes.map((node) =>
+    node.data.type === BTNodeType.COMBO_SHOW && node.data.functionId === pageId
+      ? { ...node, data: { ...node.data, label: name } }
+      : node
+  );
+}
+
+function syncComboLabelsFromPages(nodes: BTNode[], pages: BTPage[]): BTNode[] {
+  const pageNameById = new Map(pages.map((page) => [page.id, page.name]));
+  return nodes.map((node) => {
+    const pageName = node.data.functionId ? pageNameById.get(node.data.functionId) : undefined;
+    return node.data.type === BTNodeType.COMBO_SHOW && pageName
+      ? { ...node, data: { ...node.data, label: pageName } }
+      : node;
+  });
+}
+
 function getLegacyMainPageName(nodes: BTNode[]): string {
   const rootLabel = nodes.find((node) => node.data.type === BTNodeType.ROOT)?.data.label?.trim();
   return rootLabel && rootLabel !== defaultLabels[BTNodeType.ROOT] ? rootLabel : 'Main';
@@ -221,11 +242,14 @@ export const useBTStore = create<BTStore>((set, get) => ({
   mainPageName: 'Main',
   selectedNodeIds: [],
   selectedVariableId: null,
+  rootFocusRequest: null,
   isRunning: false,
   executionResults: new Map(),
   activePageId: 'main',
 
   setActivePageId: (pageId) => set({ activePageId: pageId, selectedNodeIds: [] }),
+  requestRootFocus: (pageId) => set({ rootFocusRequest: { pageId, nonce: Date.now() } }),
+  clearRootFocusRequest: () => set({ rootFocusRequest: null }),
 
   // ----- Main tree nodes -----
   addNode: (type, position, dataOverride) => {
@@ -248,25 +272,64 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   updateNodeData: (id, data) => {
-    const state = get();
-    const mainNode = state.nodes.find((n) => n.id === id);
-    set((state) => ({
-      nodes: state.nodes.map((n) =>
-        n.id === id ? { ...n, data: { ...n.data, ...sanitizeNodeDataUpdate(mainNode, data) } } : n
-      ),
-      pages: state.pages.map((p) => ({
-        ...p,
-        nodes: p.nodes.map((n) =>
-          n.id === id ? { ...n, data: { ...n.data, ...sanitizeNodeDataUpdate(n, data) } } : n
-        ),
-      })),
-      functions: state.functions.map((f) => ({
+    set((state) => {
+      const currentNode = [
+        ...state.nodes,
+        ...state.pages.flatMap((p) => p.nodes),
+        ...state.functions.flatMap((f) => f.nodes),
+      ].find((n) => n.id === id);
+      const comboPageId = currentNode?.data.type === BTNodeType.COMBO_SHOW
+        ? data.functionId ?? currentNode.data.functionId
+        : undefined;
+      const comboLabel = typeof data.label === 'string' ? data.label.trim() : '';
+
+      const updatedNodes = state.nodes.map((n) => {
+        if (n.id !== id) return n;
+        const nextData = { ...n.data, ...sanitizeNodeDataUpdate(n, data) };
+        return { ...n, data: nextData };
+      });
+      const updatedPages = state.pages.map((p) => {
+        const updatedPage = {
+          ...p,
+          nodes: p.nodes.map((n) => {
+            if (n.id !== id) return n;
+            const nextData = { ...n.data, ...sanitizeNodeDataUpdate(n, data) };
+            return { ...n, data: nextData };
+          }),
+        };
+        if (comboPageId && p.id === comboPageId && comboLabel) {
+          return {
+            ...updatedPage,
+            name: comboLabel,
+            nodes: renameComboNodesForPage(renameRootNode(updatedPage.nodes, comboLabel), comboPageId, comboLabel),
+          };
+        }
+        return comboPageId && comboLabel
+          ? { ...updatedPage, nodes: renameComboNodesForPage(updatedPage.nodes, comboPageId, comboLabel) }
+          : updatedPage;
+      });
+      const updatedFunctions = state.functions.map((f) => ({
         ...f,
-        nodes: f.nodes.map((n) =>
-          n.id === id ? { ...n, data: { ...n.data, ...sanitizeNodeDataUpdate(n, data) } } : n
-        ),
-      })),
-    }));
+        nodes: f.nodes.map((n) => {
+          if (n.id !== id) return n;
+          const nextData = { ...n.data, ...sanitizeNodeDataUpdate(n, data) };
+          return { ...n, data: nextData };
+        }),
+      }));
+
+      return {
+        nodes: comboPageId && comboLabel
+          ? renameComboNodesForPage(updatedNodes, comboPageId, comboLabel)
+          : updatedNodes,
+        pages: updatedPages,
+        functions: comboPageId && comboLabel
+          ? updatedFunctions.map((f) => ({
+              ...f,
+              nodes: renameComboNodesForPage(f.nodes, comboPageId, comboLabel),
+            }))
+          : updatedFunctions,
+      };
+    });
   },
 
   updateNodePosition: (id, position) => {
@@ -468,14 +531,19 @@ export const useBTStore = create<BTStore>((set, get) => ({
       return;
     }
     set((state) => ({
+      nodes: renameComboNodesForPage(state.nodes, pageId, normalizedName),
       pages: state.pages.map((p) => {
         if (p.id !== pageId) return p;
         return {
           ...p,
           name: normalizedName,
-          nodes: renameRootNode(p.nodes, normalizedName),
+          nodes: renameComboNodesForPage(renameRootNode(p.nodes, normalizedName), pageId, normalizedName),
         };
       }),
+      functions: state.functions.map((f) => ({
+        ...f,
+        nodes: renameComboNodesForPage(f.nodes, pageId, normalizedName),
+      })),
     }));
   },
 
@@ -667,16 +735,20 @@ export const useBTStore = create<BTStore>((set, get) => ({
         nodes: renameRootNode(page.nodes ?? [], page.name),
         edges: page.edges ?? [],
       }));
+      const importedFunctions: BTFunction[] = (data.functions ?? []).map((f: BTFunction) => ({
+        ...f,
+        nodes: syncComboLabelsFromPages(f.nodes ?? [], importedPages),
+        edges: f.edges ?? [],
+      }));
       set({
-        nodes: renameRootNode(importedNodes, mainPageName),
+        nodes: syncComboLabelsFromPages(renameRootNode(importedNodes, mainPageName), importedPages),
         edges: data.edges ?? [],
         variables: data.variables ?? [],
-        functions: (data.functions ?? []).map((f: BTFunction) => ({
-          ...f,
-          nodes: f.nodes ?? [],
-          edges: f.edges ?? [],
+        functions: importedFunctions,
+        pages: importedPages.map((page) => ({
+          ...page,
+          nodes: syncComboLabelsFromPages(page.nodes, importedPages),
         })),
-        pages: importedPages,
         mainPageName,
         selectedNodeIds: [],
         executionResults: new Map(),

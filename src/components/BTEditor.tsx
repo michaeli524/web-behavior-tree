@@ -237,6 +237,8 @@ export function BTEditor() {
   const variables = useBTStore((s) => s.variables);
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const activePageId = useBTStore((s) => s.activePageId);
+  const rootFocusRequest = useBTStore((s) => s.rootFocusRequest);
+  const clearRootFocusRequest = useBTStore((s) => s.clearRootFocusRequest);
   const { actionById } = useActionCatalog();
 
   // Resolve nodes/edges based on active page
@@ -1203,6 +1205,21 @@ export function BTEditor() {
     }
     previousPageIdRef.current = activePageId;
   }, [activePageId]);
+
+  useEffect(() => {
+    if (!rootFocusRequest || rootFocusRequest.pageId !== activePageId) return;
+    const rfInstance = rfInstanceRef.current;
+    const rootNode = nodes.find((node) => node.data.type === BTNodeType.ROOT);
+    if (!rfInstance || !rootNode) return;
+
+    requestAnimationFrame(() => {
+      rfInstance.setCenter(rootNode.position.x + 80, rootNode.position.y + 30, {
+        zoom: 1,
+        duration: 250,
+      });
+      clearRootFocusRequest();
+    });
+  }, [activePageId, clearRootFocusRequest, nodes, rootFocusRequest]);
 
   // Auto-focus search input when popup opens
   const searchInputRef = useRef<HTMLInputElement>(null);

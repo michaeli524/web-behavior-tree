@@ -16,7 +16,6 @@ export function PropertiesPanel() {
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const updateNodeData = useBTStore((s) => s.updateNodeData);
   const updateVariable = useBTStore((s) => s.updateVariable);
-  const renamePage = useBTStore((s) => s.renamePage);
   const [isActionPickerOpen, setIsActionPickerOpen] = useState(false);
   const [highlightedActionIndex, setHighlightedActionIndex] = useState(0);
 
@@ -58,9 +57,6 @@ export function PropertiesPanel() {
 
   const updateComboTitle = (title: string) => {
     updateNodeData(selectedNode.id, { label: title });
-    if (data.functionId) {
-      renamePage(data.functionId, title);
-    }
   };
 
   return (

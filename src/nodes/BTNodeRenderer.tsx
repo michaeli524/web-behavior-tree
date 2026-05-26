@@ -72,6 +72,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isComposite = compositeTypes.includes(nodeData.type);
   const isDecorator = decoratorTypes.includes(nodeData.type);
   const isCondition = nodeData.type === BTNodeType.CONDITION;
+  const isSequence = nodeData.type === BTNodeType.SEQUENCE;
   const isLeaf = leafTypes.includes(nodeData.type);
   const isDist = nodeData.type === BTNodeType.DIST_SELECTOR;
   const isRandom = nodeData.type === BTNodeType.RANDOM_SELECTOR;
@@ -397,6 +398,12 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         <div className="bt-node-body">
           {nodeData.type === BTNodeType.REPEATER && (
             <div className="bt-node-cond">{nodeData.repeatCount === '' ? '' : `×${nodeData.repeatCount ?? 1}`}</div>
+          )}
+          {isSequence && (
+            <div className="bt-node-cond-row bt-node-sequence-next-row">
+              <span className="bt-node-branch-label">Next</span>
+              <Handle type="source" position={Position.Right} id="exec-next" className="bt-handle bt-handle-row-right" onClick={(e) => handleClick(e, 'exec-next')} />
+            </div>
           )}
         </div>
       )}

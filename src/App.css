@@ -1527,6 +1527,15 @@
   margin-right: 14px;
 }
 
+.bt-node-sequence-next-row {
+  margin: 0 -10px -6px;
+  padding-right: 14px;
+}
+
+.bt-node-sequence-next-row .react-flow__handle-right.bt-handle-row-right {
+  right: 10px !important;
+}
+
 .bt-node-body-empty {
   padding: 0;
   height: 0;
