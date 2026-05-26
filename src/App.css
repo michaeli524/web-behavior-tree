@@ -687,6 +687,15 @@
   outline-offset: -1px;
 }
 
+.quick-create-icon {
+  width: 24px;
+  flex: 0 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .quick-create-empty {
   padding: 8px 10px;
   font-size: 12px;
