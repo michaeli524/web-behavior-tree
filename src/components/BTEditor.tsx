@@ -207,6 +207,7 @@ export function BTEditor() {
   } | null>(null);
 
   const [searchFilter, setSearchFilter] = useState('');
+  const [selectedQuickCreateIndex, setSelectedQuickCreateIndex] = useState(0);
   const [actionPreview, setActionPreview] = useState<{
     actionId: string;
     actionName: string;
@@ -655,6 +656,7 @@ export function BTEditor() {
         const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY }));
 
         setSearchFilter('');
+        setSelectedQuickCreateIndex(0);
         setQuickCreate({
           sourceId: connectDragRef.current!.nodeId,
           sourceHandleId: connectDragRef.current!.handleId ?? undefined,
@@ -712,7 +714,7 @@ export function BTEditor() {
     setVarDropPopup(null);
   }, [varDropPopup, addNode]);
 
-  // Dynamic quick-create list including user functions + variables
+  // Dynamic quick-create list including user functions.
   const allQuickCreateTypes = useMemo<QuickCreateItem[]>(() => {
     const funcTypes = functions.map((f) => ({
       type: BTNodeType.FUNCTION,
@@ -720,20 +722,8 @@ export function BTEditor() {
       label: f.name,
       functionId: f.id,
     }));
-    const varGetTypes = variables.map((v) => ({
-      type: BTNodeType.GET_VARIABLE,
-      icon: '📤',
-      label: `Get: ${v.name}`,
-      variableId: v.id,
-    }));
-    const varSetTypes = variables.map((v) => ({
-      type: BTNodeType.SET_VARIABLE,
-      icon: '📥',
-      label: `Set: ${v.name}`,
-      variableId: v.id,
-    }));
-    return [...staticQuickCreateTypes, ...funcTypes, ...varGetTypes, ...varSetTypes];
-  }, [functions, variables]);
+    return [...staticQuickCreateTypes, ...funcTypes];
+  }, [functions]);
 
   const filteredQuickCreateTypes = useMemo(() => {
     if (!searchFilter.trim()) return allQuickCreateTypes;
@@ -750,6 +740,18 @@ export function BTEditor() {
     }
     return [...exact, ...prefix, ...rest];
   }, [allQuickCreateTypes, searchFilter]);
+
+  useEffect(() => {
+    setSelectedQuickCreateIndex(0);
+  }, [quickCreate, searchFilter]);
+
+  useEffect(() => {
+    if (filteredQuickCreateTypes.length === 0) {
+      setSelectedQuickCreateIndex(0);
+      return;
+    }
+    setSelectedQuickCreateIndex((index) => Math.min(index, filteredQuickCreateTypes.length - 1));
+  }, [filteredQuickCreateTypes.length]);
 
   // Close popups on Escape
   useEffect(() => {
@@ -985,6 +987,7 @@ export function BTEditor() {
       if (!rfInstance) return;
       const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY }));
       setSearchFilter('');
+      setSelectedQuickCreateIndex(0);
       setQuickCreate({
         sourceId: '',
         sourceHandleId: undefined,
@@ -1301,19 +1304,43 @@ export function BTEditor() {
                   if (e.key === 'Escape') {
                     e.stopPropagation();
                     dismissQuickCreate();
+                    return;
                   }
-                  if (e.key === 'Enter' && filteredQuickCreateTypes.length === 1) {
-                    const item = filteredQuickCreateTypes[0];
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedQuickCreateIndex((index) =>
+                      filteredQuickCreateTypes.length === 0
+                        ? 0
+                        : (index + 1) % filteredQuickCreateTypes.length
+                    );
+                    return;
+                  }
+                  if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedQuickCreateIndex((index) =>
+                      filteredQuickCreateTypes.length === 0
+                        ? 0
+                        : (index - 1 + filteredQuickCreateTypes.length) % filteredQuickCreateTypes.length
+                    );
+                    return;
+                  }
+                  if (e.key === 'Enter' && filteredQuickCreateTypes.length > 0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const item = filteredQuickCreateTypes[selectedQuickCreateIndex] ?? filteredQuickCreateTypes[0];
                     handleQuickCreate(item);
                   }
                 }}
               />
             </div>
             <div className="quick-create-list">
-              {filteredQuickCreateTypes.map((item) => (
+              {filteredQuickCreateTypes.map((item, index) => (
                 <button
                   key={`${item.type}-${item.label}-${item.functionId ?? item.variableId ?? item.operator ?? ''}`}
-                  className="quick-create-item"
+                  className={`quick-create-item${index === selectedQuickCreateIndex ? ' selected' : ''}`}
+                  onMouseEnter={() => setSelectedQuickCreateIndex(index)}
                   onClick={() => handleQuickCreate(item)}
                 >
                   <span className="quick-create-icon">{item.icon}</span>

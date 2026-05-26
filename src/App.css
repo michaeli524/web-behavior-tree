@@ -677,8 +677,14 @@
   transition: background 0.1s;
 }
 
-.quick-create-item:hover {
+.quick-create-item:hover,
+.quick-create-item.selected {
   background: #3e3e3e;
+}
+
+.quick-create-item.selected {
+  outline: 1px solid #569cd6;
+  outline-offset: -1px;
 }
 
 .quick-create-empty {
