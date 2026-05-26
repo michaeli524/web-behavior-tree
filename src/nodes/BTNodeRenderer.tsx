@@ -169,12 +169,23 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     e.preventDefault();
     e.stopPropagation();
     const state = useBTStore.getState();
-    const edges = state.edges.filter(
-      (edge) =>
-        (edge.source === id && (edge.sourceHandle ?? undefined) === handleId) ||
-        (edge.target === id && (edge.targetHandle ?? undefined) === handleId)
-    );
-    edges.forEach((edge) => state.removeEdge(edge.id));
+    const isHandleEdge = (edge: { source: string; target: string; sourceHandle?: string | null; targetHandle?: string | null }) =>
+      (edge.source === id && (edge.sourceHandle ?? undefined) === handleId) ||
+      (edge.target === id && (edge.targetHandle ?? undefined) === handleId);
+
+    if (state.activePageId === 'main') {
+      state.edges.filter(isHandleEdge).forEach((edge) => state.removeEdge(edge.id));
+      return;
+    }
+
+    const page = state.pages.find((p) => p.id === state.activePageId);
+    if (page) {
+      page.edges.filter(isHandleEdge).forEach((edge) => state.removePageEdge(page.id, edge.id));
+      return;
+    }
+
+    const func = state.functions.find((f) => f.id === state.activePageId);
+    func?.edges.filter(isHandleEdge).forEach((edge) => state.removeFunctionEdge(func.id, edge.id));
   }, [id]);
 
   // ── Comment node: simple styled box ──
