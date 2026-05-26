@@ -1686,15 +1686,17 @@
 }
 
 .bt-compare-value-input {
-  width: 76px;
+  width: 46px;
   min-width: 0;
-  padding: 1px 5px;
+  box-sizing: border-box;
+  padding: 1px 4px;
   border: 1px solid #4b5563;
   border-radius: 3px;
   background: #111827;
   color: var(--text-primary);
   font-size: 10px;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  text-align: left;
   outline: none;
 }
 
@@ -1892,14 +1894,16 @@
 }
 
 .bt-distance2d-input {
-  width: 56px;
-  padding: 2px 6px;
+  width: 46px;
+  box-sizing: border-box;
+  padding: 2px 4px;
   font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
   background: var(--bg-primary);
   border: 1px solid #666;
   color: var(--text-primary);
   border-radius: 3px;
+  text-align: left;
   outline: none;
 }
 
