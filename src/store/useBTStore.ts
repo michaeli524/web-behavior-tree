@@ -144,6 +144,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.APPROACH]: 'Approach',
   [BTNodeType.DISTANCE_2D]: '2D Dist Between',
   [BTNodeType.ANGLE_BETWEEN_CW]: 'Angle Between CW',
+  [BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH]: 'Angle Between CW LRBoth',
   [BTNodeType.RESET]: 'Reset',
   [BTNodeType.COMBO_SHOW]: 'Combo',
 };

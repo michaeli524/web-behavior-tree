@@ -33,6 +33,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.APPROACH]: { color: '#6b7a8a', icon: '🏃' },
   [BTNodeType.DISTANCE_2D]: { color: '#7a6b8a', icon: '📐' },
   [BTNodeType.ANGLE_BETWEEN_CW]: { color: '#7a6b8a', icon: '↻' },
+  [BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH]: { color: '#7a6b8a', icon: '↻' },
   [BTNodeType.RESET]: { color: '#8a5a5a', icon: '🔄' },
   [BTNodeType.COMBO_SHOW]: { color: '#7a6b5a', icon: '🎬' },
 };
@@ -77,7 +78,9 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const isDist = nodeData.type === BTNodeType.DIST_SELECTOR;
   const isRandom = nodeData.type === BTNodeType.RANDOM_SELECTOR;
   const isDistance2D = nodeData.type === BTNodeType.DISTANCE_2D;
-  const isAngleBetweenCW = nodeData.type === BTNodeType.ANGLE_BETWEEN_CW;
+  const isAngleBetweenCW =
+    nodeData.type === BTNodeType.ANGLE_BETWEEN_CW ||
+    nodeData.type === BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH;
   const isReset = nodeData.type === BTNodeType.RESET;
   const isComboShow = nodeData.type === BTNodeType.COMBO_SHOW;
   const isComboDisplay = isComboShow && nodeData.isCombo !== false;

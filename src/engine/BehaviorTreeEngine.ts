@@ -259,7 +259,8 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.SUCCESS;
     }
 
-    case BTNodeType.ANGLE_BETWEEN_CW: {
+    case BTNodeType.ANGLE_BETWEEN_CW:
+    case BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH: {
       // Data node: computes clockwise angle between start/end values
       ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
       return BTExecutionStatus.SUCCESS;

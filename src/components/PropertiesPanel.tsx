@@ -374,7 +374,9 @@ export function PropertiesPanel() {
         </div>
       )}
 
-      {(data.type === BTNodeType.DISTANCE_2D || data.type === BTNodeType.ANGLE_BETWEEN_CW) && (
+      {(data.type === BTNodeType.DISTANCE_2D ||
+        data.type === BTNodeType.ANGLE_BETWEEN_CW ||
+        data.type === BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH) && (
         <>
           <div className="prop-group">
             <label>Start 值</label>
@@ -525,14 +527,13 @@ export function PropertiesPanel() {
           <div className="prop-group">
             <label>运算符</label>
             <select
-              value={data.operator ?? '<'}
+              value={data.operator === '=' ? '==' : data.operator ?? '<'}
               onChange={(e) => updateNodeData(selectedNode.id, { operator: e.target.value })}
             >
               <option value="<">&lt;</option>
               <option value="<=">&lt;=</option>
               <option value=">">&gt;</option>
               <option value=">=">&gt;=</option>
-              <option value="=">=</option>
               <option value="==">==</option>
             </select>
           </div>

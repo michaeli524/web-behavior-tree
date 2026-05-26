@@ -20,6 +20,7 @@ export const BTNodeType = {
   APPROACH: 'approach',
   DISTANCE_2D: 'distance-2d',
   ANGLE_BETWEEN_CW: 'angle-between-cw',
+  ANGLE_BETWEEN_CW_LR_BOTH: 'angle-between-cw-lr-both',
   RESET: 'reset',
   COMBO_SHOW: 'combo-show',
 } as const;

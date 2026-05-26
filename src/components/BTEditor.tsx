@@ -155,16 +155,14 @@ type QuickCreateItem = {
 };
 
 const compareQuickCreateTypes: QuickCreateItem[] = [
-  { type: BTNodeType.COMPARE, icon: '<', label: 'Compare <', operator: '<' },
-  { type: BTNodeType.COMPARE, icon: '>', label: 'Compare >', operator: '>' },
-  { type: BTNodeType.COMPARE, icon: '<=', label: 'Compare <=', operator: '<=' },
-  { type: BTNodeType.COMPARE, icon: '>=', label: 'Compare >=', operator: '>=' },
-  { type: BTNodeType.COMPARE, icon: '=', label: 'Compare =', operator: '=' },
-  { type: BTNodeType.COMPARE, icon: '==', label: 'Compare ==', operator: '==' },
+  { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare <', operator: '<' },
+  { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare >', operator: '>' },
+  { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare <=', operator: '<=' },
+  { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare >=', operator: '>=' },
+  { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare ==', operator: '==' },
 ];
 
 const staticQuickCreateTypes: QuickCreateItem[] = [
-  { type: BTNodeType.SELECTOR, icon: '❓', label: 'Selector' },
   { type: BTNodeType.SEQUENCE, icon: '→', label: 'Sequence' },
   { type: BTNodeType.PARALLEL, icon: '⇉', label: 'Parallel' },
   { type: BTNodeType.DIST_SELECTOR, icon: '📏', label: 'Dist Selector' },
@@ -173,16 +171,14 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.COMPARE, icon: '⇔', label: 'Compare' },
   { type: BTNodeType.TEST, icon: '🧪', label: 'Test' },
   { type: BTNodeType.CONDITION, icon: '◆', label: 'Condition' },
-  { type: BTNodeType.INVERTER, icon: '¬', label: 'Inverter' },
   { type: BTNodeType.REPEATER, icon: '↻', label: 'Repeater' },
-  { type: BTNodeType.SUCCEEDER, icon: '✓', label: 'Succeeder' },
   { type: BTNodeType.ACTION, icon: '⚡', label: 'Action' },
   { type: BTNodeType.APPROACH, icon: '🏃', label: 'Approach' },
   { type: BTNodeType.DISTANCE_2D, icon: '📐', label: '2D Dist Between' },
   { type: BTNodeType.ANGLE_BETWEEN_CW, icon: '↻', label: 'Angle Between CW' },
+  { type: BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH, icon: '↻', label: 'Angle Between CW LRBoth' },
   { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
   { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'Combo' },
-  { type: BTNodeType.WAIT, icon: '⏱', label: 'Wait' },
 ];
 
 export function BTEditor() {
