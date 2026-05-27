@@ -1222,11 +1222,18 @@ export function BTEditor() {
 
   // Auto-focus search input when popup opens
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const quickCreateListRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (quickCreate && searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, [quickCreate]);
+
+  useEffect(() => {
+    if (!quickCreate) return;
+    const selectedItem = quickCreateListRef.current?.querySelector<HTMLElement>('.quick-create-item.selected');
+    selectedItem?.scrollIntoView({ block: 'nearest' });
+  }, [quickCreate, selectedQuickCreateIndex, filteredQuickCreateTypes.length]);
 
   return (
     <div
@@ -1331,7 +1338,7 @@ export function BTEditor() {
                 }}
               />
             </div>
-            <div className="quick-create-list">
+            <div className="quick-create-list" ref={quickCreateListRef}>
               {filteredQuickCreateTypes.map((item, index) => (
                 <button
                   key={`${item.type}-${item.label}-${item.functionId ?? item.variableId ?? item.operator ?? ''}`}
