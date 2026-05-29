@@ -133,6 +133,34 @@ GIF 资源主要位于：
 public/ActionsGIF/
 ```
 
+## GIF 资源本地/CDN切换
+
+Action 配表里的 `gifPath` 保持 `/ActionsGIF/...` 相对路径不变。前端会读取：
+
+```text
+public/config/asset-host.json
+```
+
+本地开发时：
+
+```bash
+npm run assets:local
+```
+
+此时 `assetBaseUrl` 为空，GIF 从本地 `public/ActionsGIF/` 读取。
+
+上线前切到 CDN：
+
+```bash
+npm run assets:cdn
+```
+
+此时前端会把 `/ActionsGIF/...` 拼成 `assetBaseUrl + /ActionsGIF/...`。实际 CDN 域名维护在：
+
+```text
+public/config/asset-host.cdn.json
+```
+
 ## 技术栈
 
 - Vite 8

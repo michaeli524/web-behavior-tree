@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:actions-xlsx": "python3 scripts/generate_action_xlsx.py",
-    "export:actions": "python3 scripts/export_action_json.py"
+    "export:actions": "python3 scripts/export_action_json.py",
+    "assets:local": "node scripts/switch_asset_host.mjs local",
+    "assets:cdn": "node scripts/switch_asset_host.mjs cdn"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.2",

@@ -7,10 +7,48 @@ export interface ActionConfig {
   comment: string;
 }
 
+interface AssetHostConfig {
+  assetBaseUrl?: string;
+}
+
 let catalogCache: ActionConfig[] | null = null;
 let catalogPromise: Promise<ActionConfig[]> | null = null;
+let assetBaseUrlCache: string | null = null;
+let assetBaseUrlPromise: Promise<string> | null = null;
 const CATALOG_UPDATED_EVENT = 'action-catalog-updated';
 const ACTION_CATALOG_PATH = '/config/Actions.json';
+const ASSET_HOST_PATH = '/config/asset-host.json';
+
+function isExternalUrl(path: string) {
+  return /^(https?:)?\/\//i.test(path) || /^(data|blob):/i.test(path);
+}
+
+function joinAssetUrl(assetBaseUrl: string, path: string) {
+  if (!path || !assetBaseUrl || isExternalUrl(path)) return path;
+  const base = assetBaseUrl.replace(/\/+$/, '');
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${base}${normalizedPath}`;
+}
+
+async function loadAssetBaseUrl(force = false): Promise<string> {
+  if (force) {
+    assetBaseUrlCache = null;
+    assetBaseUrlPromise = null;
+  }
+  if (assetBaseUrlCache !== null) return assetBaseUrlCache;
+  if (!assetBaseUrlPromise) {
+    const query = force ? `?t=${Date.now()}` : '';
+    assetBaseUrlPromise = fetch(`${ASSET_HOST_PATH}${query}`)
+      .then((res) => {
+        if (!res.ok) return {} as AssetHostConfig;
+        return res.json() as Promise<AssetHostConfig>;
+      })
+      .then((config) => config.assetBaseUrl?.trim().replace(/\/+$/, '') ?? '')
+      .catch(() => '');
+  }
+  assetBaseUrlCache = await assetBaseUrlPromise;
+  return assetBaseUrlCache;
+}
 
 async function loadActionCatalog(force = false): Promise<ActionConfig[]> {
   if (force) {
@@ -26,8 +64,14 @@ async function loadActionCatalog(force = false): Promise<ActionConfig[]> {
         return res.json() as Promise<ActionConfig[]>;
       })
       .then((items) => {
-        catalogCache = items;
-        return items;
+        return loadAssetBaseUrl(force).then((assetBaseUrl) => {
+          const resolvedItems = items.map((item) => ({
+            ...item,
+            gifPath: joinAssetUrl(assetBaseUrl, item.gifPath),
+          }));
+          catalogCache = resolvedItems;
+          return resolvedItems;
+        });
       });
   }
   return catalogPromise;
