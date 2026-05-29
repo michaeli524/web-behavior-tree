@@ -1,28 +1,39 @@
-# Web Behavior Tree
+# 怪物 AI 行为树可视化工具
 
-UE5 风格的行为树可视化编辑器。用于快速搭建、分析、拆解游戏 AI 行为树。
+一个用于拆解和展示怪物战斗 AI 的 Web 行为树编辑器。
 
-当前项目重点用于拆解《怪物猎人崛起》中电龙的 AI 行为，并作为怪物设计/战斗策划方向的作品集展示工具。Action 节点采用策划配表驱动，通过 Excel 表维护动作与 GIF 资源的一一对应关系。
+项目当前以《怪物猎人崛起》电龙为案例，将怪物招式衔接、距离判断、角度判断、Combo 分支和动作资源整理成可视化节点图。这个仓库同时也是一个作品集项目，重点展示战斗策划对怪物行为结构的拆解能力，以及使用 Codex 等 AI 编程工具把设计需求快速落地为可交互工具的能力。
 
-## 功能
+## 项目定位
 
-- **可视化编辑** — 拖拽节点、连线，水平布局从左到右
-- **14 种节点** — Root / Selector / Sequence / Parallel / DistSelector / Condition / Compare / Inverter / Repeater / Succeeder / Action / Wait / Get / Set
-- **变量系统** — 创建变量、拖入画布选 Get/Set，布尔/数字/字符串三种类型
-- **函数系统** — 创建函数作为子行为树，双击打开编辑
-- **距离选择器** — 多端口 DistSelector，自定义距离阈值
-- **数据流** — 红色端口连接变量和数据比较节点（< > == <= >=）
-- **条件分支** — Condition 节点 True/False 双输出
-- **注释框** — 框选节点按 C 键创建注释框
-- **拖线创建** — 从端口拖线到空白处弹出搜索面板快速创建节点
-- **Command/Ctrl+点击端口拆线** — 断开连线
-- **框选多选** — 左键拖拽框选多个节点，一起移动
-- **撤销/重做** — Ctrl+Z / Ctrl+Shift+Z
-- **本地 JSON 保存桥** — 开发环境下可直接保存到默认桌面 JSON
-- **Action 导表** — 顶栏一键执行 `Actions.xlsx` → `Actions.json`
-- **Action GIF 索引** — Action 节点通过 `actionId` 查表显示动作名和 GIF
-- **自动保存** — localStorage 自动保存，刷新不丢
-- **Figma 风格面板** — 可拖拽调整大小、一键收起面板
+- 面向怪物设计、战斗策划、AI 行为拆解的个人工具
+- 用节点图表达怪物行为决策，而不是只写静态分析文档
+- 通过 GIF 资源把行为树节点和具体招式表现关联起来
+- 用 Excel/JSON 配表维护动作资源，贴近策划工作流
+- 当前电龙案例仍在持续拆解中，`showcase` 分支用于阶段性展示
+
+## 当前功能
+
+- **行为树画布**：节点拖拽、连线、框选、多选移动、删除、撤销/重做
+- **右键快速创建**：搜索节点、方向键选择、回车创建、键盘选择自动滚动
+- **执行流与数据流**：执行端口和数据端口分离，支持端口拆线
+- **多页面编辑**：每个页面可对应一个 Combo 节点，页面名和 Combo 标题双向同步
+- **Combo 节点**：支持展示 GIF，也可切换为普通子树入口样式
+- **Action 节点**：只保存 `actionId`，动作名和 GIF 路径来自 Action 配表
+- **变量节点**：变量可拖入画布创建 Get/Set 节点
+- **条件与数据节点**：支持 Compare、Condition、Dist Selector、Random Selector、2D Distance Between、Angle Between CW、Angle Between CW LRBoth 等节点
+- **注释框**：选中节点后按 `C` 创建注释框，用于整理行为块
+- **JSON 导入导出**：行为树数据可保存为 JSON，便于版本维护和展示
+
+## 示例用途
+
+以电龙为例，可以把以下内容整理到行为树中：
+
+- 不同距离下的招式选择
+- 头部、尾部、翅膀等攻击方向和角度判断
+- 未充能、局部充能、完全充能等状态下的行为差异
+- 小招衔接、Combo 页面和动作 GIF 展示
+- 大招、派生招式和状态切换条件
 
 ## 快速开始
 
@@ -31,64 +42,35 @@ npm install
 npm run dev
 ```
 
-浏览器打开 `http://localhost:5173/`
-
-开发环境默认行为树文件：
+浏览器打开：
 
 ```text
-/Users/miko/Desktop/电龙AI.json
+http://localhost:5173/
 ```
 
-顶栏 `打开默认` 会读取该 JSON，`保存` 会直接写回该 JSON。也可以通过环境变量切换默认文件：
+生产构建：
 
 ```bash
-BT_TREE_FILE=/path/to/tree.json npm run dev
+npm run build
 ```
 
-## 使用方法
+## 常用操作
 
-### 创建节点
-
-- **左侧面板拖入** — 变量/函数列表中的项目可直接拖到画布
-- **右键画布** — 弹出搜索面板，搜索创建任意节点
-- **从端口拖线** — 拖到空白处弹出搜索面板，选择节点自动连线
-
-### 连线规则
-
-- **蓝色三角** — 执行流端口，蓝色只能连蓝色
-- **红色圆点** — 数据流端口，红色只能连红色
-
-### 常用操作
-
-| 操作 | 快捷键 |
-|------|--------|
-| 创建注释框 | 选中节点后按 C |
-| 断开连线 | 按住 Cmd/Ctrl + 点击端口 |
+| 操作 | 方式 |
+|---|---|
+| 创建节点 | 右键画布打开搜索菜单 |
+| 搜索菜单选择 | 输入关键词后用方向键选择，回车创建 |
+| 从端口创建节点 | 从端口拖线到空白处，松开后选择节点 |
+| 断开端口连线 | 按住 Cmd/Ctrl 点击端口 |
+| 创建注释框 | 选中节点后按 `C` |
 | 撤销 | Cmd/Ctrl + Z |
 | 重做 | Cmd/Ctrl + Shift + Z |
 | 保存 | Cmd/Ctrl + S |
 | 删除节点 | Backspace / Delete |
-| 右键拖动画布 | 右键按住拖拽 |
 
-### 变量
+## Action 配表与 GIF
 
-1. 左侧底部"变量"标签页 → 搜索框 + 点 **+** 新建
-2. 拖变量到画布：
-   - 按住 Cmd/Alt → 直接创建 Get
-   - 按住 Ctrl → 直接创建 Set
-   - 不按 → 弹出选择面板
-
-### 函数
-
-1. 左侧底部"函数"标签页 → 搜索框 + 点 **+** 新建
-2. 双击函数项 → 打开函数编辑页
-3. 在 Main 画布右键搜索函数名 → 拖入作为调用节点
-
-## Action 配表与 GIF 索引
-
-Action 节点不直接保存动作名或 GIF 路径。节点数据只保存 `actionId`，前端通过 `actionId` 到 Action 配表中查找展示信息。
-
-行为树中的 Action 节点示例：
+Action 节点不直接保存动作名称或 GIF 路径，只保存 `actionId`：
 
 ```json
 {
@@ -98,114 +80,68 @@ Action 节点不直接保存动作名或 GIF 路径。节点数据只保存 `act
 }
 ```
 
-Action 资源映射表示例：
+前端通过 `public/config/Actions.json` 查找展示信息：
 
 ```json
 {
   "actionId": "Khezu_Idle_Discharge",
   "actionName": "原地放电",
-  "gifPath": "/actions/Khezu/Khezu_Idle_Discharge.gif",
+  "gifPath": "/ActionsGIF/技能/原地放电.gif",
   "comment": "电龙原地放电动作 GIF"
 }
 ```
 
-对应关系：
-
-```text
-Action 节点 actionId
-        ↓
-public/config/Actions.json 中同名 actionId
-        ↓
-actionName / gifPath / comment
-        ↓
-节点卡片和右侧属性面板显示动作名、GIF 预览和备注
-```
-
-### 配表文件
-
-策划维护的源表：
+维护流程：
 
 ```text
 public/config/Actions.xlsx
-```
-
-前端运行时读取的导表产物：
-
-```text
+        ↓ 导表
 public/config/Actions.json
+        ↓ 运行时读取
+Action 节点展示动作名和 GIF
 ```
 
-`Actions.xlsx` 采用双表头结构：
-
-| 行 | 内容 | 用途 |
-|---|---|---|
-| 第 1 行 | 英文字段名 | 程序读取字段 |
-| 第 2 行 | 中文注释 | 给策划说明字段含义 |
-| 第 3 行起 | 数据 | 动作与 GIF 资源映射 |
-
-当前字段：
-
-| 字段 | 中文说明 |
-|---|---|
-| `ActionId` | 动作唯一 ID，行为树节点只保存这个字段 |
-| `ActionName` | 动作显示名 |
-| `GifPath` | GIF 资源路径，部署时相对 `public` 目录 |
-| `Comment` | 资源备注，仅用于说明素材来源或用途 |
-
-这张表只负责资源一一对应，不放距离、前摇、后摇、冷却、威胁等级等战斗设计参数。
-
-### 导表流程
-
-正常使用流程：
-
-1. 策划编辑 `public/config/Actions.xlsx`
-2. 回到 Web 应用，点击顶栏 **导表**
-3. Vite 本地接口执行 Excel to JSON
-4. 生成/覆盖 `public/config/Actions.json`
-5. 前端刷新 Action 配置，Action 节点按最新表格显示
-
-也可以用命令行导表：
+命令行导表：
 
 ```bash
 npm run export:actions
 ```
 
-如需从当前 JSON 重新生成带样式的 Excel 表：
+从当前 JSON 重新生成带样式的 Excel：
 
 ```bash
 npm run generate:actions-xlsx
 ```
 
-### GIF 资源路径
+## 数据文件
 
-GIF 文件建议放在：
-
-```text
-public/actions/Khezu/
-```
-
-例如：
+当前展示用行为树文件位于：
 
 ```text
-public/actions/Khezu/Khezu_Tail_Sweep.gif
+public/电龙AI.json
 ```
 
-配表中的路径写成：
+Action 配表位于：
 
 ```text
-/actions/Khezu/Khezu_Tail_Sweep.gif
+public/config/Actions.xlsx
+public/config/Actions.json
 ```
 
-策划资源命名采用“大写开头 + 下划线分割单词”，不是全大写。怪物技能动画 GIF 需要带怪物名作为前缀，例如 `Khezu_Tail_Sweep.gif`。`BT` 是 BehaviorTree 的专有缩写，相关行为树文件名可保持全大写，例如 `Khezu_BT.json`。
+GIF 资源主要位于：
 
-不要把 GIF 文件本体写进行为树 JSON。行为树只保存 `actionId`，资源路径由 Action 配表统一管理。
+```text
+public/ActionsGIF/
+```
 
 ## 技术栈
 
-- Vite + React 19 + TypeScript
-- @xyflow/react (React Flow v12)
+- Vite 8
+- React 19
+- TypeScript 6
+- React Flow v12
 - Zustand v5
 
-## 许可证
+## 说明
 
-MIT
+这个项目的重点不是做通用前端编辑器，而是服务怪物战斗 AI 拆解和作品集展示。代码开发主要由作者提出功能需求、交互规则和战斗策划表达方式，再使用 Codex 辅助完成实现与迭代。
