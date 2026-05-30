@@ -126,7 +126,7 @@ export function BTEdge({
         markerEnd={markerEnd}
         interactionWidth={0}
         style={{
-          stroke: selected ? '#6366f1' : '#475569',
+          stroke: '#f8fafc',
           strokeWidth: selected ? 3 : 2,
         }}
       />

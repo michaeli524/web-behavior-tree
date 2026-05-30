@@ -1274,7 +1274,7 @@ export function BTEditor() {
         maxZoom={2}
         zoomOnDoubleClick={false}
         deleteKeyCode={['Backspace', 'Delete']}
-        panOnDrag={[2]}
+        panOnDrag={[1, 2]}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}
       >
