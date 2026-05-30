@@ -2362,6 +2362,39 @@
         "startValue": "0",
         "endValue": "0"
       }
+    },
+    {
+      "id": "sequence_1780120856382_1",
+      "type": "bt-node",
+      "position": {
+        "x": 1205,
+        "y": -255
+      },
+      "data": {
+        "label": "Sequence",
+        "type": "sequence",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
     }
   ],
   "edges": [
@@ -2800,6 +2833,12 @@
       "target": "condition_1780120266715_8",
       "sourceHandle": "data-out",
       "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1780120856384_2",
+      "source": "condition_1780120266715_8",
+      "target": "sequence_1780120856382_1",
+      "sourceHandle": "exec-true"
     }
   ],
   "variables": [
