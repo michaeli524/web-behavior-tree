@@ -1,5 +1,5 @@
 import { memo, useState, useCallback, useEffect, useRef } from 'react';
-import { Handle, Position, type NodeProps } from '@xyflow/react';
+import { Handle, Position, useReactFlow, type NodeProps } from '@xyflow/react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType, BTExecutionStatus, type BTNodeData } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
@@ -59,6 +59,8 @@ const leafTypes: BTNodeType[] = [
   BTNodeType.APPROACH,
 ];
 
+type CommentResizeDirection = 'top' | 'right' | 'bottom' | 'left';
+
 function BTNodeComponent({ data, selected, id }: NodeProps) {
   const nodeData = data as unknown as BTNodeData & {
     commentTitleEditRequestNonce?: number;
@@ -69,6 +71,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const config = typeConfig[nodeData.type] ?? typeConfig[BTNodeType.ACTION];
   const status = nodeData.status ?? BTExecutionStatus.IDLE;
   const borderColor = status !== BTExecutionStatus.IDLE ? statusColors[status] : config.color;
+  const reactFlow = useReactFlow();
 
   const isComposite = compositeTypes.includes(nodeData.type);
   const isDecorator = decoratorTypes.includes(nodeData.type);
@@ -202,19 +205,60 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       setCommentTitleDraft(null);
     };
 
-    const handleResizeStart = (e: React.MouseEvent) => {
+    const handleResizeStart = (e: React.MouseEvent, direction: CommentResizeDirection) => {
       e.preventDefault();
       e.stopPropagation();
       const startX = e.clientX;
       const startY = e.clientY;
       const startW = w;
       const startH = h;
+      const state = useBTStore.getState();
+      const activePageId = state.activePageId;
+      const page = activePageId === 'main' ? undefined : state.pages.find((p) => p.id === activePageId);
+      const func = activePageId === 'main' || page ? undefined : state.functions.find((f) => f.id === activePageId);
+      const currentNode = activePageId === 'main'
+        ? state.nodes.find((node) => node.id === id)
+        : page?.nodes.find((node) => node.id === id) ?? func?.nodes.find((node) => node.id === id);
+      const startPosition = currentNode?.position;
+      const minW = 200;
+      const minH = 80;
+
+      const updateCommentPosition = (position: { x: number; y: number }) => {
+        const latestState = useBTStore.getState();
+        if (activePageId === 'main') {
+          latestState.updateNodePosition(id, position);
+          return;
+        }
+        if (page) {
+          latestState.updatePageNodePosition(activePageId, id, position);
+          return;
+        }
+        if (func) {
+          latestState.updateFunctionNodePosition(activePageId, id, position);
+        }
+      };
 
       const onMove = (ev: MouseEvent) => {
+        const zoom = reactFlow.getZoom() || 1;
+        const dx = (ev.clientX - startX) / zoom;
+        const dy = (ev.clientY - startY) / zoom;
+        const nextWidth = direction === 'left' ? Math.max(minW, startW - dx)
+          : direction === 'right' ? Math.max(minW, startW + dx)
+            : startW;
+        const nextHeight = direction === 'top' ? Math.max(minH, startH - dy)
+          : direction === 'bottom' ? Math.max(minH, startH + dy)
+            : startH;
+
         updateNodeData(id, {
-          commentWidth: Math.max(200, startW + ev.clientX - startX),
-          commentHeight: Math.max(80, startH + ev.clientY - startY),
+          commentWidth: nextWidth,
+          commentHeight: nextHeight,
         });
+        if (startPosition && (direction === 'left' || direction === 'top')) {
+          updateCommentPosition({
+            x: direction === 'left' ? startPosition.x + (startW - nextWidth) : startPosition.x,
+            y: direction === 'top' ? startPosition.y + (startH - nextHeight) : startPosition.y,
+          });
+        }
       };
       const onUp = () => {
         window.removeEventListener('mousemove', onMove);
@@ -262,8 +306,20 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           </div>
         )}
         <div
-          className="bt-comment-resize-handle"
-          onMouseDown={handleResizeStart}
+          className="bt-comment-resize-edge bt-comment-resize-edge-top"
+          onMouseDown={(e) => handleResizeStart(e, 'top')}
+        />
+        <div
+          className="bt-comment-resize-edge bt-comment-resize-edge-right"
+          onMouseDown={(e) => handleResizeStart(e, 'right')}
+        />
+        <div
+          className="bt-comment-resize-edge bt-comment-resize-edge-bottom"
+          onMouseDown={(e) => handleResizeStart(e, 'bottom')}
+        />
+        <div
+          className="bt-comment-resize-edge bt-comment-resize-edge-left"
+          onMouseDown={(e) => handleResizeStart(e, 'left')}
         />
       </div>
     );

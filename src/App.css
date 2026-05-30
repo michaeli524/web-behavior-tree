@@ -1631,19 +1631,47 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-.bt-comment-resize-handle {
+.bt-comment-resize-edge {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 18px;
-  height: 18px;
-  cursor: nwse-resize;
-  background: linear-gradient(135deg, transparent 45%, rgba(140,150,180,0.5) 45%, rgba(140,150,180,0.7) 70%, transparent 70%);
-  border-radius: 0 0 6px 0;
+  z-index: 2;
+  background: rgba(160,170,200,0);
+  transition: background 0.12s;
 }
 
-.bt-comment-resize-handle:hover {
-  background: linear-gradient(135deg, transparent 45%, rgba(160,170,200,0.7) 45%, rgba(160,170,200,0.9) 70%, transparent 70%);
+.bt-comment-resize-edge:hover {
+  background: rgba(160,170,200,0.18);
+}
+
+.bt-comment-resize-edge-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.bt-comment-resize-edge-right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.bt-comment-resize-edge-bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.bt-comment-resize-edge-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
 }
 
 /* ===== Test Node (sandbox for style experiments) ===== */
