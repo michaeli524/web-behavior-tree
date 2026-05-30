@@ -372,9 +372,8 @@ export function BTEditor() {
     [addPage, setActivePageId, updateNodeDataStore]
   );
 
-  const previewComboGif = useCallback(
+  const previewActionMedia = useCallback(
     (data: BTNodeData) => {
-      if (data.isCombo === false) return;
       if (!data.actionId) return;
       const actionConfig = actionById.get(data.actionId);
       if (!actionConfig?.gifPath) return;
@@ -385,6 +384,14 @@ export function BTEditor() {
       });
     },
     [actionById]
+  );
+
+  const previewComboMedia = useCallback(
+    (data: BTNodeData) => {
+      if (data.isCombo === false) return;
+      previewActionMedia(data);
+    },
+    [previewActionMedia]
   );
 
   const selectReroutePoint = useCallback(
@@ -451,14 +458,22 @@ export function BTEditor() {
               data: {
                 ...n.data,
                 onComboTitleClick: () => openComboPage(n.id, n.data),
-                onComboPreviewClick: () => previewComboGif(n.data),
+                onComboPreviewClick: () => previewComboMedia(n.data),
+              },
+            }
+          : {}),
+        ...(n.data.type === BTNodeType.ACTION
+          ? {
+              data: {
+                ...n.data,
+                onActionPreviewClick: () => previewActionMedia(n.data),
               },
             }
           : {}),
         zIndex: n.data.type === BTNodeType.COMMENT ? -1 : undefined,
         dragHandle: n.data.type === BTNodeType.COMMENT ? '.bt-comment-title' : undefined,
       })) as Node[],
-    [nodes, selectedNodeIds, commentTitleEditRequest, openComboPage, previewComboGif]
+    [nodes, selectedNodeIds, commentTitleEditRequest, openComboPage, previewActionMedia, previewComboMedia]
   );
 
   const rfEdges: Edge[] = useMemo(
@@ -819,17 +834,8 @@ export function BTEditor() {
       if (data.type === BTNodeType.FUNCTION && data.functionId) {
         setActivePageId(data.functionId);
       }
-      if (data.type === BTNodeType.ACTION && data.actionId) {
-        const actionConfig = actionById.get(data.actionId);
-        if (!actionConfig?.gifPath) return;
-        setActionPreview({
-          actionId: actionConfig.actionId,
-          actionName: actionConfig.actionName,
-          mediaPath: actionConfig.gifPath,
-        });
-      }
     },
-    [actionById, setActivePageId]
+    [setActivePageId]
   );
 
   const onNodesDelete = useCallback(

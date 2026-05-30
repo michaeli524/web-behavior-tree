@@ -65,6 +65,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const nodeData = data as unknown as BTNodeData & {
     commentTitleEditRequestNonce?: number;
     onCommentTitleEditStarted?: () => void;
+    onActionPreviewClick?: () => void;
     onComboTitleClick?: () => void;
     onComboPreviewClick?: () => void;
   };
@@ -504,7 +505,11 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           {nodeData.type === BTNodeType.ACTION && (
             <div className="bt-action-card">
               {actionConfig?.gifPath ? (
-                <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
+                <ActionThumb
+                  src={actionConfig.gifPath}
+                  alt={actionConfig.actionId}
+                  onPreviewClick={nodeData.onActionPreviewClick}
+                />
               ) : (
                 <div className="bt-action-thumb bt-action-thumb-empty">MP4</div>
               )}
@@ -574,16 +579,13 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
       {/* ── Combo node — Action card without execution ports ── */}
       {isComboDisplay && (
         <div className="bt-node-body">
-          <div
-            className="bt-combo-card"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              nodeData.onComboPreviewClick?.();
-            }}
-          >
+          <div className="bt-combo-card">
             {actionConfig?.gifPath ? (
-              <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
+              <ActionThumb
+                src={actionConfig.gifPath}
+                alt={actionConfig.actionId}
+                onPreviewClick={nodeData.onComboPreviewClick}
+              />
             ) : (
               <div className="bt-action-thumb bt-action-thumb-empty">MP4</div>
             )}
@@ -626,7 +628,15 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 
 export const BTNodeRenderer = memo(BTNodeComponent);
 
-function ActionThumb({ src, alt }: { src: string; alt: string }) {
+function ActionThumb({
+  src,
+  alt,
+  onPreviewClick,
+}: {
+  src: string;
+  alt: string;
+  onPreviewClick?: () => void;
+}) {
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     setFailed(false);
@@ -637,14 +647,39 @@ function ActionThumb({ src, alt }: { src: string; alt: string }) {
   }
 
   return (
-    <video
-      className="bt-action-thumb"
-      src={src}
-      title={alt}
-      muted
-      playsInline
-      preload="metadata"
-      onError={() => setFailed(true)}
-    />
+    <div className="bt-action-thumb-wrap">
+      <video
+        className="bt-action-thumb"
+        src={src}
+        title={alt}
+        muted
+        playsInline
+        preload="metadata"
+        onError={() => setFailed(true)}
+      />
+      {onPreviewClick && (
+        <button
+          type="button"
+          className="bt-action-play-button"
+          title="播放 MP4"
+          aria-label="播放 MP4"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onPreviewClick();
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onDoubleClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <span />
+        </button>
+      )}
+    </div>
   );
 }
