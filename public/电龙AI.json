@@ -26,8 +26,8 @@
       "id": "condition_1779587148130_5",
       "type": "bt-node",
       "position": {
-        "x": 445,
-        "y": 230
+        "x": 290,
+        "y": 235
       },
       "data": {
         "label": "Condition",
@@ -50,8 +50,8 @@
       "id": "get-variable_1779587153361_7",
       "type": "bt-node",
       "position": {
-        "x": 305,
-        "y": 300
+        "x": 145,
+        "y": 320
       },
       "data": {
         "label": "Get",
@@ -67,56 +67,6 @@
           2000
         ],
         "variableId": "var_1779033673960_5",
-        "operator": "<",
-        "compareValue": "0"
-      }
-    },
-    {
-      "id": "sequence_1779588939265_2",
-      "type": "bt-node",
-      "position": {
-        "x": 980,
-        "y": -770
-      },
-      "data": {
-        "label": "Sequence",
-        "type": "sequence",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "operator": "<",
-        "compareValue": "0"
-      }
-    },
-    {
-      "id": "comment_1779588940394_4",
-      "type": "bt-node",
-      "position": {
-        "x": 950,
-        "y": -795
-      },
-      "data": {
-        "label": "身体完全充电的战斗分支",
-        "type": "comment",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "commentWidth": 190,
-        "commentHeight": 120,
         "operator": "<",
         "compareValue": "0"
       }
@@ -175,8 +125,8 @@
       "id": "condition_1779590371092_1",
       "type": "bt-node",
       "position": {
-        "x": 1520,
-        "y": -765
+        "x": 1395,
+        "y": -550
       },
       "data": {
         "label": "Condition",
@@ -197,64 +147,11 @@
       }
     },
     {
-      "id": "get-variable_1779590452238_4",
-      "type": "bt-node",
-      "position": {
-        "x": 1340,
-        "y": -675
-      },
-      "data": {
-        "label": "Get",
-        "type": "get-variable",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "variableId": "var_1779590375524_3",
-        "operator": "<",
-        "compareValue": "0",
-        "approachDistance": 500
-      }
-    },
-    {
-      "id": "comment_1779590468927_6",
-      "type": "bt-node",
-      "position": {
-        "x": 1330,
-        "y": -805
-      },
-      "data": {
-        "label": "大招倒计时是否结束",
-        "type": "comment",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "commentWidth": 360,
-        "commentHeight": 190,
-        "operator": "<",
-        "compareValue": "0",
-        "approachDistance": 500
-      }
-    },
-    {
       "id": "action_1779590633705_8",
       "type": "bt-node",
       "position": {
-        "x": 1815,
-        "y": -1080
+        "x": 1705,
+        "y": -790
       },
       "data": {
         "label": "Action",
@@ -279,8 +176,8 @@
       "id": "dist-selector_1779601930686_1",
       "type": "bt-node",
       "position": {
-        "x": 1810,
-        "y": -650
+        "x": 1700,
+        "y": -500
       },
       "data": {
         "label": "Dist Selector",
@@ -304,8 +201,8 @@
       "id": "action_1779602454600_10",
       "type": "bt-node",
       "position": {
-        "x": 2120,
-        "y": -590
+        "x": 2625,
+        "y": -410
       },
       "data": {
         "label": "Action",
@@ -330,8 +227,8 @@
       "id": "comment_1779607904817_3",
       "type": "bt-node",
       "position": {
-        "x": 275,
-        "y": 200
+        "x": 120,
+        "y": 205
       },
       "data": {
         "label": "是否所有部位完成充电",
@@ -346,8 +243,8 @@
           650,
           2000
         ],
-        "commentWidth": 330,
-        "commentHeight": 190,
+        "commentWidth": 339,
+        "commentHeight": 171,
         "operator": "<",
         "compareValue": "0",
         "approachDistance": 500
@@ -1212,39 +1109,6 @@
           20
         ],
         "variableId": "var_1779033704242_8",
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
-      }
-    },
-    {
-      "id": "reset_1779616135977_8",
-      "type": "bt-node",
-      "position": {
-        "x": 1150,
-        "y": -655
-      },
-      "data": {
-        "label": "Reset",
-        "type": "reset",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
@@ -2199,7 +2063,7 @@
       "id": "sequence_1779807461204_9",
       "type": "bt-node",
       "position": {
-        "x": -10,
+        "x": -55,
         "y": 235
       },
       "data": {
@@ -2232,7 +2096,7 @@
       "id": "reset_1780120170559_2",
       "type": "bt-node",
       "position": {
-        "x": -10,
+        "x": -55,
         "y": 325
       },
       "data": {
@@ -2265,8 +2129,8 @@
       "id": "condition_1780120266715_8",
       "type": "bt-node",
       "position": {
-        "x": 845,
-        "y": -280
+        "x": 710,
+        "y": -290
       },
       "data": {
         "label": "Condition",
@@ -2298,8 +2162,8 @@
       "id": "get-variable_1780120269665_10",
       "type": "bt-node",
       "position": {
-        "x": 665,
-        "y": -165
+        "x": 520,
+        "y": -265
       },
       "data": {
         "label": "Get",
@@ -2332,8 +2196,8 @@
       "id": "comment_1780120277428_12",
       "type": "bt-node",
       "position": {
-        "x": 640,
-        "y": -310
+        "x": 510,
+        "y": -325
       },
       "data": {
         "label": "是否进入超带电状态",
@@ -2353,8 +2217,8 @@
           30,
           20
         ],
-        "commentWidth": 365,
-        "commentHeight": 220,
+        "commentWidth": 362,
+        "commentHeight": 171,
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
@@ -2364,20 +2228,194 @@
       }
     },
     {
-      "id": "sequence_1780120856382_1",
+      "id": "get-variable_1780122471923_3",
       "type": "bt-node",
       "position": {
-        "x": 1205,
-        "y": -255
+        "x": 1265,
+        "y": -485
       },
       "data": {
-        "label": "Sequence",
-        "type": "sequence",
+        "label": "Get",
+        "type": "get-variable",
         "condition": "",
         "action": "",
         "duration": 1000,
         "repeatCount": 1,
         "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1780122453794_2",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1780122560439_10",
+      "type": "bt-node",
+      "position": {
+        "x": 1235,
+        "y": -580
+      },
+      "data": {
+        "label": "大招倒计时是否结束",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 320,
+        "commentHeight": 185,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "random-selector_1780122623462_11",
+      "type": "bt-node",
+      "position": {
+        "x": 1190,
+        "y": -235
+      },
+      "data": {
+        "label": "Random Selector",
+        "type": "random-selector",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1780122627102_13",
+      "type": "bt-node",
+      "position": {
+        "x": 1160,
+        "y": -275
+      },
+      "data": {
+        "label": "普通的全身充能状态",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 232,
+        "commentHeight": 221,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1780122758299_14",
+      "type": "bt-node",
+      "position": {
+        "x": 1675,
+        "y": -820
+      },
+      "data": {
+        "label": "倒计时结束，释放大招",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 306,
+        "commentHeight": 170,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "combo-show_1780123015071_17",
+      "type": "bt-node",
+      "position": {
+        "x": 2065,
+        "y": -460
+      },
+      "data": {
+        "label": "Combo_BackStep_Breath_SuperCharged",
+        "type": "combo-show",
+        "condition": "",
+        "action": "",
+        "isCombo": true,
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "functionId": "page_1780123015066_15",
         "distances": [
           300,
           650,
@@ -2413,13 +2451,6 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "edge_1779590460158_5",
-      "source": "get-variable_1779590452238_4",
-      "target": "condition_1779590371092_1",
-      "sourceHandle": "data-out",
-      "targetHandle": "data-in"
-    },
-    {
       "id": "edge_1779590633706_9",
       "source": "condition_1779590371092_1",
       "target": "action_1779590633705_8",
@@ -2430,12 +2461,6 @@
       "source": "condition_1779590371092_1",
       "target": "dist-selector_1779601930686_1",
       "sourceHandle": "exec-false"
-    },
-    {
-      "id": "edge_1779602454600_11",
-      "source": "dist-selector_1779601930686_1",
-      "target": "action_1779602454600_10",
-      "sourceHandle": "dist-1"
     },
     {
       "id": "edge_1779610593456_2",
@@ -2808,37 +2833,46 @@
       "sourceHandle": "exec-next"
     },
     {
-      "id": "edge_1780120223890_6",
-      "source": "sequence_1779588939265_2",
-      "target": "reset_1779616135977_8",
-      "sourceHandle": "exec-next",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "edge_1780120225597_7",
-      "source": "sequence_1779588939265_2",
-      "target": "condition_1779590371092_1",
-      "sourceHandle": "exec-out",
-      "targetHandle": "exec-in"
-    },
-    {
       "id": "edge_1780120266717_9",
       "source": "condition_1779587148130_5",
       "target": "condition_1780120266715_8",
       "sourceHandle": "exec-true"
     },
     {
-      "id": "edge_1780120271498_11",
+      "id": "edge_1780122513167_6",
       "source": "get-variable_1780120269665_10",
       "target": "condition_1780120266715_8",
       "sourceHandle": "data-out",
       "targetHandle": "data-in"
     },
     {
-      "id": "edge_1780120856384_2",
+      "id": "edge_1780122540244_7",
+      "source": "get-variable_1780122471923_3",
+      "target": "condition_1779590371092_1",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1780122543735_8",
       "source": "condition_1780120266715_8",
-      "target": "sequence_1780120856382_1",
-      "sourceHandle": "exec-true"
+      "target": "condition_1779590371092_1",
+      "sourceHandle": "exec-true",
+      "targetHandle": "exec-in",
+      "data": {
+        "reroutePoints": [
+          {
+            "id": "reroute_1780122545182_9",
+            "x": 1210,
+            "y": -510
+          }
+        ]
+      }
+    },
+    {
+      "id": "edge_1780122623463_12",
+      "source": "condition_1780120266715_8",
+      "target": "random-selector_1780122623462_11",
+      "sourceHandle": "exec-false"
     }
   ],
   "variables": [
@@ -2867,14 +2901,14 @@
       "value": false
     },
     {
-      "id": "var_1779590375524_3",
-      "name": "ChargeTimedUp",
+      "id": "var_1780120195489_4",
+      "name": "SuperCharged",
       "type": "boolean",
       "value": false
     },
     {
-      "id": "var_1780120195489_4",
-      "name": "SuperCharged",
+      "id": "var_1780122453794_2",
+      "name": "UltTimedUp",
       "type": "boolean",
       "value": false
     }
@@ -3127,6 +3161,46 @@
             ],
             "operator": "<",
             "compareValue": "0"
+          }
+        }
+      ],
+      "edges": []
+    },
+    {
+      "id": "page_1780123015066_15",
+      "name": "Combo_BackStep_Breath_SuperCharged",
+      "nodes": [
+        {
+          "id": "root_1780123015067_16",
+          "type": "bt-node",
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "data": {
+            "label": "Combo_BackStep_Breath_SuperCharged",
+            "type": "root",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
           }
         }
       ],

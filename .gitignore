@@ -11,6 +11,7 @@ node_modules
 dist
 release
 public/ActionsGIF
+public/ActionMP4
 dist-ssr
 *.local
 
