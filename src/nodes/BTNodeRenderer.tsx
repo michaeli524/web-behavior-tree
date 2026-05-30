@@ -506,7 +506,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               {actionConfig?.gifPath ? (
                 <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
               ) : (
-                <div className="bt-action-thumb bt-action-thumb-empty">GIF</div>
+                <div className="bt-action-thumb bt-action-thumb-empty">MP4</div>
               )}
               <div className="bt-action-meta">
                 <div className="bt-action-id">
@@ -585,7 +585,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             {actionConfig?.gifPath ? (
               <ActionThumb src={actionConfig.gifPath} alt={actionConfig.actionId} />
             ) : (
-              <div className="bt-action-thumb bt-action-thumb-empty">GIF</div>
+              <div className="bt-action-thumb bt-action-thumb-empty">MP4</div>
             )}
             <div className="bt-action-meta">
               <div className="bt-action-id">
@@ -627,6 +627,24 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 export const BTNodeRenderer = memo(BTNodeComponent);
 
 function ActionThumb({ src, alt }: { src: string; alt: string }) {
-  void src;
-  return <div className="bt-action-thumb bt-action-thumb-empty bt-action-thumb-deferred" title={alt}>点击预览</div>;
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    setFailed(false);
+  }, [src]);
+
+  if (failed) {
+    return <div className="bt-action-thumb bt-action-thumb-empty">MP4</div>;
+  }
+
+  return (
+    <video
+      className="bt-action-thumb"
+      src={src}
+      title={alt}
+      muted
+      playsInline
+      preload="metadata"
+      onError={() => setFailed(true)}
+    />
+  );
 }

@@ -8,7 +8,7 @@
 
 - 面向怪物设计、战斗策划、AI 行为拆解的个人工具
 - 用节点图表达怪物行为决策，而不是只写静态分析文档
-- 通过 GIF 资源把行为树节点和具体招式表现关联起来
+- 通过 MP4 资源把行为树节点和具体招式表现关联起来
 - 用 Excel/JSON 配表维护动作资源，贴近策划工作流
 
 ## 当前功能
@@ -17,8 +17,8 @@
 - **右键快速创建**：搜索节点、方向键选择、回车创建、键盘选择自动滚动
 - **执行流与数据流**：执行端口和数据端口分离，支持端口拆线
 - **多页面编辑**：每个页面可对应一个 Combo 节点，页面名和 Combo 标题双向同步
-- **Combo 节点**：支持展示 GIF，也可切换为普通子树入口样式
-- **Action 节点**：只保存 `actionId`，动作名和 GIF 路径来自 Action 配表
+- **Combo 节点**：支持展示 MP4，也可切换为普通子树入口样式
+- **Action 节点**：只保存 `actionId`，动作名和 MP4 路径来自 Action 配表
 - **变量节点**：变量可拖入画布创建 Get/Set 节点
 - **条件与数据节点**：支持 Compare、Condition、Dist Selector、Random Selector、2D Distance Between、Angle Between CW、Angle Between CW LRBoth 等节点
 - **注释框**：选中节点后按 `C` 创建注释框，用于整理行为块
@@ -31,7 +31,7 @@
 - 不同距离下的招式选择
 - 头部、尾部、翅膀等攻击方向和角度判断
 - 未充能、局部充能、完全充能等状态下的行为差异
-- 小招衔接、Combo 页面和动作 GIF 展示
+- 小招衔接、Combo 页面和动作 MP4 展示
 - 大招、派生招式和状态切换条件
 
 ## 快速开始
@@ -67,9 +67,9 @@ npm run build
 | 保存           | Cmd/Ctrl + S                       |
 | 删除节点       | Backspace / Delete                 |
 
-## Action 配表与 GIF
+## Action 配表与 MP4
 
-Action 节点不直接保存动作名称或 GIF 路径，只保存 `actionId`：
+Action 节点不直接保存动作名称或 MP4 路径，只保存 `actionId`：
 
 ```json
 {
@@ -85,8 +85,8 @@ Action 节点不直接保存动作名称或 GIF 路径，只保存 `actionId`：
 {
   "actionId": "Khezu_Idle_Discharge",
   "actionName": "原地放电",
-  "gifPath": "/ActionsGIF/技能/原地放电.gif",
-  "comment": "电龙原地放电动作 GIF"
+  "gifPath": "/ActionMP4/原地放电-1.mp4",
+  "comment": "电龙原地放电动作 MP4"
 }
 ```
 
@@ -97,7 +97,7 @@ public/config/Actions.xlsx
         ↓ 导表
 public/config/Actions.json
         ↓ 运行时读取
-Action 节点展示动作名和 GIF
+Action 节点展示动作名和 MP4
 ```
 
 命令行导表：
@@ -127,15 +127,15 @@ public/config/Actions.xlsx
 public/config/Actions.json
 ```
 
-GIF 资源主要位于：
+MP4 资源主要位于：
 
 ```text
-public/ActionsGIF/
+public/ActionMP4/
 ```
 
-## GIF 资源本地/CDN切换
+## MP4 资源本地/CDN切换
 
-Action 配表里的 `gifPath` 保持 `/ActionsGIF/...` 相对路径不变。前端会读取：
+Action 配表里的 `gifPath` 字段保留为兼容旧导表字段名，但内容应填写 `/ActionMP4/...` 相对路径。前端会读取：
 
 ```text
 public/config/asset-host.json
@@ -147,7 +147,7 @@ public/config/asset-host.json
 npm run assets:local
 ```
 
-此时 `assetBaseUrl` 为空，GIF 从本地 `public/ActionsGIF/` 读取。
+此时 `assetBaseUrl` 为空，MP4 从本地 `public/ActionMP4/` 读取。
 
 上线前切到 CDN：
 
@@ -155,7 +155,7 @@ npm run assets:local
 npm run assets:cdn
 ```
 
-此时前端会把 `/ActionsGIF/...` 拼成 `assetBaseUrl + /ActionsGIF/...`。实际 CDN 域名维护在：
+此时前端会把 `/ActionMP4/...` 拼成 `assetBaseUrl + /ActionMP4/...`。实际 CDN 域名维护在：
 
 ```text
 public/config/asset-host.cdn.json

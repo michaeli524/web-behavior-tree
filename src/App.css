@@ -905,7 +905,7 @@
   overflow: hidden;
 }
 
-.action-preview-gif,
+.action-preview-video,
 .action-preview-empty {
   display: block;
   width: 100%;
@@ -1377,7 +1377,7 @@
   background: #0b1220;
 }
 
-.action-lightbox-media img {
+.action-lightbox-media video {
   display: block;
   width: 100%;
   height: min(720px, calc(92vh - 112px));

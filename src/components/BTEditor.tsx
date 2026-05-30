@@ -207,7 +207,7 @@ export function BTEditor() {
   const [actionPreview, setActionPreview] = useState<{
     actionId: string;
     actionName: string;
-    gifPath: string;
+    mediaPath: string;
   } | null>(null);
   const [selectedReroutePoint, setSelectedReroutePoint] = useState<{
     edgeId: string;
@@ -381,7 +381,7 @@ export function BTEditor() {
       setActionPreview({
         actionId: actionConfig.actionId,
         actionName: actionConfig.actionName,
-        gifPath: actionConfig.gifPath,
+        mediaPath: actionConfig.gifPath,
       });
     },
     [actionById]
@@ -825,7 +825,7 @@ export function BTEditor() {
         setActionPreview({
           actionId: actionConfig.actionId,
           actionName: actionConfig.actionName,
-          gifPath: actionConfig.gifPath,
+          mediaPath: actionConfig.gifPath,
         });
       }
     },
@@ -1386,7 +1386,7 @@ export function BTEditor() {
         <ActionLightbox
           actionId={actionPreview.actionId}
           actionName={actionPreview.actionName}
-          gifPath={actionPreview.gifPath}
+          mediaPath={actionPreview.mediaPath}
           onClose={() => setActionPreview(null)}
         />
       )}
@@ -1397,21 +1397,21 @@ export function BTEditor() {
 function ActionLightbox({
   actionId,
   actionName,
-  gifPath,
+  mediaPath,
   onClose,
 }: {
   actionId: string;
   actionName: string;
-  gifPath: string;
+  mediaPath: string;
   onClose: () => void;
 }) {
   const [failed, setFailed] = useState(false);
   const [replayNonce] = useState(() => Date.now());
-  const replayGifPath = useMemo(() => {
-    const [pathAndQuery, hash = ''] = gifPath.split('#');
+  const replayMediaPath = useMemo(() => {
+    const [pathAndQuery, hash = ''] = mediaPath.split('#');
     const separator = pathAndQuery.includes('?') ? '&' : '?';
     return `${pathAndQuery}${separator}replay=${replayNonce}${hash ? `#${hash}` : ''}`;
-  }, [gifPath, replayNonce]);
+  }, [mediaPath, replayNonce]);
 
   return (
     <div className="action-lightbox" onMouseDown={onClose}>
@@ -1426,9 +1426,17 @@ function ActionLightbox({
         </button>
         <div className="action-lightbox-media">
           {failed ? (
-            <div className="action-lightbox-empty">GIF 文件待放入项目资源目录</div>
+            <div className="action-lightbox-empty">MP4 文件待放入项目资源目录</div>
           ) : (
-            <img src={replayGifPath} alt={actionId} onError={() => setFailed(true)} />
+            <video
+              src={replayMediaPath}
+              aria-label={actionId}
+              autoPlay
+              loop
+              muted
+              playsInline
+              onError={() => setFailed(true)}
+            />
           )}
         </div>
         <div className="action-lightbox-meta">

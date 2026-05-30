@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
@@ -203,18 +203,18 @@ export function PropertiesPanel() {
 
           <div className="action-preview-panel">
             {selectedAction?.gifPath ? (
-              <ActionPreviewImage src={selectedAction.gifPath} alt={selectedAction.actionId} />
+              <ActionPreviewVideo src={selectedAction.gifPath} alt={selectedAction.actionId} />
             ) : data.actionId ? (
               <div className="action-preview-empty">未找到 ActionId: {data.actionId}</div>
             ) : (
-              <div className="action-preview-empty">选择一个 ActionId 后显示 GIF 预览</div>
+              <div className="action-preview-empty">选择一个 ActionId 后显示 MP4 预览</div>
             )}
             {selectedAction && (
               <>
                 <div className="action-preview-title">{selectedAction.actionId}</div>
                 <div className="action-preview-grid">
                   <span>ActionId</span><strong>{selectedAction.actionId}</strong>
-                  <span>GIF</span><strong>{selectedAction.gifPath}</strong>
+                  <span>MP4</span><strong>{selectedAction.gifPath}</strong>
                 </div>
               </>
             )}
@@ -329,18 +329,18 @@ export function PropertiesPanel() {
 
           <div className="action-preview-panel">
             {selectedAction?.gifPath ? (
-              <ActionPreviewImage src={selectedAction.gifPath} alt={selectedAction.actionId} />
+              <ActionPreviewVideo src={selectedAction.gifPath} alt={selectedAction.actionId} />
             ) : data.actionId ? (
               <div className="action-preview-empty">未找到 ActionId: {data.actionId}</div>
             ) : (
-              <div className="action-preview-empty">选择一个 ActionId 后显示 GIF 预览</div>
+              <div className="action-preview-empty">选择一个 ActionId 后显示 MP4 预览</div>
             )}
             {selectedAction && (
               <>
                 <div className="action-preview-title">{selectedAction.actionId}</div>
                 <div className="action-preview-grid">
                   <span>ActionId</span><strong>{selectedAction.actionId}</strong>
-                  <span>GIF</span><strong>{selectedAction.gifPath}</strong>
+                  <span>MP4</span><strong>{selectedAction.gifPath}</strong>
                 </div>
               </>
             )}
@@ -593,16 +593,25 @@ export function PropertiesPanel() {
   );
 }
 
-function ActionPreviewImage({ src, alt }: { src: string; alt: string }) {
+function ActionPreviewVideo({ src, alt }: { src: string; alt: string }) {
   const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    setFailed(false);
+  }, [src]);
+
   if (failed) {
-    return <div className="action-preview-empty">GIF 文件待放入项目资源目录</div>;
+    return <div className="action-preview-empty">MP4 文件待放入项目资源目录</div>;
   }
+
   return (
-    <img
-      className="action-preview-gif"
+    <video
+      className="action-preview-video"
       src={src}
-      alt={alt}
+      aria-label={alt}
+      autoPlay
+      loop
+      muted
+      playsInline
       onError={() => setFailed(true)}
     />
   );
