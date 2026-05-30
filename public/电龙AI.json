@@ -23,29 +23,6 @@
       }
     },
     {
-      "id": "action_1779033829786_10",
-      "type": "bt-node",
-      "position": {
-        "x": 2085,
-        "y": -1465
-      },
-      "data": {
-        "label": "飞扑咬击",
-        "type": "action",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "actionId": "Khezu_Tail_Sweep"
-      }
-    },
-    {
       "id": "condition_1779587148130_5",
       "type": "bt-node",
       "position": {
@@ -98,8 +75,8 @@
       "id": "sequence_1779588939265_2",
       "type": "bt-node",
       "position": {
-        "x": 755,
-        "y": -1115
+        "x": 980,
+        "y": -770
       },
       "data": {
         "label": "Sequence",
@@ -122,8 +99,8 @@
       "id": "comment_1779588940394_4",
       "type": "bt-node",
       "position": {
-        "x": 725,
-        "y": -1145
+        "x": 950,
+        "y": -795
       },
       "data": {
         "label": "身体完全充电的战斗分支",
@@ -148,8 +125,8 @@
       "id": "sequence_1779589026810_5",
       "type": "bt-node",
       "position": {
-        "x": 1030,
-        "y": 910
+        "x": 720,
+        "y": 655
       },
       "data": {
         "label": "Sequence",
@@ -172,8 +149,8 @@
       "id": "comment_1779589026810_6",
       "type": "bt-node",
       "position": {
-        "x": 1000,
-        "y": 880
+        "x": 690,
+        "y": 625
       },
       "data": {
         "label": "未完全充电的战斗分支",
@@ -198,8 +175,8 @@
       "id": "condition_1779590371092_1",
       "type": "bt-node",
       "position": {
-        "x": 1295,
-        "y": -1115
+        "x": 1520,
+        "y": -765
       },
       "data": {
         "label": "Condition",
@@ -223,8 +200,8 @@
       "id": "get-variable_1779590452238_4",
       "type": "bt-node",
       "position": {
-        "x": 1115,
-        "y": -1025
+        "x": 1340,
+        "y": -675
       },
       "data": {
         "label": "Get",
@@ -249,8 +226,8 @@
       "id": "comment_1779590468927_6",
       "type": "bt-node",
       "position": {
-        "x": 1105,
-        "y": -1155
+        "x": 1330,
+        "y": -805
       },
       "data": {
         "label": "大招倒计时是否结束",
@@ -276,8 +253,8 @@
       "id": "action_1779590633705_8",
       "type": "bt-node",
       "position": {
-        "x": 1605,
-        "y": -1395
+        "x": 1815,
+        "y": -1080
       },
       "data": {
         "label": "Action",
@@ -302,8 +279,8 @@
       "id": "dist-selector_1779601930686_1",
       "type": "bt-node",
       "position": {
-        "x": 1605,
-        "y": -1195
+        "x": 1810,
+        "y": -650
       },
       "data": {
         "label": "Dist Selector",
@@ -327,8 +304,8 @@
       "id": "action_1779602454600_10",
       "type": "bt-node",
       "position": {
-        "x": 2235,
-        "y": -1225
+        "x": 2120,
+        "y": -590
       },
       "data": {
         "label": "Action",
@@ -357,7 +334,7 @@
         "y": 200
       },
       "data": {
-        "label": "是否全身充电",
+        "label": "是否所有部位完成充电",
         "type": "comment",
         "condition": "",
         "action": "",
@@ -380,8 +357,8 @@
       "id": "dist-selector_1779609575943_7",
       "type": "bt-node",
       "position": {
-        "x": 1870,
-        "y": 1630
+        "x": 2035,
+        "y": 2525
       },
       "data": {
         "label": "Dist Selector",
@@ -1011,8 +988,8 @@
       "id": "comment_1779615474274_4",
       "type": "bt-node",
       "position": {
-        "x": 1850,
-        "y": 1590
+        "x": 2015,
+        "y": 2485
       },
       "data": {
         "label": "头、翅膀充电未同时满足时",
@@ -1247,8 +1224,8 @@
       "id": "reset_1779616135977_8",
       "type": "bt-node",
       "position": {
-        "x": 925,
-        "y": -1005
+        "x": 1150,
+        "y": -655
       },
       "data": {
         "label": "Reset",
@@ -1280,8 +1257,8 @@
       "id": "reset_1779616146491_10",
       "type": "bt-node",
       "position": {
-        "x": 1185,
-        "y": 1025
+        "x": 875,
+        "y": 770
       },
       "data": {
         "label": "Reset",
@@ -1414,8 +1391,8 @@
       "id": "dist-selector_1779617389054_1",
       "type": "bt-node",
       "position": {
-        "x": 1385,
-        "y": 910
+        "x": 1075,
+        "y": 655
       },
       "data": {
         "label": "Dist Selector",
@@ -1514,8 +1491,8 @@
       "id": "combo-show_1779627119406_1",
       "type": "bt-node",
       "position": {
-        "x": 2545,
-        "y": -45
+        "x": 2640,
+        "y": -115
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -1549,7 +1526,7 @@
       "id": "action_1779628586470_1",
       "type": "bt-node",
       "position": {
-        "x": 2560,
+        "x": 2620,
         "y": 140
       },
       "data": {
@@ -1583,7 +1560,7 @@
       "id": "action_1779628597070_3",
       "type": "bt-node",
       "position": {
-        "x": 2840,
+        "x": 2870,
         "y": 140
       },
       "data": {
@@ -1651,8 +1628,8 @@
       "id": "comment_1779628632683_7",
       "type": "bt-node",
       "position": {
-        "x": 1355,
-        "y": 880
+        "x": 1045,
+        "y": 625
       },
       "data": {
         "label": "头、翅膀都充电",
@@ -1721,7 +1698,7 @@
       "id": "condition_1779630543908_2",
       "type": "bt-node",
       "position": {
-        "x": 3310,
+        "x": 3315,
         "y": 140
       },
       "data": {
@@ -1754,7 +1731,7 @@
       "id": "distance-2d_1779630559351_4",
       "type": "bt-node",
       "position": {
-        "x": 3120,
+        "x": 3165,
         "y": 200
       },
       "data": {
@@ -1854,8 +1831,8 @@
       "id": "random-selector_1779633330512_3",
       "type": "bt-node",
       "position": {
-        "x": 2095,
-        "y": 970
+        "x": 1640,
+        "y": 1025
       },
       "data": {
         "label": "Random Selector",
@@ -1887,8 +1864,8 @@
       "id": "action_1779633339894_5",
       "type": "bt-node",
       "position": {
-        "x": 2430,
-        "y": 1000
+        "x": 1975,
+        "y": 1055
       },
       "data": {
         "label": "Action",
@@ -1921,8 +1898,8 @@
       "id": "action_1779633350820_7",
       "type": "bt-node",
       "position": {
-        "x": 3365,
-        "y": 1050
+        "x": 2910,
+        "y": 1105
       },
       "data": {
         "label": "Action",
@@ -1955,8 +1932,8 @@
       "id": "condition_1779633350821_8",
       "type": "bt-node",
       "position": {
-        "x": 2910,
-        "y": 1000
+        "x": 2455,
+        "y": 1055
       },
       "data": {
         "label": "Condition",
@@ -1988,8 +1965,8 @@
       "id": "distance-2d_1779633350821_9",
       "type": "bt-node",
       "position": {
-        "x": 2730,
-        "y": 1060
+        "x": 2275,
+        "y": 1115
       },
       "data": {
         "label": "2D Dist Between",
@@ -2021,8 +1998,8 @@
       "id": "action_1779633350821_10",
       "type": "bt-node",
       "position": {
-        "x": 3090,
-        "y": 955
+        "x": 2635,
+        "y": 1010
       },
       "data": {
         "label": "Action",
@@ -2222,7 +2199,7 @@
       "id": "sequence_1779807461204_9",
       "type": "bt-node",
       "position": {
-        "x": -45,
+        "x": -10,
         "y": 235
       },
       "data": {
@@ -2250,6 +2227,141 @@
         "startValue": "0",
         "endValue": "0"
       }
+    },
+    {
+      "id": "reset_1780120170559_2",
+      "type": "bt-node",
+      "position": {
+        "x": -10,
+        "y": 325
+      },
+      "data": {
+        "label": "Reset",
+        "type": "reset",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "condition_1780120266715_8",
+      "type": "bt-node",
+      "position": {
+        "x": 845,
+        "y": -280
+      },
+      "data": {
+        "label": "Condition",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "get-variable_1780120269665_10",
+      "type": "bt-node",
+      "position": {
+        "x": 665,
+        "y": -165
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1780120195489_4",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1780120277428_12",
+      "type": "bt-node",
+      "position": {
+        "x": 640,
+        "y": -310
+      },
+      "data": {
+        "label": "是否进入超带电状态",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 365,
+        "commentHeight": 220,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
     }
   ],
   "edges": [
@@ -2261,26 +2373,11 @@
       "targetHandle": "data-in"
     },
     {
-      "id": "edge_1779588939266_3",
-      "source": "condition_1779587148130_5",
-      "target": "sequence_1779588939265_2",
-      "sourceHandle": "exec-true",
-      "data": {
-        "reroutePoints": []
-      }
-    },
-    {
       "id": "edge_1779589031355_7",
       "source": "condition_1779587148130_5",
       "target": "sequence_1779589026810_5",
       "sourceHandle": "exec-false",
       "targetHandle": "exec-in"
-    },
-    {
-      "id": "edge_1779590371092_2",
-      "source": "sequence_1779588939265_2",
-      "target": "condition_1779590371092_1",
-      "sourceHandle": "exec-out"
     },
     {
       "id": "edge_1779590460158_5",
@@ -2449,12 +2546,6 @@
       "data": {
         "reroutePoints": []
       }
-    },
-    {
-      "id": "edge_1779616135979_9",
-      "source": "sequence_1779588939265_2",
-      "target": "reset_1779616135977_8",
-      "sourceHandle": "exec-out"
     },
     {
       "id": "edge_1779616572436_13",
@@ -2669,6 +2760,46 @@
       "target": "condition_1779630543908_2",
       "sourceHandle": "exec-out",
       "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780120163268_1",
+      "source": "sequence_1779807461204_9",
+      "target": "condition_1779587148130_5",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780120170561_3",
+      "source": "sequence_1779807461204_9",
+      "target": "reset_1780120170559_2",
+      "sourceHandle": "exec-next"
+    },
+    {
+      "id": "edge_1780120223890_6",
+      "source": "sequence_1779588939265_2",
+      "target": "reset_1779616135977_8",
+      "sourceHandle": "exec-next",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780120225597_7",
+      "source": "sequence_1779588939265_2",
+      "target": "condition_1779590371092_1",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780120266717_9",
+      "source": "condition_1779587148130_5",
+      "target": "condition_1780120266715_8",
+      "sourceHandle": "exec-true"
+    },
+    {
+      "id": "edge_1780120271498_11",
+      "source": "get-variable_1780120269665_10",
+      "target": "condition_1780120266715_8",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
     }
   ],
   "variables": [
@@ -2699,6 +2830,12 @@
     {
       "id": "var_1779590375524_3",
       "name": "ChargeTimedUp",
+      "type": "boolean",
+      "value": false
+    },
+    {
+      "id": "var_1780120195489_4",
+      "name": "SuperCharged",
       "type": "boolean",
       "value": false
     }

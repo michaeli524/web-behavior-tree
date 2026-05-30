@@ -1292,6 +1292,14 @@
   font-weight: 700;
 }
 
+.bt-action-thumb-deferred {
+  color: #d1d5db;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+    #111827;
+  border-style: dashed;
+}
+
 .bt-action-meta {
   min-width: 0;
   display: flex;

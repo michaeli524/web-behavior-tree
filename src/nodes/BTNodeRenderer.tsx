@@ -571,16 +571,6 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 export const BTNodeRenderer = memo(BTNodeComponent);
 
 function ActionThumb({ src, alt }: { src: string; alt: string }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
-    return <div className="bt-action-thumb bt-action-thumb-empty">GIF</div>;
-  }
-  return (
-    <img
-      className="bt-action-thumb"
-      src={src}
-      alt={alt}
-      onError={() => setFailed(true)}
-    />
-  );
+  void src;
+  return <div className="bt-action-thumb bt-action-thumb-empty bt-action-thumb-deferred" title={alt}>点击预览</div>;
 }
