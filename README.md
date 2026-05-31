@@ -135,7 +135,7 @@ public/ActionMP4/
 
 ## MP4 资源本地/CDN切换
 
-Action 配表里的 `gifPath` 字段保留为兼容旧导表字段名，但内容应填写 `/ActionMP4/...` 相对路径。前端会读取：
+Action 配表里的 `gifPath` 字段保留为兼容旧导表字段名。表格中可以只填写 MP4 文件名，导表时会自动补成 `/ActionMP4/文件名`；如果已经填写 `/ActionMP4/...` 或完整 URL，则保持原样。前端会读取：
 
 ```text
 public/config/asset-host.json

@@ -23,6 +23,7 @@ FIELD_MAP = {
 }
 
 REQUIRED_HEADERS = ["ActionId", "ActionName", "GifPath", "Comment"]
+DEFAULT_MEDIA_PREFIX = "/ActionMP4/"
 
 
 def column_index(cell_ref: str) -> int:
@@ -63,6 +64,17 @@ def cell_value(cell: ET.Element, shared_strings: list[str]) -> str:
     return value_node.text
 
 
+def normalize_media_path(value: str) -> str:
+    media_path = value.strip().replace("\\", "/")
+    if not media_path:
+        return ""
+    if "://" in media_path or media_path.startswith("/"):
+        return media_path
+    if media_path.startswith("ActionMP4/"):
+        return f"/{media_path}"
+    return f"{DEFAULT_MEDIA_PREFIX}{media_path.lstrip('/')}"
+
+
 def read_rows() -> list[list[str]]:
     with zipfile.ZipFile(XLSX_PATH) as zf:
         shared_strings = read_shared_strings(zf)
@@ -96,7 +108,8 @@ def export_actions() -> list[dict[str, str]]:
         for index, header in enumerate(headers):
             key = FIELD_MAP.get(header)
             if key:
-                record[key] = row[index].strip() if index < len(row) else ""
+                value = row[index].strip() if index < len(row) else ""
+                record[key] = normalize_media_path(value) if key == "gifPath" else value
 
         if not record.get("actionId"):
             continue
