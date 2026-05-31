@@ -734,6 +734,13 @@
   padding: 12px 0;
 }
 
+.properties-fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
 .prop-group {
   margin-bottom: 10px;
 }

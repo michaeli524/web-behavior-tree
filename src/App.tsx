@@ -6,6 +6,7 @@ import { BTEditor } from './components/BTEditor';
 import { PropertiesPanel } from './components/PropertiesPanel';
 import { VariableDetail } from './components/VariableDetail';
 import { BTNodeType } from './engine/types';
+import { isShowcaseMode } from './config/appMode';
 import './App.css';
 
 const MIN_LEFT = 100;
@@ -49,8 +50,27 @@ export default function App() {
     window.addEventListener('mouseup', onMouseUp);
   }, []);
 
-  // Load from localStorage on startup
+  // Load the tree according to the current app mode.
   useEffect(() => {
+    if (isShowcaseMode) {
+      void fetch('/电龙AI.json')
+        .then((res) => {
+          if (!res.ok) throw new Error(`Failed to load showcase tree: ${res.status}`);
+          return res.text();
+        })
+        .then((json) => {
+          useBTStore.getState().importTree(json);
+        })
+        .catch((error) => {
+          console.error(error);
+          const state = useBTStore.getState();
+          if (!state.nodes.some((n) => n.data.type === BTNodeType.ROOT)) {
+            state.addNode(BTNodeType.ROOT, { x: 100, y: 200 }, { label: state.mainPageName });
+          }
+        });
+      return;
+    }
+
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
@@ -67,8 +87,9 @@ export default function App() {
     }
   }, []);
 
-  // Auto-save
+  // Auto-save editor sessions only. Showcase always reloads the published JSON.
   useEffect(() => {
+    if (isShowcaseMode) return;
     const unsub = useBTStore.subscribe((state) => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         nodes: state.nodes, edges: state.edges,
@@ -81,6 +102,7 @@ export default function App() {
 
   // Keyboard shortcuts
   useEffect(() => {
+    if (isShowcaseMode) return;
     const handler = (e: KeyboardEvent) => {
       const mod = e.metaKey || e.ctrlKey;
       if (mod && !e.shiftKey && e.key === 'z') {

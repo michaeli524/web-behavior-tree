@@ -1,170 +1,170 @@
 [
   {
-    "actionId": "Khezu_Check_Bite",
+    "actionId": "Astaroth_Check_Bite",
     "actionName": "牵制咬",
-    "gifPath": "/ActionMP4/牵制咬.mp4",
+    "gifPath": "牵制咬.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Back_Step",
+    "actionId": "Astaroth_Back_Step",
     "actionName": "后撤步",
-    "gifPath": "/ActionsGIF/技能/正面后撤步.gif",
+    "gifPath": "正面后撤步.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Dash_Bite",
+    "actionId": "Astaroth_Dash_Bite",
     "actionName": "前冲咬",
-    "gifPath": "/ActionsGIF/技能/前冲咬.gif",
+    "gifPath": "前冲咬.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Tail_Sweep",
+    "actionId": "Astaroth_Tail_Sweep",
     "actionName": "甩尾",
-    "gifPath": "/ActionsGIF/技能/180甩尾.gif",
+    "gifPath": "180甩尾.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Tail_Thrust",
+    "actionId": "Astaroth_Tail_Thrust",
     "actionName": "尾刺-尾充能",
-    "gifPath": "/ActionsGIF/技能/充能尾刺.gif",
-    "comment": "/ActionsGIF/技能/尾巴插地放电-未充能.gif"
+    "gifPath": "充能尾刺.mp4",
+    "comment": "尾巴插地放电-未充能.mp4"
   },
   {
-    "actionId": "Khezu_Tail_Ground_Spike_Uncharged",
+    "actionId": "Astaroth_Tail_Ground_Spike_Uncharged",
     "actionName": "尾巴插地放电-未充能",
-    "gifPath": "/ActionsGIF/技能/尾巴插地放电-未充能.gif",
+    "gifPath": "尾巴插地放电-尾巴未充电.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Head_Slam_Uncharged",
+    "actionId": "Astaroth_Head_Slam_Uncharged",
     "actionName": "头顶二连-未充能",
-    "gifPath": "/ActionsGIF/技能/头顶二连-未充能.gif",
+    "gifPath": "头顶二连-未充能.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Head_Slam_Charged",
+    "actionId": "Astaroth_Head_Slam_Charged",
     "actionName": "头顶二连-头充能",
-    "gifPath": "/ActionsGIF/技能/头顶二连-充能.gif",
+    "gifPath": "头砸二连-充能.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Wing_Press_Uncharged",
+    "actionId": "Astaroth_Wing_Press_Uncharged",
     "actionName": "翅膀单次下拍-未充能",
-    "gifPath": "/ActionsGIF/技能/翅膀单次下拍-未充能.gif",
+    "gifPath": "单侧翅膀拍地-右-未充能.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Wing_Double_Press_Charged",
+    "actionId": "Astaroth_Wing_Double_Press_Charged",
     "actionName": "翅膀下拍二连-翅膀充能",
-    "gifPath": "/ActionsGIF/技能/翅膀二连拍-充能.gif",
+    "gifPath": "翅膀充能二连拍.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Dash_Wing_Press_Charged",
+    "actionId": "Astaroth_Dash_Wing_Press_Charged",
     "actionName": "冲刺翅膀下拍-翅膀充能",
-    "gifPath": "/ActionsGIF/技能/冲刺翅膀下拍-充能.gif",
+    "gifPath": "冲刺翅膀下拍-翅膀充能.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Breath_Uncharged",
+    "actionId": "Astaroth_Breath_Uncharged",
     "actionName": "吐息-未充能",
-    "gifPath": "/ActionsGIF/技能/电流吐息-未充能.gif",
+    "gifPath": "电流吐息-未充能.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Double_Breath_Charged",
+    "actionId": "Astaroth_Double_Breath_Charged",
     "actionName": "二连吐息-头、翅膀充能",
-    "gifPath": "/ActionsGIF/技能/二连吐息-头、翅膀充能.gif",
+    "gifPath": "二连吐息-头充电.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Head_Double_Swing_Charged",
+    "actionId": "Astaroth_Head_Double_Swing_Charged",
     "actionName": "二连甩头-头、翅膀充能",
-    "gifPath": "/ActionsGIF/技能/二连甩头.gif",
+    "gifPath": "二连甩头.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Overhead_Slam_Charged",
+    "actionId": "Astaroth_Overhead_Slam_Charged",
     "actionName": "斩舰刀-头充能",
-    "gifPath": "/ActionsGIF/技能/斩舰刀-充能.gif",
+    "gifPath": "斩舰刀-充能.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_AllCharged_Roar",
+    "actionId": "Astaroth_AllCharged_Roar",
     "actionName": "全身充能吼叫",
-    "gifPath": "/ActionsGIF/技能/进入完全充电状态.gif",
+    "gifPath": "进入完全充电状态.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Head_Tail_Combo",
+    "actionId": "Astaroth_Head_Tail_Combo",
     "actionName": "小咬甩尾尾刺三连",
-    "gifPath": "/ActionsGIF/Combo/小咬甩尾尾刺三连.gif",
+    "gifPath": "小咬甩尾尾刺三连.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Double_Breath_Combo",
+    "actionId": "Astaroth_Double_Breath_Combo",
     "actionName": "二连吐息+冲刺翅膀拍-头翅膀充电",
-    "gifPath": "/ActionsGIF/Combo/二连吐息+冲刺翅膀拍-头翅膀充电.gif",
+    "gifPath": "二连吐息+冲刺翅膀拍-头翅膀充电.mp4",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_",
+    "actionId": "Astaroth_",
     "actionName": "",
-    "gifPath": "/ActionsGIF/",
+    "gifPath": "",
     "comment": ""
   },
   {
-    "actionId": "Khezu_Ult_Lightning_Dive",
+    "actionId": "Astaroth_Ult_Lightning_Dive",
     "actionName": "大招-闪电俯冲",
-    "gifPath": "/ActionsGIF/技能/大招-闪电俯冲.gif",
+    "gifPath": "全身放电攻击.mp4",
     "comment": ""
   }
 ]

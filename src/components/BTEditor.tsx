@@ -26,6 +26,7 @@ import {
   type BTNodeData,
 } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
+import { isShowcaseMode } from '../config/appMode';
 import { generateId } from '../utils/idGenerator';
 
 const nodeTypes = {
@@ -182,6 +183,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
 ];
 
 export function BTEditor() {
+  const isReadonly = isShowcaseMode;
   const reactFlowRef = useRef<HTMLDivElement>(null);
   const rfInstanceRef = useRef<ReactFlowInstance | null>(null);
   const nodeClipboardRef = useRef<NodeClipboard | null>(null);
@@ -486,16 +488,17 @@ export function BTEditor() {
           selectedReroutePointId:
             selectedReroutePoint?.edgeId === e.id ? selectedReroutePoint.pointId : null,
           onReroutePointSelect: selectReroutePoint,
-          onReroutePointMove: moveReroutePoint,
-          onReroutePointAdd: addReroutePoint,
+          onReroutePointMove: isReadonly ? undefined : moveReroutePoint,
+          onReroutePointAdd: isReadonly ? undefined : addReroutePoint,
         },
       })) as Edge[],
-    [edges, selectedReroutePoint, selectReroutePoint, moveReroutePoint, addReroutePoint]
+    [edges, selectedReroutePoint, selectReroutePoint, moveReroutePoint, addReroutePoint, isReadonly]
   );
 
   // ----- React Flow event handlers -----
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
+      if (isReadonly) return;
       const changedNodeIds = new Set(
         changes.flatMap((change) => ('id' in change ? [change.id] : []))
       );
@@ -553,7 +556,7 @@ export function BTEditor() {
         }
       }
     },
-    [nodes, updateNodePosition]
+    [nodes, updateNodePosition, isReadonly]
   );
 
   const onSelectionChange = useCallback(
@@ -565,6 +568,7 @@ export function BTEditor() {
   );
 
   const onEditorMouseDownCapture = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    if (isReadonly) return;
     if (event.button !== 0 || isEditableTarget(event.target)) return;
     const target = event.target instanceof HTMLElement ? event.target : null;
     if (!target || target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) {
@@ -573,9 +577,10 @@ export function BTEditor() {
     paneSelectionDragRef.current = {
       startScreen: { x: event.clientX, y: event.clientY },
     };
-  }, []);
+  }, [isReadonly]);
 
   const onEditorMouseUpCapture = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    if (isReadonly) return;
     const selectionDrag = paneSelectionDragRef.current;
     paneSelectionDragRef.current = null;
     if (!selectionDrag) return;
@@ -619,21 +624,23 @@ export function BTEditor() {
         pointId: matchedPoint.pointId,
       });
     }, 0);
-  }, [edges]);
+  }, [edges, isReadonly]);
 
   const onEdgesChange = useCallback(() => {}, []);
 
   const onConnectStart = useCallback(
     (_event: MouseEvent | TouchEvent, params: OnConnectStartParams) => {
+      if (isReadonly) return;
       if (!params.nodeId) return;
       connectDragRef.current = { nodeId: params.nodeId, handleId: params.handleId };
       connectMadeRef.current = false;
     },
-    []
+    [isReadonly]
   );
 
   const onConnect = useCallback(
     (connection: Connection) => {
+      if (isReadonly) return;
       if (!connection.source || !connection.target) return;
       connectMadeRef.current = true;
       addEdgeStore(
@@ -643,12 +650,13 @@ export function BTEditor() {
         connection.targetHandle ?? undefined
       );
     },
-    [addEdgeStore]
+    [addEdgeStore, isReadonly]
   );
 
   // Detect end of connection drag via window mouseup
   useEffect(() => {
     const handleMouseUp = (e: MouseEvent) => {
+      if (isReadonly) return;
       if (!connectDragRef.current) return;
 
       // Delay to let React Flow's onConnect fire first
@@ -682,11 +690,12 @@ export function BTEditor() {
 
     window.addEventListener('mouseup', handleMouseUp);
     return () => window.removeEventListener('mouseup', handleMouseUp);
-  }, []);
+  }, [isReadonly]);
 
   const handleQuickCreate = useCallback(
     (item: QuickCreateItem) => {
       if (!quickCreate) return;
+      if (isReadonly) return;
 
       const data: Partial<BTNodeData> = {};
       if (item.type === BTNodeType.FUNCTION && item.functionId) {
@@ -709,7 +718,7 @@ export function BTEditor() {
       }
       setQuickCreate(null);
     },
-    [quickCreate, addNode, addEdgeStore, makeComboData]
+    [quickCreate, addNode, addEdgeStore, makeComboData, isReadonly]
   );
 
   const dismissQuickCreate = useCallback(() => {
@@ -718,12 +727,13 @@ export function BTEditor() {
 
   const handleVarDrop = useCallback((mode: 'get' | 'set') => {
     if (!varDropPopup) return;
+    if (isReadonly) return;
     const nodeType = mode === 'get' ? BTNodeType.GET_VARIABLE : BTNodeType.SET_VARIABLE;
     addNode(nodeType, varDropPopup.flowPosition, {
       variableId: varDropPopup.variableId,
     });
     setVarDropPopup(null);
-  }, [varDropPopup, addNode]);
+  }, [varDropPopup, addNode, isReadonly]);
 
   // Dynamic quick-create list including user functions.
   const allQuickCreateTypes = useMemo<QuickCreateItem[]>(() => {
@@ -787,6 +797,7 @@ export function BTEditor() {
   }, [actionPreview]);
 
   useEffect(() => {
+    if (isReadonly) return;
     if (!selectedReroutePoint) return;
 
     const handler = (e: KeyboardEvent) => {
@@ -810,7 +821,7 @@ export function BTEditor() {
 
     window.addEventListener('keydown', handler, true);
     return () => window.removeEventListener('keydown', handler, true);
-  }, [edges, selectedReroutePoint, updateEdgeReroutePoints]);
+  }, [edges, selectedReroutePoint, updateEdgeReroutePoints, isReadonly]);
 
   // ----- Other handlers -----
   const onNodeClick = useCallback(
@@ -840,15 +851,17 @@ export function BTEditor() {
 
   const onNodesDelete = useCallback(
     (deletedNodes: Node[]) => {
+      if (isReadonly) return;
       deletedNodes.forEach((n) => {
         const nd = n.data as unknown as BTNodeData;
         if (nd.type !== BTNodeType.ROOT) removeNode(n.id);
       });
     },
-    [removeNode]
+    [removeNode, isReadonly]
   );
 
   useEffect(() => {
+    if (isReadonly) return;
     const handler = (e: KeyboardEvent) => {
       if (isEditableTarget(e.target)) return;
 
@@ -945,20 +958,22 @@ export function BTEditor() {
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [activePageId, addEdgeStore, addNode, edges, nodes, selectedNodeIds, setSelectedNodes]);
+  }, [activePageId, addEdgeStore, addNode, edges, nodes, selectedNodeIds, setSelectedNodes, isReadonly]);
 
   const onEdgeClick = useCallback(
     (_event: React.MouseEvent, edge: Edge) => {
       setSelectedReroutePoint(null);
+      if (isReadonly) return;
       if (_event.metaKey || _event.altKey) {
         removeEdge(edge.id);
       }
     },
-    [removeEdge]
+    [removeEdge, isReadonly]
   );
 
   const onEdgeDoubleClick = useCallback(
     (event: React.MouseEvent, edge: Edge) => {
+      if (isReadonly) return;
       const rfInstance = rfInstanceRef.current;
       if (!rfInstance) return;
       event.preventDefault();
@@ -969,22 +984,24 @@ export function BTEditor() {
         rfInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY })
       );
     },
-    [addReroutePoint]
+    [addReroutePoint, isReadonly]
   );
 
   const onEdgesDelete = useCallback(
     (deletedEdges: Edge[]) => {
+      if (isReadonly) return;
       if (selectedReroutePoint && deletedEdges.some((e) => e.id === selectedReroutePoint.edgeId)) {
         setSelectedReroutePoint(null);
       }
       deletedEdges.forEach((e) => removeEdge(e.id));
     },
-    [removeEdge, selectedReroutePoint]
+    [removeEdge, selectedReroutePoint, isReadonly]
   );
 
   const onPaneContextMenu = useCallback(
     (e: MouseEvent | React.MouseEvent<Element, MouseEvent>) => {
       e.preventDefault();
+      if (isReadonly) return;
       const rfInstance = rfInstanceRef.current;
       if (!rfInstance) return;
       const flowPosition = snapPosition(rfInstance.screenToFlowPosition({ x: e.clientX, y: e.clientY }));
@@ -998,7 +1015,7 @@ export function BTEditor() {
         flowPosition,
       });
     },
-    []
+    [isReadonly]
   );
 
   const onPaneClick = useCallback(() => {
@@ -1009,13 +1026,15 @@ export function BTEditor() {
   }, [setSelectedNodes]);
 
   const onDragOver = useCallback((event: DragEvent) => {
+    if (isReadonly) return;
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
-  }, []);
+  }, [isReadonly]);
 
   const onDrop = useCallback(
     (event: DragEvent) => {
       event.preventDefault();
+      if (isReadonly) return;
 
       // Variable drop → Get/Set with modifier keys
       const variableId = event.dataTransfer.getData('application/variable-id');
@@ -1089,7 +1108,7 @@ export function BTEditor() {
 
       addNode(nodeType, position, data);
     },
-    [addNode, makeComboData]
+    [addNode, makeComboData, isReadonly]
   );
 
   const isValidConnection = useCallback((conn: Connection | Edge) => {
@@ -1114,6 +1133,7 @@ export function BTEditor() {
 
   // Press 'C' to create a comment box around the current node selection.
   useEffect(() => {
+    if (isReadonly) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key !== 'c' || e.metaKey || e.ctrlKey) return;
       const target = e.target as HTMLElement;
@@ -1191,7 +1211,7 @@ export function BTEditor() {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, []);
+  }, [isReadonly]);
 
   // Restore each page/function to the viewport where the user last left it.
   useEffect(() => {
@@ -1279,7 +1299,10 @@ export function BTEditor() {
         minZoom={0.05}
         maxZoom={2}
         zoomOnDoubleClick={false}
-        deleteKeyCode={['Backspace', 'Delete']}
+        deleteKeyCode={isReadonly ? [] : ['Backspace', 'Delete']}
+        nodesDraggable={!isReadonly}
+        nodesConnectable={!isReadonly}
+        edgesReconnectable={!isReadonly}
         panOnDrag={[1, 2]}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}

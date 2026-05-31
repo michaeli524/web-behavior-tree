@@ -23,7 +23,6 @@ FIELD_MAP = {
 }
 
 REQUIRED_HEADERS = ["ActionId", "ActionName", "GifPath", "Comment"]
-DEFAULT_MEDIA_PREFIX = "/ActionMP4/"
 
 
 def column_index(cell_ref: str) -> int:
@@ -65,14 +64,7 @@ def cell_value(cell: ET.Element, shared_strings: list[str]) -> str:
 
 
 def normalize_media_path(value: str) -> str:
-    media_path = value.strip().replace("\\", "/")
-    if not media_path:
-        return ""
-    if "://" in media_path or media_path.startswith("/"):
-        return media_path
-    if media_path.startswith("ActionMP4/"):
-        return f"/{media_path}"
-    return f"{DEFAULT_MEDIA_PREFIX}{media_path.lstrip('/')}"
+    return value.strip().replace("\\", "/")
 
 
 def read_rows() -> list[list[str]]:
@@ -109,7 +101,10 @@ def export_actions() -> list[dict[str, str]]:
             key = FIELD_MAP.get(header)
             if key:
                 value = row[index].strip() if index < len(row) else ""
-                record[key] = normalize_media_path(value) if key == "gifPath" else value
+                if key == "gifPath":
+                    record[key] = normalize_media_path(value)
+                else:
+                    record[key] = value
 
         if not record.get("actionId"):
             continue

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:showcase": "VITE_APP_MODE=showcase vite",
     "build": "tsc -b && vite build",
+    "build:showcase": "tsc -b && VITE_APP_MODE=showcase vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:actions-xlsx": "python3 scripts/generate_action_xlsx.py",

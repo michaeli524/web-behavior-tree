@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType } from '../engine/types';
 import type { BTVariable } from '../engine/types';
+import { isShowcaseMode } from '../config/appMode';
 
 interface Props {
   width: number;
@@ -46,11 +47,13 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
 
   const closeContextMenu = () => { setContextPageId(null); setContextMenuPos(null); };
   const handleRenameStart = (pageId: string, currentName: string) => {
+    if (isShowcaseMode) return;
     setRenamingPageId(pageId);
     setRenameValue(currentName);
     closeContextMenu();
   };
   const handleRenameConfirm = () => {
+    if (isShowcaseMode) return;
     if (renamingPageId && renameValue.trim()) renamePage(renamingPageId, renameValue.trim());
     setRenamingPageId(null);
     setRenameValue('');
@@ -69,11 +72,13 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
   return (
     <div className="node-palette" style={{ width }} ref={paletteRef}>
       {/* Top: Pages */}
-      <div className="palette-top-section" style={{ height: `${splitRatio * 100}%` }}>
+      <div className="palette-top-section" style={{ height: isShowcaseMode ? '100%' : `${splitRatio * 100}%` }}>
         <div className="palette-header">
           <span className="palette-section-title">页面</span>
           <div className="palette-header-actions">
-            <button className="btn btn-primary func-add-btn" onClick={() => addPage('New Page')} title="新增页面">+</button>
+            {!isShowcaseMode && (
+              <button className="btn btn-primary func-add-btn" onClick={() => addPage('New Page')} title="新增页面">+</button>
+            )}
             <button className="palette-collapse-btn" onClick={onToggleCollapse} title="收起面版">
               <span className="palette-collapse-icon">◀</span>
             </button>
@@ -85,15 +90,21 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
               key={page.id}
               className={`page-item ${activePageId === page.id ? 'active' : ''}`}
               onClick={() => setActivePageId(page.id)}
-              onContextMenu={(e) => { e.preventDefault(); setContextPageId(page.id); setContextMenuPos({ x: e.clientX, y: e.clientY }); }}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                if (isShowcaseMode) return;
+                setContextPageId(page.id);
+                setContextMenuPos({ x: e.clientX, y: e.clientY });
+              }}
               onDoubleClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 setActivePageId(page.id);
                 requestRootFocus(page.id);
               }}
-              draggable={page.id !== 'main' && page.id !== activePageId}
+              draggable={!isShowcaseMode && page.id !== 'main' && page.id !== activePageId}
               onDragStart={(e) => {
+                if (isShowcaseMode) { e.preventDefault(); return; }
                 if (page.id === 'main' || page.id === activePageId) { e.preventDefault(); return; }
                 const comboNode = nodes.find((node) =>
                   node.data.type === BTNodeType.COMBO_SHOW && node.data.functionId === page.id
@@ -128,20 +139,24 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
       </div>
 
       {/* Split */}
-      <div className="palette-split-handle" onMouseDown={(e) => { e.preventDefault(); splitDragging.current = true; }} />
+      {!isShowcaseMode && (
+        <div className="palette-split-handle" onMouseDown={(e) => { e.preventDefault(); splitDragging.current = true; }} />
+      )}
 
       {/* Bottom: Variables / Functions */}
-      <div className="palette-bottom-section">
-        <div className="palette-header palette-templates-header">
-          <div className="panel-tabs" style={{ margin: 0, flex: 1 }}>
-            <button className={bottomTab === 'variables' ? 'active' : ''} onClick={() => setBottomTab('variables')}>变量</button>
-            <button className={bottomTab === 'functions' ? 'active' : ''} onClick={() => setBottomTab('functions')}>函数</button>
+      {!isShowcaseMode && (
+        <div className="palette-bottom-section">
+          <div className="palette-header palette-templates-header">
+            <div className="panel-tabs" style={{ margin: 0, flex: 1 }}>
+              <button className={bottomTab === 'variables' ? 'active' : ''} onClick={() => setBottomTab('variables')}>变量</button>
+              <button className={bottomTab === 'functions' ? 'active' : ''} onClick={() => setBottomTab('functions')}>函数</button>
+            </div>
+          </div>
+          <div className="palette-bottom-content">
+            {bottomTab === 'variables' ? <VariableList /> : <FunctionList />}
           </div>
         </div>
-        <div className="palette-bottom-content">
-          {bottomTab === 'variables' ? <VariableList /> : <FunctionList />}
-        </div>
-      </div>
+      )}
 
       {/* Context Menu */}
       {contextMenuPos && contextPageId && (

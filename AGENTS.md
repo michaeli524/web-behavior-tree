@@ -14,7 +14,7 @@ Action 配表结构采用双表头：第 1 行是英文程序字段名，第 2 �
 
 正式导表流程是 `public/config/Actions.xlsx` → `public/config/Actions.json`。前端顶栏的“导表”按钮会调用 Vite 本地接口执行 Excel to JSON，并刷新 Action 配置；命令行也可运行 `npm run export:actions`。
 
-策划资源命名采用“大写开头 + 下划线分割单词”的格式，不是全大写。例如技能动画 GIF 应命名为 `Khezu_Tail_Sweep.gif`，并且这类怪物技能动画资产需要带怪物名作为前缀。`BT` 是 BehaviorTree 的专有缩写，相关文件名或标识中可保持全大写，例如 `Khezu_BT.json`。
+策划资源命名采用“大写开头 + 下划线分割单词”的格式，不是全大写。例如技能动画 GIF 应命名为 `Astaroth_Tail_Sweep.gif`，并且这类怪物技能动画资产需要带怪物名作为前缀。`BT` 是 BehaviorTree 的专有缩写，相关文件名或标识中可保持全大写，例如 `Astaroth_BT.json`。
 
 ## 常用命令
 

@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
+import { isShowcaseMode } from '../config/appMode';
 
 function parseEditableNumber(value: string): number | '' {
   return value === '' ? '' : Number(value);
 }
 
 export function PropertiesPanel() {
+  const isReadonly = isShowcaseMode;
   const nodes = useBTStore((s) => s.nodes);
   const pages = useBTStore((s) => s.pages);
   const functions = useBTStore((s) => s.functions);
@@ -33,7 +35,7 @@ export function PropertiesPanel() {
     return (
       <div className="properties-panel">
         <h3>属性面板</h3>
-        <p className="panel-hint">选择一个节点查看和编辑属性</p>
+        <p className="panel-hint">选择一个节点查看{isReadonly ? '' : '和编辑'}属性</p>
       </div>
     );
   }
@@ -62,6 +64,8 @@ export function PropertiesPanel() {
   return (
     <div className="properties-panel">
       <h3>属性面板</h3>
+      {isReadonly && <p className="panel-hint">展示模式：属性只读</p>}
+      <fieldset className="properties-fieldset" disabled={isReadonly}>
 
       <div className="prop-group">
         <label>节点类型</label>
@@ -589,6 +593,7 @@ export function PropertiesPanel() {
         </div>
       )}
 
+      </fieldset>
     </div>
   );
 }

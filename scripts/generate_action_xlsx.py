@@ -16,7 +16,7 @@ XLSX_PATH = ROOT / "public" / "config" / "Actions.xlsx"
 HEADERS = [
     ("ActionId", "动作唯一ID，行为树节点只保存这个字段"),
     ("ActionName", "动作显示名"),
-    ("GifPath", "MP4文件名或资源路径；只填文件名会导出为 /ActionMP4/文件名"),
+    ("GifPath", "MP4文件名或完整资源路径；只填文件名时由前端解析到资源目录"),
     ("Comment", "资源备注，仅用于说明素材来源或用途"),
 ]
 

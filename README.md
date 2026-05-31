@@ -75,7 +75,7 @@ Action 节点不直接保存动作名称或 MP4 路径，只保存 `actionId`：
 {
   "type": "action",
   "label": "原地放电",
-  "actionId": "Khezu_Idle_Discharge"
+  "actionId": "Astaroth_Idle_Discharge"
 }
 ```
 
@@ -83,9 +83,9 @@ Action 节点不直接保存动作名称或 MP4 路径，只保存 `actionId`：
 
 ```json
 {
-  "actionId": "Khezu_Idle_Discharge",
+  "actionId": "Astaroth_Idle_Discharge",
   "actionName": "原地放电",
-  "gifPath": "/ActionMP4/原地放电-1.mp4",
+  "gifPath": "原地放电-1.mp4",
   "comment": "电龙原地放电动作 MP4"
 }
 ```
@@ -135,7 +135,7 @@ public/ActionMP4/
 
 ## MP4 资源本地/CDN切换
 
-Action 配表里的 `gifPath` 字段保留为兼容旧导表字段名。表格中可以只填写 MP4 文件名，导表时会自动补成 `/ActionMP4/文件名`；如果已经填写 `/ActionMP4/...` 或完整 URL，则保持原样。前端会读取：
+Action 配表里的 `gifPath` 字段保留为兼容旧导表字段名。表格和 JSON 中建议只填写 MP4 文件名；前端读取配置后会解析到 `/ActionMP4/文件名`。如果填写了带目录的资源路径或完整 URL，则保持原样。前端会读取：
 
 ```text
 public/config/asset-host.json
@@ -155,7 +155,7 @@ npm run assets:local
 npm run assets:cdn
 ```
 
-此时前端会把 `/ActionMP4/...` 拼成 `assetBaseUrl + /ActionMP4/...`。实际 CDN 域名维护在：
+此时前端会把文件名解析成 `assetBaseUrl + /ActionMP4/文件名`。实际 CDN 域名维护在：
 
 ```text
 public/config/asset-host.cdn.json

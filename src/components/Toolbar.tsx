@@ -9,6 +9,7 @@ import {
   saveTreeFileAs,
   type TreeFileHandle,
 } from '../utils/filePersistence';
+import { isShowcaseMode } from '../config/appMode';
 
 const DEFAULT_FILE_NAME = 'behavior-tree.json';
 
@@ -29,6 +30,7 @@ export function Toolbar() {
   const tableResetTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
+    if (isShowcaseMode) return;
     const trackingTimer = window.setTimeout(() => {
       tracksDirtyRef.current = true;
     }, 0);
@@ -170,6 +172,7 @@ export function Toolbar() {
   };
 
   useEffect(() => {
+    if (isShowcaseMode) return;
     const handler = (e: KeyboardEvent) => {
       const mod = e.metaKey || e.ctrlKey;
       if (!mod || e.shiftKey || e.key.toLowerCase() !== 's') return;
@@ -201,7 +204,21 @@ export function Toolbar() {
         ? '导表完成'
         : tableState === 'error'
           ? '导表失败'
-          : '导表';
+        : '导表';
+
+  if (isShowcaseMode) {
+    return (
+      <div className="toolbar">
+        <div className="toolbar-left">
+          <span className="toolbar-title">Astaroth AI Behavior Tree</span>
+          <span className="toolbar-file" title="展示模式会加载已发布的电龙AI.json">
+            展示模式
+          </span>
+          <span className="toolbar-save-status">只读浏览</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="toolbar">

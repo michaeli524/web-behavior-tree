@@ -3,6 +3,7 @@ import { Handle, Position, useReactFlow, type NodeProps } from '@xyflow/react';
 import { useBTStore } from '../store/useBTStore';
 import { BTNodeType, BTExecutionStatus, type BTNodeData } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
+import { isShowcaseMode } from '../config/appMode';
 
 const statusColors: Record<BTExecutionStatus, string> = {
   [BTExecutionStatus.IDLE]: '#555',
@@ -62,6 +63,7 @@ const leafTypes: BTNodeType[] = [
 type CommentResizeDirection = 'top' | 'right' | 'bottom' | 'left';
 
 function BTNodeComponent({ data, selected, id }: NodeProps) {
+  const isReadonly = isShowcaseMode;
   const nodeData = data as unknown as BTNodeData & {
     commentTitleEditRequestNonce?: number;
     onCommentTitleEditStarted?: () => void;
@@ -172,6 +174,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 
   // Command/Ctrl + click handle → disconnect
   const handleClick = useCallback((e: React.MouseEvent, handleId?: string) => {
+    if (isReadonly) return;
     if (!e.metaKey && !e.ctrlKey) return;
     e.preventDefault();
     e.stopPropagation();
@@ -193,7 +196,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 
     const func = state.functions.find((f) => f.id === state.activePageId);
     func?.edges.filter(isHandleEdge).forEach((edge) => state.removeFunctionEdge(func.id, edge.id));
-  }, [id]);
+  }, [id, isReadonly]);
 
   // ── Comment node: simple styled box ──
   if (isComment) {
@@ -209,6 +212,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     const handleResizeStart = (e: React.MouseEvent, direction: CommentResizeDirection) => {
       e.preventDefault();
       e.stopPropagation();
+      if (isReadonly) return;
       const startX = e.clientX;
       const startY = e.clientY;
       const startW = w;
@@ -279,6 +283,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             ref={commentTitleInputRef}
             className="bt-comment-title-input"
             value={commentTitleDraft}
+            disabled={isReadonly}
             autoFocus
             onChange={(e) => setCommentTitleDraft(e.target.value)}
             onBlur={commitCommentTitle}
@@ -299,6 +304,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             onDoubleClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
+              if (isReadonly) return;
               shouldSelectCommentTitleRef.current = true;
               setCommentTitleDraft(nodeData.label || 'Comment');
             }}
@@ -348,6 +354,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               className="bt-compare-value-input"
               type="text"
               value={nodeData.compareLeftValue ?? '0'}
+              disabled={isReadonly}
               onChange={(e) => updateNodeData(id, { compareLeftValue: e.target.value })}
               onMouseDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
@@ -377,6 +384,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               className="bt-compare-value-input"
               type="text"
               value={nodeData.compareValue ?? '0'}
+              disabled={isReadonly}
               onChange={(e) => updateNodeData(id, { compareValue: e.target.value })}
               onMouseDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
@@ -544,6 +552,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               type="text"
               placeholder="0"
               value={nodeData.startValue ?? '0'}
+              disabled={isReadonly}
               onChange={(e) => updateNodeData(id, { startValue: e.target.value })}
               onClick={(e) => e.stopPropagation()}
             />
@@ -556,6 +565,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               type="text"
               placeholder="0"
               value={nodeData.endValue ?? '0'}
+              disabled={isReadonly}
               onChange={(e) => updateNodeData(id, { endValue: e.target.value })}
               onClick={(e) => e.stopPropagation()}
             />
@@ -609,6 +619,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             type="text"
             placeholder="value"
             value={displaySetVal}
+            disabled={isReadonly}
             onChange={(e) => setLocalSetVal(e.target.value)}
             onBlur={commitSetValue}
             onKeyDown={(e) => { if (e.key === 'Enter') commitSetValue(); }}

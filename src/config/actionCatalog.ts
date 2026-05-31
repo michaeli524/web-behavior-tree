@@ -18,15 +18,18 @@ let assetBaseUrlPromise: Promise<string> | null = null;
 const CATALOG_UPDATED_EVENT = 'action-catalog-updated';
 const ACTION_CATALOG_PATH = '/config/Actions.json';
 const ASSET_HOST_PATH = '/config/asset-host.json';
+const ACTION_MEDIA_BASE_PATH = '/ActionMP4/';
 
 function isExternalUrl(path: string) {
   return /^(https?:)?\/\//i.test(path) || /^(data|blob):/i.test(path);
 }
 
 function joinAssetUrl(assetBaseUrl: string, path: string) {
-  if (!path || !assetBaseUrl || isExternalUrl(path)) return path;
+  if (!path || isExternalUrl(path)) return path;
+  const assetPath = path.includes('/') ? path : `${ACTION_MEDIA_BASE_PATH}${path}`;
+  if (!assetBaseUrl) return assetPath;
   const base = assetBaseUrl.replace(/\/+$/, '');
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
   return `${base}${normalizedPath}`;
 }
 
