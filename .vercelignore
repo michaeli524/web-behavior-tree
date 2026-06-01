@@ -1,0 +1,8 @@
+public/ActionsGIF
+public/ActionsGIF/**
+public/ActionMP4
+public/ActionMP4/**
+dist
+dist/**
+node_modules
+node_modules/**

@@ -17,6 +17,35 @@ const MAX_RIGHT = 500;
 const DEFAULT_RIGHT = 280;
 
 const STORAGE_KEY = 'behavior-tree-data';
+const DEFAULT_TREE_PATH = '/电龙AI.json';
+
+function isBlankEditorSave(json: string): boolean {
+  try {
+    const data = JSON.parse(json) as {
+      nodes?: unknown[];
+      edges?: unknown[];
+      variables?: unknown[];
+      functions?: unknown[];
+      pages?: unknown[];
+    };
+    return (
+      (data.nodes?.length ?? 0) <= 1 &&
+      (data.edges?.length ?? 0) === 0 &&
+      (data.variables?.length ?? 0) === 0 &&
+      (data.functions?.length ?? 0) === 0 &&
+      (data.pages?.length ?? 0) === 0
+    );
+  } catch {
+    return true;
+  }
+}
+
+async function loadPublishedTree() {
+  const res = await fetch(DEFAULT_TREE_PATH, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Failed to load default tree: ${res.status}`);
+  const json = await res.text();
+  useBTStore.getState().importTree(json);
+}
 
 export default function App() {
   const [leftWidth, setLeftWidth] = useState(DEFAULT_LEFT);
@@ -53,14 +82,7 @@ export default function App() {
   // Load the tree according to the current app mode.
   useEffect(() => {
     if (isShowcaseMode) {
-      void fetch('/电龙AI.json')
-        .then((res) => {
-          if (!res.ok) throw new Error(`Failed to load showcase tree: ${res.status}`);
-          return res.text();
-        })
-        .then((json) => {
-          useBTStore.getState().importTree(json);
-        })
+      void loadPublishedTree()
         .catch((error) => {
           console.error(error);
           const state = useBTStore.getState();
@@ -73,18 +95,22 @@ export default function App() {
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
+      if (saved && !isBlankEditorSave(saved)) {
         useBTStore.getState().importTree(saved);
+        return;
       }
     } catch { /* ignore */ }
 
-    const state = useBTStore.getState();
-    const hasRoot = state.nodes.some((n) => n.data.type === BTNodeType.ROOT);
-    if (!hasRoot) {
-      // Clear possibly corrupted saved state
-      localStorage.removeItem(STORAGE_KEY);
-      state.addNode(BTNodeType.ROOT, { x: 100, y: 200 }, { label: state.mainPageName });
-    }
+    void loadPublishedTree().catch((error) => {
+      console.error(error);
+      const state = useBTStore.getState();
+      const hasRoot = state.nodes.some((n) => n.data.type === BTNodeType.ROOT);
+      if (!hasRoot) {
+        // Clear possibly corrupted saved state
+        localStorage.removeItem(STORAGE_KEY);
+        state.addNode(BTNodeType.ROOT, { x: 100, y: 200 }, { label: state.mainPageName });
+      }
+    });
   }, []);
 
   // Auto-save editor sessions only. Showcase always reloads the published JSON.
