@@ -45,12 +45,46 @@ const JSON_FILE_OPTIONS = {
 } satisfies JsonFilePickerOptions;
 
 const fileSystemWindow = window as WindowWithFileSystemAccess;
+const GITHUB_DEFAULT_TREE_URL =
+  'https://raw.githubusercontent.com/michaeli524/web-behavior-tree/main/public/%E7%94%B5%E9%BE%99AI.json';
+
+function isLocalDevelopmentHost(): boolean {
+  return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+}
 
 export function supportsFileSystemAccess(): boolean {
   return Boolean(fileSystemWindow.showOpenFilePicker && fileSystemWindow.showSaveFilePicker);
 }
 
 export async function openDefaultTreeFile(): Promise<{ name: string; path: string; json: string }> {
+  if (!isLocalDevelopmentHost()) {
+    const fallbackPath = '/电龙AI.json';
+    try {
+      const response = await fetch(GITHUB_DEFAULT_TREE_URL, { cache: 'no-store' });
+      if (response.ok) {
+        return {
+          name: '电龙AI.json',
+          path: GITHUB_DEFAULT_TREE_URL,
+          json: await response.text(),
+        };
+      }
+      console.warn(`GitHub default tree unavailable: ${response.status}`);
+    } catch (error) {
+      console.warn('GitHub default tree unavailable:', error);
+    }
+
+    const response = await fetch(fallbackPath, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`Failed to load deployed default tree: ${response.status}`);
+    }
+
+    return {
+      name: '电龙AI.json',
+      path: fallbackPath,
+      json: await response.text(),
+    };
+  }
+
   const response = await fetch('/api/local-tree');
   const data = (await response.json()) as LocalTreeResponse;
   if (!response.ok || !data.ok || typeof data.json !== 'string') {
