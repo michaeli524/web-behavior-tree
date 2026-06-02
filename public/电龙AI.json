@@ -30,7 +30,7 @@
         "y": 235
       },
       "data": {
-        "label": "Condition",
+        "label": "是否全身充能",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -129,7 +129,7 @@
         "y": -550
       },
       "data": {
-        "label": "Condition",
+        "label": "大招倒计时结束?",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -765,7 +765,7 @@
         "y": 2115
       },
       "data": {
-        "label": "Condition",
+        "label": "距离是否足够近",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -864,7 +864,7 @@
         "y": 1310
       },
       "data": {
-        "label": "Condition",
+        "label": "头部是否充能",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -998,7 +998,7 @@
         "y": 2140
       },
       "data": {
-        "label": "Condition",
+        "label": "尾巴是否充能",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -1098,7 +1098,7 @@
         "y": 1860
       },
       "data": {
-        "label": "Condition",
+        "label": "翅膀是否充能",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -1436,7 +1436,7 @@
         "y": 150
       },
       "data": {
-        "label": "Condition",
+        "label": "目标是否贴近",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -1670,7 +1670,7 @@
         "y": 1065
       },
       "data": {
-        "label": "Condition",
+        "label": "目标是否贴近",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -1837,7 +1837,7 @@
         "y": 500
       },
       "data": {
-        "label": "Condition",
+        "label": "是否处于尾部角度",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -2003,7 +2003,7 @@
         "y": -290
       },
       "data": {
-        "label": "Condition",
+        "label": "是否超带电",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -2277,7 +2277,7 @@
         "y": 1305
       },
       "data": {
-        "label": "Condition",
+        "label": "是否已有部位充能",
         "type": "condition",
         "condition": "",
         "action": "",
