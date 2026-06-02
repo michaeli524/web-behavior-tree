@@ -1616,12 +1616,17 @@
 }
 
 /* ===== Comment Node ===== */
+.react-flow__node.comment-flow-node {
+  pointer-events: none;
+}
+
 .bt-comment {
   background: rgba(60, 60, 80, 0.3);
   border: 2px solid rgba(120, 130, 160, 0.4);
   border-radius: 8px;
   position: relative;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .bt-comment-selected {
@@ -1644,6 +1649,7 @@
   border-radius: 6px 6px 0 0;
   outline: none;
   font-family: inherit;
+  pointer-events: all;
 }
 
 .bt-comment-title-bar {
@@ -1675,6 +1681,7 @@
   border-radius: 6px 6px 0 0;
   outline: none;
   font-family: inherit;
+  pointer-events: all;
 }
 
 .bt-comment-title-input:focus {
@@ -1687,6 +1694,7 @@
   z-index: 2;
   background: rgba(160,170,200,0);
   transition: background 0.12s;
+  pointer-events: all;
 }
 
 .bt-comment-resize-edge:hover {

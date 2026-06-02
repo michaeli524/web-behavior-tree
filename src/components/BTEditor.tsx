@@ -474,6 +474,7 @@ export function BTEditor() {
           : {}),
         zIndex: n.data.type === BTNodeType.COMMENT ? -1 : undefined,
         dragHandle: n.data.type === BTNodeType.COMMENT ? '.bt-comment-title' : undefined,
+        className: n.data.type === BTNodeType.COMMENT ? 'comment-flow-node' : undefined,
       })) as Node[],
     [nodes, selectedNodeIds, commentTitleEditRequest, openComboPage, previewActionMedia, previewComboMedia]
   );
