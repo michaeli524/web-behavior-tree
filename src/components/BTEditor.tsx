@@ -74,6 +74,7 @@ type CommentDragGroup = {
 
 type PaneSelectionDrag = {
   startScreen: FlowPosition;
+  source?: 'pane' | 'comment-body';
 };
 
 function isEditableTarget(target: EventTarget | null) {
@@ -135,6 +136,24 @@ function isFullyInsideComment(node: Node, comment: Node): boolean {
     nodeRight <= commentRight &&
     nodeBottom <= commentBottom
   );
+}
+
+function isPartiallyInsideBounds(node: Node, bounds: { left: number; right: number; top: number; bottom: number }): boolean {
+  const nodeSize = getNodeSize(node);
+  const nodeLeft = node.position.x;
+  const nodeTop = node.position.y;
+  const nodeRight = nodeLeft + nodeSize.width;
+  const nodeBottom = nodeTop + nodeSize.height;
+  return (
+    nodeRight >= bounds.left &&
+    nodeLeft <= bounds.right &&
+    nodeBottom >= bounds.top &&
+    nodeTop <= bounds.bottom
+  );
+}
+
+function isCommentInteractiveTarget(target: HTMLElement): boolean {
+  return Boolean(target.closest('.bt-comment-title, .bt-comment-title-input, .bt-comment-resize-edge'));
 }
 
 function isExecutionEdge(edge: {
@@ -572,11 +591,22 @@ export function BTEditor() {
     if (isReadonly) return;
     if (event.button !== 0 || isEditableTarget(event.target)) return;
     const target = event.target instanceof HTMLElement ? event.target : null;
-    if (!target || target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) {
+    if (!target) return;
+
+    const commentNode = target.closest('.react-flow__node.comment-flow-node');
+    if (commentNode && !isCommentInteractiveTarget(target)) {
+      event.stopPropagation();
+      paneSelectionDragRef.current = {
+        startScreen: { x: event.clientX, y: event.clientY },
+        source: 'comment-body',
+      };
       return;
     }
+
+    if (target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) return;
     paneSelectionDragRef.current = {
       startScreen: { x: event.clientX, y: event.clientY },
+      source: 'pane',
     };
   }, [isReadonly]);
 
@@ -602,6 +632,18 @@ export function BTEditor() {
       bottom: Math.max(start.y, end.y),
     };
 
+    if (selectionDrag.source === 'comment-body') {
+      const selectedIds = rfNodes
+        .filter((node) => {
+          const nodeData = node.data as unknown as BTNodeData;
+          return nodeData.type !== BTNodeType.COMMENT && isPartiallyInsideBounds(node, bounds);
+        })
+        .map((node) => node.id);
+      setSelectedNodes(selectedIds);
+      if (selectedIds.length > 0) setSelectedReroutePoint(null);
+      return;
+    }
+
     const matchedPoint = edges
       .flatMap((edge) =>
         (edge.data?.reroutePoints ?? []).map((point) => ({
@@ -625,7 +667,7 @@ export function BTEditor() {
         pointId: matchedPoint.pointId,
       });
     }, 0);
-  }, [edges, isReadonly]);
+  }, [edges, isReadonly, rfNodes, setSelectedNodes]);
 
   const onEdgesChange = useCallback(() => {}, []);
 
@@ -826,7 +868,12 @@ export function BTEditor() {
 
   // ----- Other handlers -----
   const onNodeClick = useCallback(
-    (_event: React.MouseEvent, node: Node) => {
+    (event: React.MouseEvent, node: Node) => {
+      const nodeData = node.data as unknown as BTNodeData;
+      const target = event.target instanceof HTMLElement ? event.target : null;
+      if (nodeData.type === BTNodeType.COMMENT && target && !isCommentInteractiveTarget(target)) {
+        return;
+      }
       setSelectedNodes([node.id]);
       setSelectedReroutePoint(null);
     },
