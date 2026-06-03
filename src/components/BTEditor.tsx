@@ -138,22 +138,15 @@ function isFullyInsideComment(node: Node, comment: Node): boolean {
   );
 }
 
-function isPartiallyInsideBounds(node: Node, bounds: { left: number; right: number; top: number; bottom: number }): boolean {
-  const nodeSize = getNodeSize(node);
-  const nodeLeft = node.position.x;
-  const nodeTop = node.position.y;
-  const nodeRight = nodeLeft + nodeSize.width;
-  const nodeBottom = nodeTop + nodeSize.height;
-  return (
-    nodeRight >= bounds.left &&
-    nodeLeft <= bounds.right &&
-    nodeBottom >= bounds.top &&
-    nodeTop <= bounds.bottom
-  );
-}
-
 function isCommentInteractiveTarget(target: HTMLElement): boolean {
   return Boolean(target.closest('.bt-comment-title, .bt-comment-title-input, .bt-comment-resize-edge'));
+}
+
+function isScreenRectIntersecting(
+  a: { left: number; right: number; top: number; bottom: number },
+  b: { left: number; right: number; top: number; bottom: number }
+): boolean {
+  return a.right >= b.left && a.left <= b.right && a.bottom >= b.top && a.top <= b.bottom;
 }
 
 function isExecutionEdge(edge: {
@@ -239,6 +232,7 @@ export function BTEditor() {
     nonce: number;
   } | null>(null);
   const paneSelectionDragRef = useRef<PaneSelectionDrag | null>(null);
+  const manualSelectionOverrideRef = useRef<string[] | null>(null);
 
   // Variable drop → Get/Set popup
   const [varDropPopup, setVarDropPopup] = useState<{
@@ -491,11 +485,32 @@ export function BTEditor() {
               },
             }
           : {}),
+        ...(n.data.type === BTNodeType.COMMENT
+          ? {
+              selectable: false,
+              data: {
+                ...n.data,
+                onCommentTitleSelect: () => {
+                  setSelectedNodes([n.id]);
+                  setSelectedReroutePoint(null);
+                },
+              },
+            }
+          : {}),
         zIndex: n.data.type === BTNodeType.COMMENT ? -1 : undefined,
         dragHandle: n.data.type === BTNodeType.COMMENT ? '.bt-comment-title' : undefined,
         className: n.data.type === BTNodeType.COMMENT ? 'comment-flow-node' : undefined,
       })) as Node[],
-    [nodes, selectedNodeIds, commentTitleEditRequest, openComboPage, previewActionMedia, previewComboMedia]
+    [
+      nodes,
+      selectedNodeIds,
+      commentTitleEditRequest,
+      openComboPage,
+      previewActionMedia,
+      previewComboMedia,
+      setSelectedNodes,
+      setSelectedReroutePoint,
+    ]
   );
 
   const rfEdges: Edge[] = useMemo(
@@ -581,6 +596,7 @@ export function BTEditor() {
 
   const onSelectionChange = useCallback(
     ({ nodes: selNodes }: { nodes: Node[] }) => {
+      if (manualSelectionOverrideRef.current) return;
       setSelectedNodes(selNodes.map((n) => n.id));
       if (selNodes.length > 0) setSelectedReroutePoint(null);
     },
@@ -592,16 +608,6 @@ export function BTEditor() {
     if (event.button !== 0 || isEditableTarget(event.target)) return;
     const target = event.target instanceof HTMLElement ? event.target : null;
     if (!target) return;
-
-    const commentNode = target.closest('.react-flow__node.comment-flow-node');
-    if (commentNode && !isCommentInteractiveTarget(target)) {
-      event.stopPropagation();
-      paneSelectionDragRef.current = {
-        startScreen: { x: event.clientX, y: event.clientY },
-        source: 'comment-body',
-      };
-      return;
-    }
 
     if (target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) return;
     paneSelectionDragRef.current = {
@@ -620,6 +626,39 @@ export function BTEditor() {
     const dy = event.clientY - selectionDrag.startScreen.y;
     if (Math.hypot(dx, dy) < 8) return;
 
+    const screenBounds = {
+      left: Math.min(selectionDrag.startScreen.x, event.clientX),
+      right: Math.max(selectionDrag.startScreen.x, event.clientX),
+      top: Math.min(selectionDrag.startScreen.y, event.clientY),
+      bottom: Math.max(selectionDrag.startScreen.y, event.clientY),
+    };
+    const selectedNodeIdsInBounds = Array.from(
+      reactFlowRef.current?.querySelectorAll<HTMLElement>('.react-flow__node[data-id]:not(.comment-flow-node)') ?? []
+    )
+      .filter((element) => {
+        const rect = element.getBoundingClientRect();
+        return isScreenRectIntersecting(screenBounds, {
+          left: rect.left,
+          right: rect.right,
+          top: rect.top,
+          bottom: rect.bottom,
+        });
+      })
+      .map((element) => element.dataset.id)
+      .filter((id): id is string => Boolean(id));
+
+    if (selectedNodeIdsInBounds.length > 0 || selectionDrag.source === 'comment-body') {
+      manualSelectionOverrideRef.current = selectedNodeIdsInBounds;
+      window.setTimeout(() => {
+        setSelectedNodes(selectedNodeIdsInBounds);
+        if (selectedNodeIdsInBounds.length > 0) setSelectedReroutePoint(null);
+        window.setTimeout(() => {
+          manualSelectionOverrideRef.current = null;
+        }, 80);
+      }, 0);
+      return;
+    }
+
     const rfInstance = rfInstanceRef.current;
     if (!rfInstance) return;
 
@@ -631,18 +670,6 @@ export function BTEditor() {
       top: Math.min(start.y, end.y),
       bottom: Math.max(start.y, end.y),
     };
-
-    if (selectionDrag.source === 'comment-body') {
-      const selectedIds = rfNodes
-        .filter((node) => {
-          const nodeData = node.data as unknown as BTNodeData;
-          return nodeData.type !== BTNodeType.COMMENT && isPartiallyInsideBounds(node, bounds);
-        })
-        .map((node) => node.id);
-      setSelectedNodes(selectedIds);
-      if (selectedIds.length > 0) setSelectedReroutePoint(null);
-      return;
-    }
 
     const matchedPoint = edges
       .flatMap((edge) =>

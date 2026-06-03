@@ -301,6 +301,10 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         ) : (
           <div
             className="bt-comment-title bt-comment-title-bar"
+            onClick={(e) => {
+              e.stopPropagation();
+              (nodeData as BTNodeData & { onCommentTitleSelect?: () => void }).onCommentTitleSelect?.();
+            }}
             onDoubleClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
