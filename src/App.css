@@ -12,6 +12,62 @@
   overflow: hidden;
 }
 
+.initial-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(59, 130, 246, 0.12), transparent 32%),
+    rgba(10, 14, 23, 0.78);
+  backdrop-filter: blur(2px);
+  cursor: wait;
+}
+
+.initial-loading-panel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: min(360px, calc(100vw - 40px));
+  padding: 18px 20px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  background: rgba(17, 24, 39, 0.92);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+.initial-loading-spinner {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border: 3px solid rgba(148, 163, 184, 0.22);
+  border-top-color: var(--accent);
+  border-radius: 999px;
+  animation: initial-loading-spin 0.8s linear infinite;
+}
+
+.initial-loading-title {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.initial-loading-detail {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@keyframes initial-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ===== Toolbar ===== */
 .toolbar {
   display: flex;
