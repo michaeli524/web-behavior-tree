@@ -7,11 +7,13 @@ description: Generate and revise Astaroth behavior-tree JSON in the web-behavior
 
 ## Inputs
 
-- Treat `public/电龙AI.json` as the canonical style sample.
+- Treat `public/电龙AI2026年6月4日.json` as the canonical hand-tuned style sample.
+- Treat `public/电龙AI-CodeX-2.0.json` as a structural draft and layout anti-sample: it has useful behavior decomposition, but its long crossing lines and over-dense right-side leaves were manually corrected.
 - Treat `public/config/Actions.json` as the only Action resource map. Do not invent `actionId`; leave a behavior as a comment, condition, or Combo page if no resource exists.
 - Preserve existing variables and reuse their IDs:
   - `AllCharged`, `HeadCharged`, `WingCharged`, `TailCharged`
   - `SuperCharged`, `UltTimedUp`, `HasCharged？`
+- For detailed layout findings from the hand-tuned sample, read [REFERENCE.md](REFERENCE.md) before generating a large JSON.
 
 ## JSON Rules
 
@@ -30,9 +32,17 @@ description: Generate and revise Astaroth behavior-tree JSON in the web-behavior
   - distance selectors in the middle
   - random selectors and branch conditions to the right
   - Action/Combo leaves furthest right
+- Keep behavior pools in distinct horizontal bands. Do not let all leaves collapse into one far-right column.
+- Main canvas preferred columns:
+  - global override: x -900 to 580
+  - all-charged pool: comment x around 915, data/condition x 1150-1330, selectors x 1575-1610, leaves x 2035-2080
+  - charged-by-part pool: distance x around 1625, random selectors x around 2700, guards/leaves x around 3810, second-stage leaves x around 4775
+  - uncharged pool: comment x around 975, distance x around 1840, random selectors x around 2925, leaves x around 4030
+  - far/exit correction: y around 2920+, with approach/action cleanup separated from ordinary attack pools
 - Keep generous spacing. Prefer x gaps of 180-260 between data node and condition, 420-700 between major logic stages, and y gaps of 130-220 between sibling branches.
 - Use large comment boxes as background bands, not small labels. Put a comment behind each major lane: global override, uncharged, partially charged, all-charged, 350/600/1000+ distance, and Combo pages.
-- Avoid dense crossing. If a branch would cross many wires, split it into a Combo page or move it into a separate vertical lane.
+- Avoid dense crossing. If a branch would cross many wires, split it into a Combo page, move the whole pool into its own vertical band, or pull the leaves closer to their selector.
+- Long lines are acceptable only for high-level routing between bands. They are not acceptable from a Random selector to a leaf that visually belongs to another pool.
 - Keep page-local combos simple and readable: root at x≈80-120, actions left-to-right with x gaps 260-360, condition/data checks below the action chain.
 
 ## Node Patterns
@@ -54,6 +64,10 @@ description: Generate and revise Astaroth behavior-tree JSON in the web-behavior
   - Use `reset` for explicit "no follow-up / return to main tree" outcomes.
 - Ordered action chain:
   - Connect `Action:exec-out -> next Action/Condition/Combo:exec-in`.
+- Main-tree leaf pools:
+  - Put each `random-selector` near the vertical center of the leaves it owns.
+  - Stack leaves in the same band as the selector output order.
+  - If one output needs another condition, put that guard immediately before the second-stage leaf, not back near the selector.
 
 ## Translation Heuristics
 
@@ -75,3 +89,7 @@ description: Generate and revise Astaroth behavior-tree JSON in the web-behavior
 - Check every edge source/target exists in the same tree or page.
 - Check every Combo node references an existing page and its label matches page name.
 - Check every non-empty `actionId` exists in `Actions.json`.
+- Run a layout audit before finishing:
+  - compare against `public/电龙AI2026年6月4日.json` for banding, spacing, and comment coverage
+  - list the longest main-tree edges and justify any edge longer than about 1600 canvas units
+  - inspect likely crossings; reduce random-selector-to-leaf crossings before handing off
