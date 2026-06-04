@@ -1673,7 +1673,8 @@
 
 /* ===== Comment Node ===== */
 .react-flow__node.comment-flow-node {
-  pointer-events: none;
+  pointer-events: none !important;
+  cursor: default !important;
 }
 
 .bt-comment {

@@ -25,73 +25,73 @@
   },
   {
     "actionId": "Astaroth_Tail_Thrust",
-    "actionName": "尾刺-尾充能",
+    "actionName": "尾刺-尾充电",
     "gifPath": "充能尾刺.mp4",
-    "comment": "尾巴插地放电-未充能.mp4"
+    "comment": ""
   },
   {
     "actionId": "Astaroth_Tail_Ground_Spike_Uncharged",
-    "actionName": "尾巴插地放电-未充能",
+    "actionName": "尾巴插地放电-未充电",
     "gifPath": "尾巴插地放电-尾巴未充电.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Head_Slam_Uncharged",
-    "actionName": "头顶二连-未充能",
+    "actionName": "头顶二连-未充电",
     "gifPath": "头顶二连-未充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Head_Slam_Charged",
-    "actionName": "头顶二连-头充能",
+    "actionName": "头顶二连-头充电",
     "gifPath": "头砸二连-充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Wing_Press_Uncharged",
-    "actionName": "翅膀单次下拍-未充能",
+    "actionName": "翅膀单次下拍-未充电",
     "gifPath": "单侧翅膀拍地-右-未充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Wing_Double_Press_Charged",
-    "actionName": "翅膀下拍二连-翅膀充能",
+    "actionName": "翅膀下拍二连-翅膀充电",
     "gifPath": "翅膀充能二连拍.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Dash_Wing_Press_Charged",
-    "actionName": "冲刺翅膀下拍-翅膀充能",
+    "actionName": "冲刺翅膀下拍-翅膀充电",
     "gifPath": "冲刺翅膀下拍-翅膀充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Breath_Uncharged",
-    "actionName": "吐息-未充能",
+    "actionName": "吐息-未充电",
     "gifPath": "电流吐息-未充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Double_Breath_Charged",
-    "actionName": "二连吐息-头、翅膀充能",
+    "actionName": "二连吐息-头、翅膀充电",
     "gifPath": "二连吐息-头充电.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Head_Double_Swing_Charged",
-    "actionName": "二连甩头-头、翅膀充能",
+    "actionName": "二连甩头-头、翅膀充电",
     "gifPath": "二连甩头.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Overhead_Slam_Charged",
-    "actionName": "斩舰刀-头充能",
-    "gifPath": "斩舰刀-充能.mp4",
+    "actionName": "斩舰刀-头充电",
+    "gifPath": "斩舰刀-头充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_AllCharged_Roar",
-    "actionName": "全身充能吼叫",
+    "actionName": "全身充电吼叫",
     "gifPath": "进入完全充电状态.mp4",
     "comment": ""
   },
@@ -103,7 +103,7 @@
   },
   {
     "actionId": "Astaroth_Double_Breath_Combo",
-    "actionName": "二连吐息+冲刺翅膀拍-头翅膀充电",
+    "actionName": "二连吐息+冲刺翅膀拍-头、翅膀充电",
     "gifPath": "二连吐息+冲刺翅膀拍-头翅膀充电.mp4",
     "comment": ""
   },
