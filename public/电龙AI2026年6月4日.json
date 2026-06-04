@@ -74,8 +74,8 @@
       "id": "codex2_comment_013",
       "type": "bt-node",
       "position": {
-        "x": 760,
-        "y": -610
+        "x": 915,
+        "y": -995
       },
       "data": {
         "label": "全身充能普通池：进入强化展示、二连吐息压制、翅膀二连与核心三连。",
@@ -102,7 +102,7 @@
         "startValue": "0",
         "endValue": "0",
         "commentWidth": 2403,
-        "commentHeight": 640
+        "commentHeight": 924.7414466780178
       }
     },
     {
@@ -144,8 +144,8 @@
       "id": "codex2_comment_015",
       "type": "bt-node",
       "position": {
-        "x": 760,
-        "y": 1580
+        "x": 975,
+        "y": 1700
       },
       "data": {
         "label": "未完全充能：以牵制咬、翅膀下拍、后撤步吐息、头顶二连构成基础循环。",
@@ -214,8 +214,8 @@
       "id": "codex2_comment_017",
       "type": "bt-node",
       "position": {
-        "x": -1060,
-        "y": 1060
+        "x": -920,
+        "y": 860
       },
       "data": {
         "label": "观察备注：文本中“牵制咬甩尾尾刺三连”“后撤步吐息”“二连吐息接冲刺翅膀拍”等反复出现，因此被抽成 Combo 页面；不确定或缺资源行为用低权重或注释保留。",
@@ -415,8 +415,8 @@
       "id": "codex2_get_006",
       "type": "bt-node",
       "position": {
-        "x": 135,
-        "y": 35
+        "x": 140,
+        "y": -30
       },
       "data": {
         "label": "Get",
@@ -449,8 +449,8 @@
       "id": "codex2_condition_011",
       "type": "bt-node",
       "position": {
-        "x": 570,
-        "y": -40
+        "x": 355,
+        "y": -120
       },
       "data": {
         "label": "是否已有部位充能",
@@ -482,8 +482,8 @@
       "id": "codex2_get_007",
       "type": "bt-node",
       "position": {
-        "x": 135,
-        "y": -445
+        "x": 190,
+        "y": -430
       },
       "data": {
         "label": "Get",
@@ -516,8 +516,8 @@
       "id": "codex2_condition_012",
       "type": "bt-node",
       "position": {
-        "x": 570,
-        "y": -520
+        "x": 350,
+        "y": -530
       },
       "data": {
         "label": "是否进入超带电状态",
@@ -549,8 +549,8 @@
       "id": "codex2_get_008",
       "type": "bt-node",
       "position": {
-        "x": 1169,
-        "y": -575
+        "x": 1150,
+        "y": -825
       },
       "data": {
         "label": "Get",
@@ -583,8 +583,8 @@
       "id": "codex2_condition_013",
       "type": "bt-node",
       "position": {
-        "x": 1604,
-        "y": -650
+        "x": 1330,
+        "y": -820
       },
       "data": {
         "label": "大招倒计时结束?",
@@ -616,8 +616,8 @@
       "id": "codex2_action_030",
       "type": "bt-node",
       "position": {
-        "x": 2591,
-        "y": -690
+        "x": 1610,
+        "y": -955
       },
       "data": {
         "label": "Action",
@@ -650,8 +650,8 @@
       "id": "codex2_dist_001",
       "type": "bt-node",
       "position": {
-        "x": 2591,
-        "y": -500
+        "x": 1610,
+        "y": -685
       },
       "data": {
         "label": "Dist Selector",
@@ -664,8 +664,7 @@
         "distances": [
           350,
           600,
-          1000,
-          2000
+          1000
         ],
         "randomWeights": [
           50,
@@ -684,8 +683,8 @@
       "id": "codex2_random_001",
       "type": "bt-node",
       "position": {
-        "x": 2591,
-        "y": -225
+        "x": 1575,
+        "y": -305
       },
       "data": {
         "label": "Random Selector",
@@ -718,8 +717,8 @@
       "id": "codex2_combo_001",
       "type": "bt-node",
       "position": {
-        "x": 3601,
-        "y": -565
+        "x": 2075,
+        "y": -945
       },
       "data": {
         "label": "BackStep_Overhead_Slam",
@@ -754,8 +753,8 @@
       "id": "codex2_combo_002",
       "type": "bt-node",
       "position": {
-        "x": 3601,
-        "y": -405
+        "x": 2075,
+        "y": -805
       },
       "data": {
         "label": "BackStep_DoubleBreath_Press",
@@ -790,8 +789,8 @@
       "id": "codex2_combo_003",
       "type": "bt-node",
       "position": {
-        "x": 3601,
-        "y": -245
+        "x": 2075,
+        "y": -645
       },
       "data": {
         "label": "Air_Approach_Breath_TailLanding",
@@ -826,8 +825,8 @@
       "id": "codex2_action_031",
       "type": "bt-node",
       "position": {
-        "x": 3601,
-        "y": -85
+        "x": 2080,
+        "y": -490
       },
       "data": {
         "label": "Action",
@@ -860,8 +859,8 @@
       "id": "codex2_action_032",
       "type": "bt-node",
       "position": {
-        "x": 3601,
-        "y": -170
+        "x": 2035,
+        "y": -350
       },
       "data": {
         "label": "Action",
@@ -1036,8 +1035,8 @@
       "id": "codex2_dist_003",
       "type": "bt-node",
       "position": {
-        "x": 1627,
-        "y": 1820
+        "x": 1840,
+        "y": 1940
       },
       "data": {
         "label": "Dist Selector",
@@ -1050,8 +1049,7 @@
         "distances": [
           350,
           600,
-          1000,
-          2000
+          1000
         ],
         "randomWeights": [
           50,
@@ -2079,8 +2077,8 @@
       "id": "codex2_action_035",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 1720
+        "x": 4030,
+        "y": 1700
       },
       "data": {
         "label": "Action",
@@ -2286,8 +2284,8 @@
       "id": "codex2_random_005",
       "type": "bt-node",
       "position": {
-        "x": 2708,
-        "y": 1745
+        "x": 2925,
+        "y": 1865
       },
       "data": {
         "label": "Random Selector",
@@ -2320,8 +2318,8 @@
       "id": "codex2_random_006",
       "type": "bt-node",
       "position": {
-        "x": 2708,
-        "y": 2145
+        "x": 2925,
+        "y": 2265
       },
       "data": {
         "label": "Random Selector",
@@ -2354,8 +2352,8 @@
       "id": "codex2_random_007",
       "type": "bt-node",
       "position": {
-        "x": 2708,
-        "y": 2545
+        "x": 2925,
+        "y": 2665
       },
       "data": {
         "label": "Random Selector",
@@ -2387,8 +2385,8 @@
       "id": "codex2_approach_005",
       "type": "bt-node",
       "position": {
-        "x": 2708,
-        "y": 3080
+        "x": 2790,
+        "y": 3470
       },
       "data": {
         "label": "Approach",
@@ -2420,8 +2418,8 @@
       "id": "codex2_combo_022",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 1700
+        "x": 4030,
+        "y": 1860
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -2456,8 +2454,8 @@
       "id": "codex2_combo_023",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 1880
+        "x": 4030,
+        "y": 2000
       },
       "data": {
         "label": "Tail_Ground_Spike_Check",
@@ -2492,8 +2490,8 @@
       "id": "codex2_combo_024",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 2060
+        "x": 4030,
+        "y": 2145
       },
       "data": {
         "label": "BackStep_WingPress_ByCharge",
@@ -2528,8 +2526,8 @@
       "id": "codex2_action_038",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 2240
+        "x": 4035,
+        "y": 2295
       },
       "data": {
         "label": "Action",
@@ -2562,8 +2560,8 @@
       "id": "codex2_action_039",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 2310
+        "x": 4030,
+        "y": 2450
       },
       "data": {
         "label": "Action",
@@ -2596,8 +2594,8 @@
       "id": "codex2_combo_025",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 2480
+        "x": 4030,
+        "y": 2600
       },
       "data": {
         "label": "BackStep_Breath_Uncharged",
@@ -2632,8 +2630,8 @@
       "id": "codex2_action_040",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 2650
+        "x": 4030,
+        "y": 2770
       },
       "data": {
         "label": "Action",
@@ -2666,8 +2664,8 @@
       "id": "codex2_combo_026",
       "type": "bt-node",
       "position": {
-        "x": 3813,
-        "y": 2820
+        "x": 4045,
+        "y": 2915
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -2839,8 +2837,8 @@
       "id": "codex2_action_043",
       "type": "bt-node",
       "position": {
-        "x": 3413,
-        "y": 3080
+        "x": 3120,
+        "y": 3475
       },
       "data": {
         "label": "Action",
@@ -3479,7 +3477,7 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1648.0613444671208,
+            "commentWidth": 1618.9332796058968,
             "commentHeight": 430
           }
         },
@@ -3588,8 +3586,8 @@
           "id": "codex2_angle_001",
           "type": "bt-node",
           "position": {
-            "x": 750,
-            "y": 325
+            "x": 760,
+            "y": 330
           },
           "data": {
             "label": "Angle Between CW",
@@ -3621,8 +3619,8 @@
           "id": "codex2_condition_001",
           "type": "bt-node",
           "position": {
-            "x": 980,
-            "y": 185
+            "x": 975,
+            "y": 190
           },
           "data": {
             "label": "是否处于尾刺角度窗口",
@@ -4397,7 +4395,7 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1500,
+            "commentWidth": 1940.1119970578623,
             "commentHeight": 455
           }
         },
@@ -4405,7 +4403,7 @@
           "id": "codex2_root_004",
           "type": "bt-node",
           "position": {
-            "x": 90,
+            "x": 55,
             "y": 190
           },
           "data": {
@@ -4506,8 +4504,8 @@
           "id": "codex2_distance_002",
           "type": "bt-node",
           "position": {
-            "x": 755,
-            "y": 255
+            "x": 770,
+            "y": 330
           },
           "data": {
             "label": "2D Dist Between",
@@ -4540,7 +4538,7 @@
           "type": "bt-node",
           "position": {
             "x": 970,
-            "y": 185
+            "y": 190
           },
           "data": {
             "label": "目标是否贴近",
@@ -4573,7 +4571,7 @@
           "type": "bt-node",
           "position": {
             "x": 1290,
-            "y": 120
+            "y": 130
           },
           "data": {
             "label": "Action",
@@ -4606,8 +4604,8 @@
           "id": "codex2_action_013",
           "type": "bt-node",
           "position": {
-            "x": 1600,
-            "y": 120
+            "x": 1595,
+            "y": 130
           },
           "data": {
             "label": "Action",
@@ -4640,8 +4638,8 @@
           "id": "codex2_action_014",
           "type": "bt-node",
           "position": {
-            "x": 1290,
-            "y": 295
+            "x": 1285,
+            "y": 320
           },
           "data": {
             "label": "Action",
@@ -5595,7 +5593,7 @@
           "id": "codex2_action_022",
           "type": "bt-node",
           "position": {
-            "x": 310,
+            "x": 335,
             "y": 190
           },
           "data": {

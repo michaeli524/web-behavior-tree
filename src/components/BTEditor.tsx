@@ -77,6 +77,11 @@ type PaneSelectionDrag = {
   source?: 'pane' | 'comment-body';
 };
 
+type PageTabItem = {
+  id: string;
+  name: string;
+};
+
 function isEditableTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
   return target.tagName === 'INPUT' ||
@@ -233,6 +238,7 @@ export function BTEditor() {
   } | null>(null);
   const paneSelectionDragRef = useRef<PaneSelectionDrag | null>(null);
   const manualSelectionOverrideRef = useRef<string[] | null>(null);
+  const [openPageTabIds, setOpenPageTabIds] = useState<string[]>(['main']);
 
   // Variable drop → Get/Set popup
   const [varDropPopup, setVarDropPopup] = useState<{
@@ -272,6 +278,7 @@ export function BTEditor() {
 
   const isMainTree = activePageId === 'main';
   const isPage = storePages.some((p) => p.id === activePageId);
+  const mainPageName = useBTStore((s) => s.mainPageName);
 
   const addNodeStore = useBTStore((s) => s.addNode);
   const updateNodePositionStore = useBTStore((s) => s.updateNodePosition);
@@ -298,6 +305,53 @@ export function BTEditor() {
   const setActivePageId = useBTStore((s) => s.setActivePageId);
   const addPage = useBTStore((s) => s.addPage);
   const updateNodeDataStore = useBTStore((s) => s.updateNodeData);
+
+  const availablePageTabs = useMemo<PageTabItem[]>(
+    () => [
+      { id: 'main', name: mainPageName },
+      ...storePages.map((page) => ({ id: page.id, name: page.name })),
+      ...functions.map((func) => ({ id: func.id, name: func.name })),
+    ],
+    [mainPageName, storePages, functions]
+  );
+
+  const pageTabById = useMemo(
+    () => new Map(availablePageTabs.map((tab) => [tab.id, tab])),
+    [availablePageTabs]
+  );
+
+  const openPageTabs = useMemo(
+    () => openPageTabIds
+      .map((id) => pageTabById.get(id))
+      .filter((tab): tab is PageTabItem => Boolean(tab)),
+    [openPageTabIds, pageTabById]
+  );
+
+  useEffect(() => {
+    setOpenPageTabIds((ids) => {
+      const existingIds = ids.filter((id) => pageTabById.has(id));
+      const normalizedIds = existingIds.includes('main') ? existingIds : ['main', ...existingIds];
+      return normalizedIds.includes(activePageId)
+        ? normalizedIds
+        : [...normalizedIds, activePageId].filter((id) => pageTabById.has(id));
+    });
+  }, [activePageId, pageTabById]);
+
+  const closePageTab = useCallback(
+    (pageId: string) => {
+      if (pageId === 'main') return;
+      const nextIds = openPageTabIds.filter((id) => id !== pageId);
+      const normalizedNextIds = nextIds.length > 0 ? nextIds : ['main'];
+      setOpenPageTabIds(normalizedNextIds);
+
+      if (pageId === activePageId) {
+        const closedIndex = openPageTabIds.indexOf(pageId);
+        const fallbackIndex = Math.min(Math.max(0, closedIndex - 1), normalizedNextIds.length - 1);
+        setActivePageId(normalizedNextIds[fallbackIndex] ?? 'main');
+      }
+    },
+    [activePageId, openPageTabIds, setActivePageId]
+  );
 
   const saveCurrentViewport = useCallback((pageId: string) => {
     const rfInstance = rfInstanceRef.current;
@@ -608,6 +662,7 @@ export function BTEditor() {
     if (event.button !== 0 || isEditableTarget(event.target)) return;
     const target = event.target instanceof HTMLElement ? event.target : null;
     if (!target) return;
+    if (target.closest('.page-tabs-bar')) return;
 
     if (target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) return;
     paneSelectionDragRef.current = {
@@ -1343,48 +1398,82 @@ export function BTEditor() {
       onMouseDownCapture={onEditorMouseDownCapture}
       onMouseUpCapture={onEditorMouseUpCapture}
     >
-      <ReactFlow
-        nodes={rfNodes}
-        edges={rfEdges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnectStart={onConnectStart}
-        onConnect={onConnect}
-        onNodeClick={onNodeClick}
-        onNodeDoubleClick={onNodeDoubleClick}
-        onNodeContextMenu={onNodeContextMenu}
-        onEdgeClick={onEdgeClick}
-        onEdgeDoubleClick={onEdgeDoubleClick}
-        onNodesDelete={onNodesDelete}
-        onEdgesDelete={onEdgesDelete}
-        onSelectionChange={onSelectionChange}
-        onPaneClick={onPaneClick}
-        onPaneContextMenu={onPaneContextMenu}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
-        onInit={onInit}
-        onMoveEnd={onMoveEnd}
-        isValidConnection={isValidConnection}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        defaultEdgeOptions={defaultEdgeOptions}
-        snapToGrid
-        snapGrid={SNAP_GRID}
-        fitView
-        minZoom={0.05}
-        maxZoom={2}
-        zoomOnDoubleClick={false}
-        deleteKeyCode={isReadonly ? [] : ['Backspace', 'Delete']}
-        nodesDraggable={!isReadonly}
-        nodesConnectable={!isReadonly}
-        edgesReconnectable={!isReadonly}
-        panOnDrag={[1, 2]}
-        selectionOnDrag
-        selectionMode={SelectionMode.Partial}
-      >
-        <Controls />
-        <Background variant={BackgroundVariant.Dots} gap={5} size={1} color="#333" />
-      </ReactFlow>
+      <div className="page-tabs-bar" role="tablist" aria-label="已打开页面">
+        {openPageTabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            role="tab"
+            aria-selected={tab.id === activePageId}
+            className={`page-tab ${tab.id === activePageId ? 'active' : ''}`}
+            title={tab.name}
+            onClick={() => setActivePageId(tab.id)}
+          >
+            <span className="page-tab-icon">{tab.id === 'main' ? '⌂' : '□'}</span>
+            <span className="page-tab-name">{tab.name}</span>
+            {tab.id !== 'main' && (
+              <span
+                className="page-tab-close"
+                role="button"
+                aria-label={`关闭 ${tab.name}`}
+                title="关闭标签"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  closePageTab(tab.id);
+                }}
+              >
+                ×
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      <div className="bt-flow-canvas">
+        <ReactFlow
+          nodes={rfNodes}
+          edges={rfEdges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnectStart={onConnectStart}
+          onConnect={onConnect}
+          onNodeClick={onNodeClick}
+          onNodeDoubleClick={onNodeDoubleClick}
+          onNodeContextMenu={onNodeContextMenu}
+          onEdgeClick={onEdgeClick}
+          onEdgeDoubleClick={onEdgeDoubleClick}
+          onNodesDelete={onNodesDelete}
+          onEdgesDelete={onEdgesDelete}
+          onSelectionChange={onSelectionChange}
+          onPaneClick={onPaneClick}
+          onPaneContextMenu={onPaneContextMenu}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+          onInit={onInit}
+          onMoveEnd={onMoveEnd}
+          isValidConnection={isValidConnection}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={defaultEdgeOptions}
+          snapToGrid
+          snapGrid={SNAP_GRID}
+          fitView
+          minZoom={0.05}
+          maxZoom={2}
+          zoomOnDoubleClick={false}
+          deleteKeyCode={isReadonly ? [] : ['Backspace', 'Delete']}
+          nodesDraggable={!isReadonly}
+          nodesConnectable={!isReadonly}
+          edgesReconnectable={!isReadonly}
+          panOnDrag={[1, 2]}
+          selectionOnDrag
+          selectionMode={SelectionMode.Partial}
+        >
+          <Controls />
+          <Background variant={BackgroundVariant.Dots} gap={5} size={1} color="#333" />
+        </ReactFlow>
+      </div>
 
       {quickCreate && (
         <>
