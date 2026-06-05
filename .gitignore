@@ -15,6 +15,9 @@ public/ActionMP4
 dist-ssr
 *.local
 
+# Local AI behavior review drafts
+docs/电龙AI行为*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
