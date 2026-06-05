@@ -196,8 +196,14 @@ function createEdge(source: string, target: string, sourceHandle?: string, targe
   };
 }
 
+const editableLabelNodeTypes = new Set<BTNodeType>([
+  BTNodeType.COMMENT,
+  BTNodeType.COMBO_SHOW,
+  BTNodeType.CONDITION,
+]);
+
 function sanitizeNodeDataUpdate(node: BTNode | undefined, data: Partial<BTNodeData>): Partial<BTNodeData> {
-  if (node?.data.type === BTNodeType.COMMENT || node?.data.type === BTNodeType.COMBO_SHOW) return data;
+  if (node && editableLabelNodeTypes.has(node.data.type)) return data;
   const sanitized = { ...data };
   delete sanitized.label;
   return sanitized;

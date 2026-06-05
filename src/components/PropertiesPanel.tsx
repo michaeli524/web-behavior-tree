@@ -85,15 +85,27 @@ export function PropertiesPanel() {
       )}
 
       {data.type === BTNodeType.CONDITION && (
-        <div className="prop-group">
-          <label>条件表达式</label>
-          <input
-            type="text"
-            placeholder="e.g. hp > 50"
-            value={data.condition ?? ''}
-            onChange={(e) => updateNodeData(selectedNode.id, { condition: e.target.value })}
-          />
-        </div>
+        <>
+          <div className="prop-group">
+            <label>条件标题</label>
+            <input
+              type="text"
+              value={data.label ?? ''}
+              placeholder="Condition"
+              onChange={(e) => updateNodeData(selectedNode.id, { label: e.target.value })}
+            />
+          </div>
+
+          <div className="prop-group">
+            <label>条件表达式</label>
+            <input
+              type="text"
+              placeholder="e.g. hp > 50"
+              value={data.condition ?? ''}
+              onChange={(e) => updateNodeData(selectedNode.id, { condition: e.target.value })}
+            />
+          </div>
+        </>
       )}
 
       {data.type === BTNodeType.ACTION && (
