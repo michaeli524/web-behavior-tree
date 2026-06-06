@@ -1504,8 +1504,8 @@
       "id": "codex0606_random_007",
       "type": "bt-node",
       "position": {
-        "x": 2040,
-        "y": 4125
+        "x": 2120,
+        "y": 4140
       },
       "data": {
         "label": "Random Selector",
@@ -1521,9 +1521,8 @@
           2000
         ],
         "randomWeights": [
-          34,
-          33,
-          33
+          50,
+          10
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -2213,8 +2212,8 @@
       "id": "codex0606_action_006",
       "type": "bt-node",
       "position": {
-        "x": 2820,
-        "y": 4030
+        "x": 2895,
+        "y": 4165
       },
       "data": {
         "label": "Action",
@@ -2247,8 +2246,8 @@
       "id": "codex0606_action_007",
       "type": "bt-node",
       "position": {
-        "x": 2830,
-        "y": 4160
+        "x": 2895,
+        "y": 4035
       },
       "data": {
         "label": "Action",
@@ -2281,8 +2280,8 @@
       "id": "approach_1780760705796_2",
       "type": "bt-node",
       "position": {
-        "x": 2600,
-        "y": 4310
+        "x": 2495,
+        "y": 4315
       },
       "data": {
         "label": "Approach",
@@ -2338,6 +2337,73 @@
           30,
           20
         ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "condition_1780762714733_1",
+      "type": "bt-node",
+      "position": {
+        "x": 2645,
+        "y": 4080
+      },
+      "data": {
+        "label": "翅膀充电？",
+        "type": "condition",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "get-variable_1780762742100_5",
+      "type": "bt-node",
+      "position": {
+        "x": 2445,
+        "y": 4190
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "variableId": "var_1779033689313_7",
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
@@ -2783,20 +2849,6 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "codex0606_edge_063",
-      "source": "codex0606_random_007",
-      "target": "codex0606_action_006",
-      "sourceHandle": "random-0",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "codex0606_edge_064",
-      "source": "codex0606_random_007",
-      "target": "codex0606_action_007",
-      "sourceHandle": "random-1",
-      "targetHandle": "exec-in"
-    },
-    {
       "id": "edge_1780760705799_3",
       "source": "codex0606_random_007",
       "target": "approach_1780760705796_2",
@@ -2807,6 +2859,33 @@
       "source": "approach_1780760705796_2",
       "target": "combo-show_1780760967807_3",
       "sourceHandle": "exec-out"
+    },
+    {
+      "id": "edge_1780762714737_2",
+      "source": "codex0606_random_007",
+      "target": "condition_1780762714733_1",
+      "sourceHandle": "random-0"
+    },
+    {
+      "id": "edge_1780762727277_3",
+      "source": "condition_1780762714733_1",
+      "target": "codex0606_action_007",
+      "sourceHandle": "exec-true",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780762730703_4",
+      "source": "condition_1780762714733_1",
+      "target": "codex0606_action_006",
+      "sourceHandle": "exec-false",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780762743375_6",
+      "source": "get-variable_1780762742100_5",
+      "target": "condition_1780762714733_1",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
     }
   ],
   "variables": [
