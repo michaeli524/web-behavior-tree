@@ -29,27 +29,6 @@ interface InitialLoadingState {
   detail: string;
 }
 
-function isBlankEditorSave(json: string): boolean {
-  try {
-    const data = JSON.parse(json) as {
-      nodes?: unknown[];
-      edges?: unknown[];
-      variables?: unknown[];
-      functions?: unknown[];
-      pages?: unknown[];
-    };
-    return (
-      (data.nodes?.length ?? 0) <= 1 &&
-      (data.edges?.length ?? 0) === 0 &&
-      (data.variables?.length ?? 0) === 0 &&
-      (data.functions?.length ?? 0) === 0 &&
-      (data.pages?.length ?? 0) === 0
-    );
-  } catch {
-    return true;
-  }
-}
-
 async function loadPublishedTree() {
   const res = await fetch(DEFAULT_TREE_PATH, { cache: 'no-store' });
   if (!res.ok) throw new Error(`Failed to load default tree: ${res.status}`);
@@ -193,15 +172,6 @@ export default function App() {
       }
 
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved && !isBlankEditorSave(saved)) {
-          useBTStore.getState().importTree(saved);
-          await preloadTreeMediaAndFinish();
-          return;
-        }
-      } catch { /* ignore */ }
-
-      try {
         await loadPublishedTree();
       } catch (error) {
         console.error(error);
@@ -224,7 +194,7 @@ export default function App() {
     };
   }, []);
 
-  // Auto-save editor sessions only. Showcase always reloads the published JSON.
+  // Keep a local snapshot for recovery/debugging, but startup always loads the explicit/default JSON.
   useEffect(() => {
     if (isShowcaseMode) return;
     const unsub = useBTStore.subscribe((state) => {

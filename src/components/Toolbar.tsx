@@ -11,7 +11,7 @@ import {
 } from '../utils/filePersistence';
 import { isShowcaseMode } from '../config/appMode';
 
-const DEFAULT_FILE_NAME = 'behavior-tree.json';
+const DEFAULT_FILE_NAME = '电龙AI.json';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 type TableState = 'idle' | 'exporting' | 'exported' | 'error';

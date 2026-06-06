@@ -514,8 +514,8 @@
       "id": "codex0606_action_001",
       "type": "bt-node",
       "position": {
-        "x": 1110,
-        "y": -830
+        "x": 1060,
+        "y": -1045
       },
       "data": {
         "label": "Action",
@@ -824,7 +824,7 @@
         "y": -1645
       },
       "data": {
-        "label": "翅膀下拍二连",
+        "label": "翅膀下拍分支",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1213,7 +1213,7 @@
         "y": 25
       },
       "data": {
-        "label": "翅膀下拍二连",
+        "label": "翅膀下拍分支",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1425,8 +1425,8 @@
       "id": "codex0606_random_005",
       "type": "bt-node",
       "position": {
-        "x": 2010,
-        "y": 1860
+        "x": 2100,
+        "y": 1630
       },
       "data": {
         "label": "Random Selector",
@@ -1443,7 +1443,7 @@
         ],
         "randomWeights": [
           20,
-          20,
+          25,
           20,
           10,
           10,
@@ -1576,7 +1576,7 @@
         "y": 1290
       },
       "data": {
-        "label": "翅膀下拍二连",
+        "label": "翅膀下拍分支",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2751,13 +2751,6 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "codex0606_edge_049",
-      "source": "codex0606_random_005",
-      "target": "codex0606_combo_019",
-      "sourceHandle": "random-5",
-      "targetHandle": "exec-in"
-    },
-    {
       "id": "codex0606_edge_050",
       "source": "codex0606_random_005",
       "target": "codex0606_combo_020",
@@ -3123,7 +3116,7 @@
             "y": 190
           },
           "data": {
-            "label": "是否处于尾刺角度窗口",
+            "label": "玩家是否在龙身后",
             "type": "condition",
             "condition": "",
             "action": "",
@@ -3372,7 +3365,7 @@
           "type": "bt-node",
           "position": {
             "x": 475,
-            "y": 255
+            "y": 330
           },
           "data": {
             "label": "Get",
@@ -4223,52 +4216,17 @@
     },
     {
       "id": "codex2_page_wing_double_press_adaptive_001",
-      "name": "翅膀下拍二连",
+      "name": "翅膀下拍分支",
       "nodes": [
-        {
-          "id": "codex2_comment_005",
-          "type": "bt-node",
-          "position": {
-            "x": 20,
-            "y": 30
-          },
-          "data": {
-            "label": "翅膀充能下拍二连：近距时二连之间会先后撤调整身位。",
-            "type": "comment",
-            "condition": "",
-            "action": "",
-            "duration": 1000,
-            "repeatCount": 1,
-            "status": "idle",
-            "distances": [
-              300,
-              650,
-              2000
-            ],
-            "randomWeights": [
-              50,
-              30,
-              20
-            ],
-            "operator": "<",
-            "compareLeftValue": "0",
-            "compareValue": "0",
-            "approachDistance": 500,
-            "startValue": "0",
-            "endValue": "0",
-            "commentWidth": 1300,
-            "commentHeight": 420
-          }
-        },
         {
           "id": "codex2_root_005",
           "type": "bt-node",
           "position": {
-            "x": 90,
-            "y": 190
+            "x": -45,
+            "y": 610
           },
           "data": {
-            "label": "翅膀下拍二连",
+            "label": "翅膀下拍分支",
             "type": "root",
             "condition": "",
             "action": "",
@@ -4297,8 +4255,8 @@
           "id": "codex2_distance_003",
           "type": "bt-node",
           "position": {
-            "x": 195,
-            "y": 255
+            "x": 605,
+            "y": 550
           },
           "data": {
             "label": "2D Dist Between",
@@ -4330,11 +4288,11 @@
           "id": "codex2_condition_005",
           "type": "bt-node",
           "position": {
-            "x": 410,
-            "y": 185
+            "x": 780,
+            "y": 455
           },
           "data": {
-            "label": "起手目标是否贴近",
+            "label": "中途目标是否过近",
             "type": "condition",
             "condition": "",
             "action": "",
@@ -4360,17 +4318,18 @@
           }
         },
         {
-          "id": "codex2_action_015",
+          "id": "action_1780764180367_1",
           "type": "bt-node",
           "position": {
-            "x": 760,
-            "y": 120
+            "x": 500,
+            "y": 745
           },
           "data": {
             "label": "Action",
             "type": "action",
             "condition": "",
             "action": "",
+            "actionId": "Astaroth_Wing_Press_Uncharged",
             "duration": 1000,
             "repeatCount": 1,
             "status": "idle",
@@ -4389,20 +4348,19 @@
             "compareValue": "0",
             "approachDistance": 500,
             "startValue": "0",
-            "endValue": "0",
-            "actionId": "Astaroth_Back_Step"
+            "endValue": "0"
           }
         },
         {
-          "id": "codex2_action_016",
+          "id": "condition_1780764196775_3",
           "type": "bt-node",
           "position": {
-            "x": 1080,
-            "y": 120
+            "x": 215,
+            "y": 610
           },
           "data": {
-            "label": "Action",
-            "type": "action",
+            "label": "翅膀充电？",
+            "type": "condition",
             "condition": "",
             "action": "",
             "duration": 1000,
@@ -4423,20 +4381,19 @@
             "compareValue": "0",
             "approachDistance": 500,
             "startValue": "0",
-            "endValue": "0",
-            "actionId": "Astaroth_Wing_Double_Press_Charged"
+            "endValue": "0"
           }
         },
         {
-          "id": "codex2_action_017",
+          "id": "get-variable_1780764202255_5",
           "type": "bt-node",
           "position": {
-            "x": 760,
-            "y": 300
+            "x": 35,
+            "y": 735
           },
           "data": {
-            "label": "Action",
-            "type": "action",
+            "label": "Get",
+            "type": "get-variable",
             "condition": "",
             "action": "",
             "duration": 1000,
@@ -4452,13 +4409,13 @@
               30,
               20
             ],
+            "variableId": "var_1779033689313_7",
             "operator": "<",
             "compareLeftValue": "0",
             "compareValue": "0",
             "approachDistance": 500,
             "startValue": "0",
-            "endValue": "0",
-            "actionId": "Astaroth_Wing_Double_Press_Charged"
+            "endValue": "0"
           }
         }
       ],
@@ -4471,30 +4428,22 @@
           "targetHandle": "data-in"
         },
         {
-          "id": "codex2_edge_026",
+          "id": "edge_1780764196777_4",
           "source": "codex2_root_005",
-          "target": "codex2_condition_005",
-          "sourceHandle": "exec-out",
-          "targetHandle": "exec-in"
+          "target": "condition_1780764196775_3",
+          "sourceHandle": "exec-out"
         },
         {
-          "id": "codex2_edge_027",
-          "source": "codex2_condition_005",
-          "target": "codex2_action_015",
-          "sourceHandle": "exec-true",
-          "targetHandle": "exec-in"
+          "id": "edge_1780764204235_6",
+          "source": "get-variable_1780764202255_5",
+          "target": "condition_1780764196775_3",
+          "sourceHandle": "data-out",
+          "targetHandle": "data-in"
         },
         {
-          "id": "codex2_edge_028",
-          "source": "codex2_action_015",
-          "target": "codex2_action_016",
-          "sourceHandle": "exec-out",
-          "targetHandle": "exec-in"
-        },
-        {
-          "id": "codex2_edge_029",
-          "source": "codex2_condition_005",
-          "target": "codex2_action_017",
+          "id": "edge_1780764225302_7",
+          "source": "condition_1780764196775_3",
+          "target": "action_1780764180367_1",
           "sourceHandle": "exec-false",
           "targetHandle": "exec-in"
         }
@@ -6529,8 +6478,8 @@
           "id": "codex0606_root_001",
           "type": "bt-node",
           "position": {
-            "x": 90,
-            "y": 190
+            "x": 35,
+            "y": 195
           },
           "data": {
             "label": "移动到身后充能尾刺",
@@ -6562,8 +6511,8 @@
           "id": "codex0606_angle_001",
           "type": "bt-node",
           "position": {
-            "x": 285,
-            "y": 315
+            "x": 290,
+            "y": 320
           },
           "data": {
             "label": "Angle Between CW LRBoth",
@@ -6628,7 +6577,7 @@
           "id": "codex0606_action_001",
           "type": "bt-node",
           "position": {
-            "x": 850,
+            "x": 845,
             "y": 130
           },
           "data": {
@@ -6663,7 +6612,7 @@
           "type": "bt-node",
           "position": {
             "x": 850,
-            "y": 300
+            "y": 315
           },
           "data": {
             "label": "Reset",
@@ -6690,6 +6639,74 @@
             "startValue": "0",
             "endValue": "0"
           }
+        },
+        {
+          "id": "approach_1780762978837_9",
+          "type": "bt-node",
+          "position": {
+            "x": 240,
+            "y": 195
+          },
+          "data": {
+            "label": "Approach",
+            "type": "approach",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": -500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "comment_1780762989004_12",
+          "type": "bt-node",
+          "position": {
+            "x": 210,
+            "y": 160
+          },
+          "data": {
+            "label": "Locomotion到身后",
+            "type": "comment",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "commentWidth": 240,
+            "commentHeight": 145,
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
         }
       ],
       "edges": [
@@ -6699,13 +6716,6 @@
           "target": "codex0606_condition_001",
           "sourceHandle": "data-out",
           "targetHandle": "data-in"
-        },
-        {
-          "id": "codex0606_edge_002",
-          "source": "codex0606_root_001",
-          "target": "codex0606_condition_001",
-          "sourceHandle": "exec-out",
-          "targetHandle": "exec-in"
         },
         {
           "id": "codex0606_edge_003",
@@ -6719,6 +6729,19 @@
           "source": "codex0606_condition_001",
           "target": "codex0606_reset_001",
           "sourceHandle": "exec-false",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780762978839_10",
+          "source": "codex0606_root_001",
+          "target": "approach_1780762978837_9",
+          "sourceHandle": "exec-out"
+        },
+        {
+          "id": "edge_1780762987109_11",
+          "source": "approach_1780762978837_9",
+          "target": "codex0606_condition_001",
+          "sourceHandle": "exec-out",
           "targetHandle": "exec-in"
         }
       ]
