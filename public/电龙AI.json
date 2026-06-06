@@ -2213,8 +2213,8 @@
       "id": "codex0606_action_006",
       "type": "bt-node",
       "position": {
-        "x": 2770,
-        "y": 4060
+        "x": 2820,
+        "y": 4030
       },
       "data": {
         "label": "Action",
@@ -2247,8 +2247,8 @@
       "id": "codex0606_action_007",
       "type": "bt-node",
       "position": {
-        "x": 2770,
-        "y": 4185
+        "x": 2830,
+        "y": 4160
       },
       "data": {
         "label": "Action",
@@ -2281,8 +2281,8 @@
       "id": "action_1780760698851_1",
       "type": "bt-node",
       "position": {
-        "x": 3270,
-        "y": 4350
+        "x": 3260,
+        "y": 4325
       },
       "data": {
         "label": "Approach",
@@ -2315,8 +2315,8 @@
       "id": "approach_1780760705796_2",
       "type": "bt-node",
       "position": {
-        "x": 2590,
-        "y": 4340
+        "x": 2600,
+        "y": 4310
       },
       "data": {
         "label": "Approach",
@@ -2340,6 +2340,42 @@
         "compareLeftValue": "0",
         "compareValue": "0",
         "approachDistance": 600,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "combo-show_1780760967807_3",
+      "type": "bt-node",
+      "position": {
+        "x": 2835,
+        "y": 4310
+      },
+      "data": {
+        "label": "头顶二连-判断头是否充电",
+        "type": "combo-show",
+        "condition": "",
+        "action": "",
+        "actionId": "Astaroth_Head_Slam_Charged",
+        "isCombo": true,
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "functionId": "page_1780760967802_1",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
         "startValue": "0",
         "endValue": "0"
       }
@@ -2801,11 +2837,10 @@
       "sourceHandle": "random-2"
     },
     {
-      "id": "edge_1780760765644_4",
+      "id": "edge_1780760967809_4",
       "source": "approach_1780760705796_2",
-      "target": "action_1780760698851_1",
-      "sourceHandle": "exec-out",
-      "targetHandle": "exec-in"
+      "target": "combo-show_1780760967807_3",
+      "sourceHandle": "exec-out"
     }
   ],
   "variables": [
@@ -6640,6 +6675,208 @@
           "target": "codex0606_reset_001",
           "sourceHandle": "exec-false",
           "targetHandle": "exec-in"
+        }
+      ]
+    },
+    {
+      "id": "page_1780760967802_1",
+      "name": "头顶二连-判断头是否充电",
+      "nodes": [
+        {
+          "id": "root_1780760967802_2",
+          "type": "bt-node",
+          "position": {
+            "x": -10,
+            "y": 195
+          },
+          "data": {
+            "label": "头顶二连-判断头是否充电",
+            "type": "root",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780761042277_5",
+          "type": "bt-node",
+          "position": {
+            "x": 725,
+            "y": 110
+          },
+          "data": {
+            "label": "Approach",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Head_Slam_Charged",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "condition_1780761048210_6",
+          "type": "bt-node",
+          "position": {
+            "x": 425,
+            "y": 195
+          },
+          "data": {
+            "label": "头是否充电",
+            "type": "condition",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "get-variable_1780761059821_9",
+          "type": "bt-node",
+          "position": {
+            "x": 230,
+            "y": 295
+          },
+          "data": {
+            "label": "Get",
+            "type": "get-variable",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "variableId": "var_1779033681780_6",
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780761064156_11",
+          "type": "bt-node",
+          "position": {
+            "x": 725,
+            "y": 285
+          },
+          "data": {
+            "label": "Action",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Head_Slam_Uncharged",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge_1780761048212_7",
+          "source": "root_1780760967802_2",
+          "target": "condition_1780761048210_6",
+          "sourceHandle": "exec-out"
+        },
+        {
+          "id": "edge_1780761055743_8",
+          "source": "condition_1780761048210_6",
+          "target": "action_1780761042277_5",
+          "sourceHandle": "exec-true",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780761062147_10",
+          "source": "get-variable_1780761059821_9",
+          "target": "condition_1780761048210_6",
+          "sourceHandle": "data-out",
+          "targetHandle": "data-in"
+        },
+        {
+          "id": "edge_1780761064157_12",
+          "source": "condition_1780761048210_6",
+          "target": "action_1780761064156_11",
+          "sourceHandle": "exec-false"
         }
       ]
     }
