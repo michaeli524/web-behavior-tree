@@ -36,6 +36,12 @@
     "comment": ""
   },
   {
+    "actionId": "Astaroth_Tail_Ground_Spike_Charged",
+    "actionName": "尾巴插地放电-尾巴充电",
+    "gifPath": "尾巴插地-尾巴充能.mp4",
+    "comment": ""
+  },
+  {
     "actionId": "Astaroth_Head_Slam_Uncharged",
     "actionName": "头顶二连-未充电",
     "gifPath": "头顶二连-未充能.mp4",
