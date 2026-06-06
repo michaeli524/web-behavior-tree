@@ -418,7 +418,7 @@
         "y": -475
       },
       "data": {
-        "label": "是否加速充电状态",
+        "label": "是否超充电状态",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -444,6 +444,40 @@
       }
     },
     {
+      "id": "codex0606_get_003",
+      "type": "bt-node",
+      "position": {
+        "x": 490,
+        "y": -635
+      },
+      "data": {
+        "label": "Get",
+        "type": "get-variable",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0",
+        "variableId": "var_1780122453794_2"
+      }
+    },
+    {
       "id": "codex0606_condition_003",
       "type": "bt-node",
       "position": {
@@ -451,7 +485,7 @@
         "y": -715
       },
       "data": {
-        "label": "加速充电结束？",
+        "label": "超充电倒计时结束?",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -2278,40 +2312,6 @@
         "functionId": "codex0606_page_approach600_headslam_001",
         "isCombo": true
       }
-    },
-    {
-      "id": "get-variable_1780759065151_2",
-      "type": "bt-node",
-      "position": {
-        "x": 530,
-        "y": -590
-      },
-      "data": {
-        "label": "Get",
-        "type": "get-variable",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "variableId": "var_1780759053622_1",
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
-      }
     }
   ],
   "edges": [
@@ -2326,6 +2326,13 @@
       "id": "codex0606_edge_002",
       "source": "codex0606_get_002",
       "target": "codex0606_condition_002",
+      "sourceHandle": "data-out",
+      "targetHandle": "data-in"
+    },
+    {
+      "id": "codex0606_edge_003",
+      "source": "codex0606_get_003",
+      "target": "codex0606_condition_003",
       "sourceHandle": "data-out",
       "targetHandle": "data-in"
     },
@@ -2762,13 +2769,6 @@
       "target": "codex0606_combo_032",
       "sourceHandle": "random-2",
       "targetHandle": "exec-in"
-    },
-    {
-      "id": "edge_1780759068596_3",
-      "source": "get-variable_1780759065151_2",
-      "target": "codex0606_condition_003",
-      "sourceHandle": "data-out",
-      "targetHandle": "data-in"
     }
   ],
   "variables": [
@@ -2820,16 +2820,9 @@
       "type": "boolean",
       "value": false,
       "note": "超充电过渡状态：两个部位持续强化后进入，倒计时结束后转全身满电/超带电。"
-    },
-    {
-      "id": "var_1780759053622_1",
-      "name": "ChargedTimeUP",
-      "type": "boolean",
-      "value": false
     }
   ],
   "functions": [],
-  "mainPageName": "Astaroth_BT_0606_Codex",
   "pages": [
     {
       "id": "codex2_page_head_tail_tricombo_001",
@@ -6612,5 +6605,6 @@
         }
       ]
     }
-  ]
+  ],
+  "mainPageName": "Astaroth_BT_0606_Codex"
 }

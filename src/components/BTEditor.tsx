@@ -207,6 +207,7 @@ export function BTEditor() {
   const pasteCountRef = useRef(0);
   const viewportByPageRef = useRef(new Map<string, FlowViewport>());
   const previousPageIdRef = useRef<string | null>(null);
+  const visitedComboPageIdsRef = useRef(new Set<string>());
 
   // Connection drag tracking — manual approach instead of onConnectEnd
   const connectDragRef = useRef<{ nodeId: string; handleId: string | null } | null>(null);
@@ -256,6 +257,7 @@ export function BTEditor() {
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const activePageId = useBTStore((s) => s.activePageId);
   const rootFocusRequest = useBTStore((s) => s.rootFocusRequest);
+  const requestRootFocus = useBTStore((s) => s.requestRootFocus);
   const clearRootFocusRequest = useBTStore((s) => s.clearRootFocusRequest);
   const { actionById } = useActionCatalog();
 
@@ -279,6 +281,21 @@ export function BTEditor() {
   const isMainTree = activePageId === 'main';
   const isPage = storePages.some((p) => p.id === activePageId);
   const mainPageName = useBTStore((s) => s.mainPageName);
+  const comboPageIds = useMemo(() => {
+    const ids = new Set<string>();
+    const collectComboPageIds = (sourceNodes: BTNode[]) => {
+      sourceNodes.forEach((node) => {
+        if (node.data.type === BTNodeType.COMBO_SHOW && node.data.functionId) {
+          ids.add(node.data.functionId);
+        }
+      });
+    };
+
+    collectComboPageIds(storeNodes);
+    storePages.forEach((page) => collectComboPageIds(page.nodes));
+    functions.forEach((func) => collectComboPageIds(func.nodes));
+    return ids;
+  }, [storeNodes, storePages, functions]);
 
   const addNodeStore = useBTStore((s) => s.addNode);
   const updateNodePositionStore = useBTStore((s) => s.updateNodePosition);
@@ -1360,6 +1377,13 @@ export function BTEditor() {
     }
     previousPageIdRef.current = activePageId;
   }, [activePageId]);
+
+  useEffect(() => {
+    if (!comboPageIds.has(activePageId)) return;
+    if (visitedComboPageIdsRef.current.has(activePageId)) return;
+    visitedComboPageIdsRef.current.add(activePageId);
+    requestRootFocus(activePageId);
+  }, [activePageId, comboPageIds, requestRootFocus]);
 
   useEffect(() => {
     if (!rootFocusRequest || rootFocusRequest.pageId !== activePageId) return;
