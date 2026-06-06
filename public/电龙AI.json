@@ -752,7 +752,7 @@
         "y": -2145
       },
       "data": {
-        "label": "Wing_Cross_Combo",
+        "label": "翅膀横刺侧飞落地派生",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -788,7 +788,7 @@
         "y": -1855
       },
       "data": {
-        "label": "BackStep_Overhead_Slam",
+        "label": "后撤步斩舰刀",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -824,7 +824,7 @@
         "y": -1645
       },
       "data": {
-        "label": "Wing_Double_Press_Adaptive",
+        "label": "翅膀下拍二连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -860,7 +860,7 @@
         "y": -1405
       },
       "data": {
-        "label": "Head_Tail_TriCombo",
+        "label": "牵制咬甩尾尾刺三连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -896,7 +896,7 @@
         "y": -1170
       },
       "data": {
-        "label": "BackStep_DoubleBreath_Press",
+        "label": "后撤步二连吐息接冲刺翅膀拍",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1033,7 +1033,7 @@
         "y": -760
       },
       "data": {
-        "label": "Tail_Ground_Spike_Check",
+        "label": "尾巴插地放电",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1069,7 +1069,7 @@
         "y": -600
       },
       "data": {
-        "label": "Head_Tail_TriCombo",
+        "label": "牵制咬甩尾尾刺三连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1105,7 +1105,7 @@
         "y": -440
       },
       "data": {
-        "label": "BackStep_WingPress_ByCharge",
+        "label": "后撤步单侧翅膀下拍",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1141,7 +1141,7 @@
         "y": -275
       },
       "data": {
-        "label": "BackStep_DoubleBreath_Press",
+        "label": "后撤步二连吐息接冲刺翅膀拍",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1177,7 +1177,7 @@
         "y": -125
       },
       "data": {
-        "label": "Head_Tail_TriCombo",
+        "label": "牵制咬甩尾尾刺三连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1213,7 +1213,7 @@
         "y": 25
       },
       "data": {
-        "label": "Wing_Double_Press_Adaptive",
+        "label": "翅膀下拍二连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1249,7 +1249,7 @@
         "y": 170
       },
       "data": {
-        "label": "CheckBite_HeadSlam_Combo",
+        "label": "牵制咬头顶二连连携",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1285,7 +1285,7 @@
         "y": 325
       },
       "data": {
-        "label": "Air_Tail_HeadSlam_WingLanding",
+        "label": "后撤步起飞尾刺头砸落地派生",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1321,7 +1321,7 @@
         "y": 500
       },
       "data": {
-        "label": "Air_Approach_Breath_TailLanding",
+        "label": "飞行靠近空中吐息落地甩尾",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1357,7 +1357,7 @@
         "y": 660
       },
       "data": {
-        "label": "Approach600_HeadSlam_Combo",
+        "label": "靠近到600头顶二连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1393,7 +1393,7 @@
         "y": 825
       },
       "data": {
-        "label": "BackStep_DoubleBreath_Press",
+        "label": "后撤步二连吐息接冲刺翅膀拍",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1541,7 +1541,7 @@
         "y": 1140
       },
       "data": {
-        "label": "Head_Tail_TriCombo",
+        "label": "牵制咬甩尾尾刺三连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1577,7 +1577,7 @@
         "y": 1290
       },
       "data": {
-        "label": "Wing_Double_Press_Adaptive",
+        "label": "翅膀下拍二连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1715,7 +1715,7 @@
         "y": 1875
       },
       "data": {
-        "label": "BackStep_WingPress_ByCharge",
+        "label": "后撤步单侧翅膀下拍",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1751,7 +1751,7 @@
         "y": 2040
       },
       "data": {
-        "label": "BackStep_Breath_Uncharged",
+        "label": "后撤步地面吐电",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1787,7 +1787,7 @@
         "y": 2200
       },
       "data": {
-        "label": "BackStep_Overhead_Slam",
+        "label": "后撤步斩舰刀",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1823,7 +1823,7 @@
         "y": 2370
       },
       "data": {
-        "label": "Tail_BackAngle_Thrust",
+        "label": "移动到身后充能尾刺",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1859,7 +1859,7 @@
         "y": 2540
       },
       "data": {
-        "label": "BackStep_WingPress_ByCharge",
+        "label": "后撤步单侧翅膀下拍",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1895,7 +1895,7 @@
         "y": 2690
       },
       "data": {
-        "label": "BackStep_DoubleBreath_Press",
+        "label": "后撤步二连吐息接冲刺翅膀拍",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1931,7 +1931,7 @@
         "y": 2830
       },
       "data": {
-        "label": "HeadSlam_ByCharge",
+        "label": "头顶二连强化分支",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1967,7 +1967,7 @@
         "y": 2970
       },
       "data": {
-        "label": "Head_Tail_TriCombo",
+        "label": "牵制咬甩尾尾刺三连",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2003,7 +2003,7 @@
         "y": 3115
       },
       "data": {
-        "label": "BackStep_Overhead_Slam",
+        "label": "后撤步斩舰刀",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2039,7 +2039,7 @@
         "y": 3260
       },
       "data": {
-        "label": "BackStep_Breath_Uncharged",
+        "label": "后撤步地面吐电",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2075,7 +2075,7 @@
         "y": 3415
       },
       "data": {
-        "label": "Approach350_CheckBite",
+        "label": "靠近到350牵制咬",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2111,7 +2111,7 @@
         "y": 3565
       },
       "data": {
-        "label": "CheckBite_HeadSlam_Combo",
+        "label": "牵制咬头顶二连连携",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2181,7 +2181,7 @@
         "y": 3865
       },
       "data": {
-        "label": "Tail_BackAngle_Thrust",
+        "label": "移动到身后充能尾刺",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2275,40 +2275,6 @@
         "startValue": "0",
         "endValue": "0",
         "actionId": "Astaroth_Dash_Wing_Press_Charged"
-      }
-    },
-    {
-      "id": "action_1780760698851_1",
-      "type": "bt-node",
-      "position": {
-        "x": 3260,
-        "y": 4325
-      },
-      "data": {
-        "label": "Approach",
-        "type": "action",
-        "condition": "",
-        "action": "",
-        "actionId": "Astaroth_Head_Slam_Charged",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
       }
     },
     {
@@ -2899,7 +2865,7 @@
   "pages": [
     {
       "id": "codex2_page_head_tail_tricombo_001",
-      "name": "Head_Tail_TriCombo",
+      "name": "牵制咬甩尾尾刺三连",
       "nodes": [
         {
           "id": "codex2_comment_001",
@@ -2944,7 +2910,7 @@
             "y": 190
           },
           "data": {
-            "label": "Head_Tail_TriCombo",
+            "label": "牵制咬甩尾尾刺三连",
             "type": "root",
             "condition": "",
             "action": "",
@@ -3218,7 +3184,7 @@
     },
     {
       "id": "codex2_page_checkbite_headslam_combo_001",
-      "name": "CheckBite_HeadSlam_Combo",
+      "name": "牵制咬头顶二连连携",
       "nodes": [
         {
           "id": "codex2_comment_002",
@@ -3263,7 +3229,7 @@
             "y": 190
           },
           "data": {
-            "label": "CheckBite_HeadSlam_Combo",
+            "label": "牵制咬头顶二连连携",
             "type": "root",
             "condition": "",
             "action": "",
@@ -3498,7 +3464,7 @@
     },
     {
       "id": "codex2_page_backstep_breath_uncharged_001",
-      "name": "BackStep_Breath_Uncharged",
+      "name": "后撤步地面吐电",
       "nodes": [
         {
           "id": "codex2_comment_003",
@@ -3543,7 +3509,7 @@
             "y": 190
           },
           "data": {
-            "label": "BackStep_Breath_Uncharged",
+            "label": "后撤步地面吐电",
             "type": "root",
             "condition": "",
             "action": "",
@@ -3817,7 +3783,7 @@
     },
     {
       "id": "codex2_page_backstep_doublebreath_press_001",
-      "name": "BackStep_DoubleBreath_Press",
+      "name": "后撤步二连吐息接冲刺翅膀拍",
       "nodes": [
         {
           "id": "codex2_comment_004",
@@ -3862,7 +3828,7 @@
             "y": 190
           },
           "data": {
-            "label": "BackStep_DoubleBreath_Press",
+            "label": "后撤步二连吐息接冲刺翅膀拍",
             "type": "root",
             "condition": "",
             "action": "",
@@ -4178,7 +4144,7 @@
     },
     {
       "id": "codex2_page_wing_double_press_adaptive_001",
-      "name": "Wing_Double_Press_Adaptive",
+      "name": "翅膀下拍二连",
       "nodes": [
         {
           "id": "codex2_comment_005",
@@ -4223,7 +4189,7 @@
             "y": 190
           },
           "data": {
-            "label": "Wing_Double_Press_Adaptive",
+            "label": "翅膀下拍二连",
             "type": "root",
             "condition": "",
             "action": "",
@@ -4457,7 +4423,7 @@
     },
     {
       "id": "codex2_page_backstep_wingpress_bycharge_001",
-      "name": "BackStep_WingPress_ByCharge",
+      "name": "后撤步单侧翅膀下拍",
       "nodes": [
         {
           "id": "codex2_comment_006",
@@ -4502,7 +4468,7 @@
             "y": 190
           },
           "data": {
-            "label": "BackStep_WingPress_ByCharge",
+            "label": "后撤步单侧翅膀下拍",
             "type": "root",
             "condition": "",
             "action": "",
@@ -4737,7 +4703,7 @@
     },
     {
       "id": "codex2_page_tail_ground_spike_check_001",
-      "name": "Tail_Ground_Spike_Check",
+      "name": "尾巴插地放电",
       "nodes": [
         {
           "id": "codex2_comment_007",
@@ -4782,7 +4748,7 @@
             "y": 190
           },
           "data": {
-            "label": "Tail_Ground_Spike_Check",
+            "label": "尾巴插地放电",
             "type": "root",
             "condition": "",
             "action": "",
@@ -4974,7 +4940,7 @@
     },
     {
       "id": "codex2_page_backstep_overhead_slam_001",
-      "name": "BackStep_Overhead_Slam",
+      "name": "后撤步斩舰刀",
       "nodes": [
         {
           "id": "codex2_comment_008",
@@ -5019,7 +4985,7 @@
             "y": 190
           },
           "data": {
-            "label": "BackStep_Overhead_Slam",
+            "label": "后撤步斩舰刀",
             "type": "root",
             "condition": "",
             "action": "",
@@ -5132,7 +5098,7 @@
     },
     {
       "id": "codex2_page_air_approach_breath_taillanding_001",
-      "name": "Air_Approach_Breath_TailLanding",
+      "name": "飞行靠近空中吐息落地甩尾",
       "nodes": [
         {
           "id": "codex2_comment_009",
@@ -5177,7 +5143,7 @@
             "y": 190
           },
           "data": {
-            "label": "Air_Approach_Breath_TailLanding",
+            "label": "飞行靠近空中吐息落地甩尾",
             "type": "root",
             "condition": "",
             "action": "",
@@ -5451,7 +5417,7 @@
     },
     {
       "id": "codex2_page_air_tail_headslam_winglanding_001",
-      "name": "Air_Tail_HeadSlam_WingLanding",
+      "name": "后撤步起飞尾刺头砸落地派生",
       "nodes": [
         {
           "id": "codex2_comment_010",
@@ -5496,7 +5462,7 @@
             "y": 190
           },
           "data": {
-            "label": "Air_Tail_HeadSlam_WingLanding",
+            "label": "后撤步起飞尾刺头砸落地派生",
             "type": "root",
             "condition": "",
             "action": "",
@@ -5812,7 +5778,7 @@
     },
     {
       "id": "codex0606_page_wing_cross_combo_001",
-      "name": "Wing_Cross_Combo",
+      "name": "翅膀横刺侧飞落地派生",
       "nodes": [
         {
           "id": "codex0606_comment_001",
@@ -5857,7 +5823,7 @@
             "y": 190
           },
           "data": {
-            "label": "Wing_Cross_Combo",
+            "label": "翅膀横刺侧飞落地派生",
             "type": "root",
             "condition": "",
             "action": "",
@@ -5970,7 +5936,7 @@
     },
     {
       "id": "codex0606_page_headslam_bycharge_001",
-      "name": "HeadSlam_ByCharge",
+      "name": "头顶二连强化分支",
       "nodes": [
         {
           "id": "codex0606_comment_001",
@@ -6015,7 +5981,7 @@
             "y": 190
           },
           "data": {
-            "label": "HeadSlam_ByCharge",
+            "label": "头顶二连强化分支",
             "type": "root",
             "condition": "",
             "action": "",
@@ -6209,7 +6175,7 @@
     },
     {
       "id": "codex0606_page_approach350_checkbite_001",
-      "name": "Approach350_CheckBite",
+      "name": "靠近到350牵制咬",
       "nodes": [
         {
           "id": "codex0606_comment_001",
@@ -6254,7 +6220,7 @@
             "y": 190
           },
           "data": {
-            "label": "Approach350_CheckBite",
+            "label": "靠近到350牵制咬",
             "type": "root",
             "condition": "",
             "action": "",
@@ -6326,7 +6292,7 @@
     },
     {
       "id": "codex0606_page_approach600_headslam_001",
-      "name": "Approach600_HeadSlam_Combo",
+      "name": "靠近到600头顶二连",
       "nodes": [
         {
           "id": "codex0606_comment_001",
@@ -6371,7 +6337,7 @@
             "y": 190
           },
           "data": {
-            "label": "Approach600_HeadSlam_Combo",
+            "label": "靠近到600头顶二连",
             "type": "root",
             "condition": "",
             "action": "",
@@ -6443,7 +6409,7 @@
     },
     {
       "id": "codex0606_page_tail_backangle_thrust_001",
-      "name": "Tail_BackAngle_Thrust",
+      "name": "移动到身后充能尾刺",
       "nodes": [
         {
           "id": "codex0606_comment_001",
@@ -6488,7 +6454,7 @@
             "y": 190
           },
           "data": {
-            "label": "Tail_BackAngle_Thrust",
+            "label": "移动到身后充能尾刺",
             "type": "root",
             "condition": "",
             "action": "",
