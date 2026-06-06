@@ -88,6 +88,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     nodeData.type === BTNodeType.ANGLE_BETWEEN_CW ||
     nodeData.type === BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH;
   const isReset = nodeData.type === BTNodeType.RESET;
+  const isApproach = nodeData.type === BTNodeType.APPROACH;
   const isComboShow = nodeData.type === BTNodeType.COMBO_SHOW;
   const isComboDisplay = isComboShow && nodeData.isCombo !== false;
   const isDataCalcNode = isDistance2D || isAngleBetweenCW;
@@ -401,11 +402,11 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 
   return (
     <div
-      className={`bt-node ${nodeData.type === BTNodeType.TEST ? 'bt-node-test' : ''} ${selected ? 'selected' : ''}`}
+      className={`bt-node ${nodeData.type === BTNodeType.TEST ? 'bt-node-test' : ''} ${isApproach ? 'bt-node-approach' : ''} ${selected ? 'selected' : ''}`}
       style={{
         borderColor,
         borderRadius: '6px',
-        minWidth: isComboDisplay ? 250 : isComboShow ? 130 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
+        minWidth: isComboDisplay ? 250 : isComboShow ? 130 : isApproach ? 180 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
         background: nodeData.type === BTNodeType.ROOT ? '#484850' : '#484848',
       }}
     >
@@ -539,8 +540,12 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             <div className="bt-node-cond">{nodeData.duration === '' ? '' : `${nodeData.duration ?? 1000}ms`}</div>
           )}
           {nodeData.type === BTNodeType.APPROACH && (
-            <div className="bt-node-cond">
-              {nodeData.approachDistance === '' ? '距目标' : `距目标 ≤ ${nodeData.approachDistance ?? 500}`}
+            <div className="bt-approach-card">
+              <div className="bt-approach-label">目标距离</div>
+              <div className="bt-approach-value">
+                <span className="bt-approach-op">≤</span>
+                <span>{nodeData.approachDistance === '' ? '未设置' : nodeData.approachDistance ?? 500}</span>
+              </div>
             </div>
           )}
         </div>

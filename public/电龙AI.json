@@ -218,7 +218,7 @@
         "y": -535
       },
       "data": {
-        "label": "Astaroth_BT_0606_Codex",
+        "label": "Astaroth_BT_0606_Root",
         "type": "root",
         "condition": "",
         "action": "",
@@ -2281,8 +2281,8 @@
       "id": "action_1780760698851_1",
       "type": "bt-node",
       "position": {
-        "x": 3200,
-        "y": 4315
+        "x": 3270,
+        "y": 4350
       },
       "data": {
         "label": "Approach",
@@ -2315,8 +2315,8 @@
       "id": "approach_1780760705796_2",
       "type": "bt-node",
       "position": {
-        "x": 2600,
-        "y": 4315
+        "x": 2590,
+        "y": 4340
       },
       "data": {
         "label": "Approach",
@@ -2339,7 +2339,7 @@
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
-        "approachDistance": 500,
+        "approachDistance": 600,
         "startValue": "0",
         "endValue": "0"
       }
@@ -2799,6 +2799,13 @@
       "source": "codex0606_random_007",
       "target": "approach_1780760705796_2",
       "sourceHandle": "random-2"
+    },
+    {
+      "id": "edge_1780760765644_4",
+      "source": "approach_1780760705796_2",
+      "target": "action_1780760698851_1",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
     }
   ],
   "variables": [
@@ -2853,7 +2860,7 @@
     }
   ],
   "functions": [],
-  "mainPageName": "Astaroth_BT_0606_Codex",
+  "mainPageName": "Astaroth_BT_0606_Root",
   "pages": [
     {
       "id": "codex2_page_head_tail_tricombo_001",

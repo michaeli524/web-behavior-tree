@@ -1306,6 +1306,43 @@
   text-overflow: ellipsis;
 }
 
+.bt-node-approach .bt-node-body {
+  padding: 8px 12px 10px;
+}
+
+.bt-approach-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+  min-width: 156px;
+}
+
+.bt-approach-label {
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.bt-approach-value {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 6px;
+  color: #f8fafc;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.bt-approach-op {
+  color: #a7f3d0;
+  font-size: 16px;
+}
+
 .bt-action-card {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
