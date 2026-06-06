@@ -75,10 +75,10 @@
       "type": "bt-node",
       "position": {
         "x": 980,
-        "y": -1810
+        "y": -2268.6227106594974
       },
       "data": {
-        "label": "超带电状态：样本全部集中在 600，中距离持续输出，几乎不保留放松/力回行为。",
+        "label": "超带电状态：样本全部集中在 600，中距离疯狂进攻，几乎无立回行为。",
         "type": "comment",
         "condition": "",
         "action": "",
@@ -102,7 +102,7 @@
         "startValue": "0",
         "endValue": "0",
         "commentWidth": 3900,
-        "commentHeight": 760
+        "commentHeight": 1365.257182775119
       }
     },
     {
@@ -110,10 +110,10 @@
       "type": "bt-node",
       "position": {
         "x": 980,
-        "y": -930
+        "y": -811.8453151765257
       },
       "data": {
-        "label": "加速充电状态：过渡蓄压阶段。保留基础拉扯，同时提高二连吐息、尾巴插地、起飞尾刺等电系招式权重。",
+        "label": "加速充电状态：过渡蓄压阶段。保留基础拉扯，同时提高二连吐息、尾巴插地、起飞尾刺等强力以拉扯为主的电系招式权重。",
         "type": "comment",
         "condition": "",
         "action": "",
@@ -137,15 +137,15 @@
         "startValue": "0",
         "endValue": "0",
         "commentWidth": 4450,
-        "commentHeight": 790
+        "commentHeight": 1783.0362070441304
       }
     },
     {
       "id": "codex0606_comment_005",
       "type": "bt-node",
       "position": {
-        "x": 980,
-        "y": -40
+        "x": 995,
+        "y": 1085
       },
       "data": {
         "label": "基础与局部强化：同一套基础 AI；先按距离选技能池，再由头/翅膀/尾巴强化改变被随机到技能的释放形态。",
@@ -172,7 +172,7 @@
         "startValue": "0",
         "endValue": "0",
         "commentWidth": 4820,
-        "commentHeight": 1980
+        "commentHeight": 3377.4701460022197
       }
     },
     {
@@ -313,8 +313,8 @@
       "id": "codex0606_get_001",
       "type": "bt-node",
       "position": {
-        "x": -560,
-        "y": -610
+        "x": -425,
+        "y": -660
       },
       "data": {
         "label": "Get",
@@ -347,8 +347,8 @@
       "id": "codex0606_condition_001",
       "type": "bt-node",
       "position": {
-        "x": -380,
-        "y": -680
+        "x": -200,
+        "y": -670
       },
       "data": {
         "label": "是否超带电状态",
@@ -447,8 +447,8 @@
       "id": "codex0606_get_003",
       "type": "bt-node",
       "position": {
-        "x": 490,
-        "y": -635
+        "x": 485,
+        "y": -705
       },
       "data": {
         "label": "Get",
@@ -485,7 +485,7 @@
         "y": -715
       },
       "data": {
-        "label": "超充电倒计时结束?",
+        "label": "加速充电倒计时结束?",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -514,8 +514,8 @@
       "id": "codex0606_action_001",
       "type": "bt-node",
       "position": {
-        "x": 1030,
-        "y": -840
+        "x": 1110,
+        "y": -830
       },
       "data": {
         "label": "Action",
@@ -548,8 +548,8 @@
       "id": "codex0606_dist_001",
       "type": "bt-node",
       "position": {
-        "x": 1320,
-        "y": -1500
+        "x": 1615,
+        "y": -1745
       },
       "data": {
         "label": "Dist Selector",
@@ -581,8 +581,8 @@
       "id": "codex0606_dist_002",
       "type": "bt-node",
       "position": {
-        "x": 1120,
-        "y": -620
+        "x": 1160,
+        "y": -205
       },
       "data": {
         "label": "Dist Selector",
@@ -614,8 +614,8 @@
       "id": "codex0606_dist_003",
       "type": "bt-node",
       "position": {
-        "x": 1120,
-        "y": 640
+        "x": 1135,
+        "y": 2300
       },
       "data": {
         "label": "Dist Selector",
@@ -647,8 +647,8 @@
       "id": "codex0606_approach_001",
       "type": "bt-node",
       "position": {
-        "x": 1620,
-        "y": -1715
+        "x": 1860,
+        "y": -1800
       },
       "data": {
         "label": "Approach",
@@ -680,8 +680,8 @@
       "id": "codex0606_approach_002",
       "type": "bt-node",
       "position": {
-        "x": 1620,
-        "y": -1305
+        "x": 1875,
+        "y": -1625
       },
       "data": {
         "label": "Approach",
@@ -713,8 +713,8 @@
       "id": "codex0606_random_001",
       "type": "bt-node",
       "position": {
-        "x": 1780,
-        "y": -1510
+        "x": 2075,
+        "y": -1755
       },
       "data": {
         "label": "Random Selector",
@@ -730,11 +730,11 @@
           2000
         ],
         "randomWeights": [
-          3,
-          3,
-          1,
-          1,
-          1
+          33,
+          33,
+          11,
+          11,
+          11
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -748,8 +748,8 @@
       "id": "codex0606_combo_001",
       "type": "bt-node",
       "position": {
-        "x": 2340,
-        "y": -1740
+        "x": 2870,
+        "y": -2145
       },
       "data": {
         "label": "Wing_Cross_Combo",
@@ -784,8 +784,8 @@
       "id": "codex0606_combo_002",
       "type": "bt-node",
       "position": {
-        "x": 2340,
-        "y": -1580
+        "x": 2875,
+        "y": -1855
       },
       "data": {
         "label": "BackStep_Overhead_Slam",
@@ -820,8 +820,8 @@
       "id": "codex0606_combo_003",
       "type": "bt-node",
       "position": {
-        "x": 2340,
-        "y": -1420
+        "x": 2885,
+        "y": -1645
       },
       "data": {
         "label": "Wing_Double_Press_Adaptive",
@@ -856,8 +856,8 @@
       "id": "codex0606_combo_004",
       "type": "bt-node",
       "position": {
-        "x": 2340,
-        "y": -1260
+        "x": 2895,
+        "y": -1405
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -892,8 +892,8 @@
       "id": "codex0606_combo_005",
       "type": "bt-node",
       "position": {
-        "x": 2340,
-        "y": -1100
+        "x": 2895,
+        "y": -1170
       },
       "data": {
         "label": "BackStep_DoubleBreath_Press",
@@ -928,8 +928,8 @@
       "id": "codex0606_random_002",
       "type": "bt-node",
       "position": {
-        "x": 1660,
-        "y": -840
+        "x": 1780,
+        "y": -600
       },
       "data": {
         "label": "Random Selector",
@@ -945,9 +945,9 @@
           2000
         ],
         "randomWeights": [
-          2,
-          1,
-          1
+          50,
+          25,
+          25
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -961,8 +961,8 @@
       "id": "codex0606_random_003",
       "type": "bt-node",
       "position": {
-        "x": 1660,
-        "y": -610
+        "x": 1795,
+        "y": 55
       },
       "data": {
         "label": "Random Selector",
@@ -978,11 +978,11 @@
           2000
         ],
         "randomWeights": [
-          4,
-          2,
-          1,
-          1,
-          1
+          45,
+          22,
+          11,
+          11,
+          11
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -996,8 +996,8 @@
       "id": "codex0606_random_004",
       "type": "bt-node",
       "position": {
-        "x": 1660,
-        "y": -365
+        "x": 1810,
+        "y": 620
       },
       "data": {
         "label": "Random Selector",
@@ -1013,9 +1013,9 @@
           2000
         ],
         "randomWeights": [
-          1,
-          1,
-          1
+          34,
+          33,
+          33
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -1029,8 +1029,8 @@
       "id": "codex0606_combo_006",
       "type": "bt-node",
       "position": {
-        "x": 2220,
-        "y": -930
+        "x": 2940,
+        "y": -760
       },
       "data": {
         "label": "Tail_Ground_Spike_Check",
@@ -1065,8 +1065,8 @@
       "id": "codex0606_combo_007",
       "type": "bt-node",
       "position": {
-        "x": 2220,
-        "y": -770
+        "x": 2940,
+        "y": -600
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -1101,8 +1101,8 @@
       "id": "codex0606_combo_008",
       "type": "bt-node",
       "position": {
-        "x": 2220,
-        "y": -610
+        "x": 2940,
+        "y": -440
       },
       "data": {
         "label": "BackStep_WingPress_ByCharge",
@@ -1137,8 +1137,8 @@
       "id": "codex0606_combo_009",
       "type": "bt-node",
       "position": {
-        "x": 2840,
-        "y": -900
+        "x": 2960,
+        "y": -275
       },
       "data": {
         "label": "BackStep_DoubleBreath_Press",
@@ -1173,8 +1173,8 @@
       "id": "codex0606_combo_010",
       "type": "bt-node",
       "position": {
-        "x": 2840,
-        "y": -740
+        "x": 2970,
+        "y": -125
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -1209,8 +1209,8 @@
       "id": "codex0606_combo_011",
       "type": "bt-node",
       "position": {
-        "x": 2840,
-        "y": -580
+        "x": 2965,
+        "y": 25
       },
       "data": {
         "label": "Wing_Double_Press_Adaptive",
@@ -1245,8 +1245,8 @@
       "id": "codex0606_combo_012",
       "type": "bt-node",
       "position": {
-        "x": 2840,
-        "y": -420
+        "x": 2960,
+        "y": 170
       },
       "data": {
         "label": "CheckBite_HeadSlam_Combo",
@@ -1281,8 +1281,8 @@
       "id": "codex0606_combo_013",
       "type": "bt-node",
       "position": {
-        "x": 2840,
-        "y": -260
+        "x": 2955,
+        "y": 325
       },
       "data": {
         "label": "Air_Tail_HeadSlam_WingLanding",
@@ -1317,8 +1317,8 @@
       "id": "codex0606_combo_014",
       "type": "bt-node",
       "position": {
-        "x": 3460,
-        "y": -610
+        "x": 2930,
+        "y": 500
       },
       "data": {
         "label": "Air_Approach_Breath_TailLanding",
@@ -1353,8 +1353,8 @@
       "id": "codex0606_combo_015",
       "type": "bt-node",
       "position": {
-        "x": 3460,
-        "y": -450
+        "x": 2940,
+        "y": 660
       },
       "data": {
         "label": "Approach600_HeadSlam_Combo",
@@ -1389,8 +1389,8 @@
       "id": "codex0606_combo_016",
       "type": "bt-node",
       "position": {
-        "x": 3460,
-        "y": -290
+        "x": 2935,
+        "y": 825
       },
       "data": {
         "label": "BackStep_DoubleBreath_Press",
@@ -1425,8 +1425,8 @@
       "id": "codex0606_random_005",
       "type": "bt-node",
       "position": {
-        "x": 1700,
-        "y": 160
+        "x": 2010,
+        "y": 1860
       },
       "data": {
         "label": "Random Selector",
@@ -1442,15 +1442,15 @@
           2000
         ],
         "randomWeights": [
-          4,
-          4,
-          4,
-          2,
-          2,
-          1,
-          1,
-          1,
-          1
+          20,
+          20,
+          20,
+          10,
+          10,
+          5,
+          5,
+          5,
+          5
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -1464,8 +1464,8 @@
       "id": "codex0606_random_006",
       "type": "bt-node",
       "position": {
-        "x": 1700,
-        "y": 820
+        "x": 2015,
+        "y": 2970
       },
       "data": {
         "label": "Random Selector",
@@ -1481,16 +1481,16 @@
           2000
         ],
         "randomWeights": [
+          29,
+          17,
           12,
-          7,
+          12,
+          10,
           5,
           5,
-          4,
-          2,
-          2,
-          2,
-          1,
-          1
+          5,
+          3,
+          2
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -1504,8 +1504,8 @@
       "id": "codex0606_random_007",
       "type": "bt-node",
       "position": {
-        "x": 1700,
-        "y": 1500
+        "x": 2040,
+        "y": 4125
       },
       "data": {
         "label": "Random Selector",
@@ -1521,9 +1521,9 @@
           2000
         ],
         "randomWeights": [
-          1,
-          1,
-          1
+          34,
+          33,
+          33
         ],
         "operator": "<",
         "compareLeftValue": "0",
@@ -1537,8 +1537,8 @@
       "id": "codex0606_combo_017",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": -20
+        "x": 2760,
+        "y": 1140
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -1573,8 +1573,8 @@
       "id": "codex0606_combo_018",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 140
+        "x": 2765,
+        "y": 1290
       },
       "data": {
         "label": "Wing_Double_Press_Adaptive",
@@ -1609,8 +1609,8 @@
       "id": "codex0606_action_002",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 300
+        "x": 2765,
+        "y": 1440
       },
       "data": {
         "label": "Action",
@@ -1643,8 +1643,8 @@
       "id": "codex0606_action_003",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 460
+        "x": 2765,
+        "y": 1585
       },
       "data": {
         "label": "Action",
@@ -1677,8 +1677,8 @@
       "id": "codex0606_action_004",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 620
+        "x": 2760,
+        "y": 1735
       },
       "data": {
         "label": "Action",
@@ -1711,8 +1711,8 @@
       "id": "codex0606_combo_019",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 60
+        "x": 2755,
+        "y": 1875
       },
       "data": {
         "label": "BackStep_WingPress_ByCharge",
@@ -1747,8 +1747,8 @@
       "id": "codex0606_combo_020",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 220
+        "x": 2760,
+        "y": 2040
       },
       "data": {
         "label": "BackStep_Breath_Uncharged",
@@ -1783,8 +1783,8 @@
       "id": "codex0606_combo_021",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 380
+        "x": 2765,
+        "y": 2200
       },
       "data": {
         "label": "BackStep_Overhead_Slam",
@@ -1819,8 +1819,8 @@
       "id": "codex0606_combo_022",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 540
+        "x": 2770,
+        "y": 2370
       },
       "data": {
         "label": "Tail_BackAngle_Thrust",
@@ -1855,8 +1855,8 @@
       "id": "codex0606_combo_023",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 740
+        "x": 2770,
+        "y": 2540
       },
       "data": {
         "label": "BackStep_WingPress_ByCharge",
@@ -1891,8 +1891,8 @@
       "id": "codex0606_combo_024",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 900
+        "x": 2770,
+        "y": 2690
       },
       "data": {
         "label": "BackStep_DoubleBreath_Press",
@@ -1927,8 +1927,8 @@
       "id": "codex0606_combo_025",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 1060
+        "x": 2770,
+        "y": 2830
       },
       "data": {
         "label": "HeadSlam_ByCharge",
@@ -1963,8 +1963,8 @@
       "id": "codex0606_combo_026",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 1220
+        "x": 2770,
+        "y": 2970
       },
       "data": {
         "label": "Head_Tail_TriCombo",
@@ -1999,8 +1999,8 @@
       "id": "codex0606_combo_027",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 760
+        "x": 2770,
+        "y": 3115
       },
       "data": {
         "label": "BackStep_Overhead_Slam",
@@ -2035,8 +2035,8 @@
       "id": "codex0606_combo_028",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 920
+        "x": 2770,
+        "y": 3260
       },
       "data": {
         "label": "BackStep_Breath_Uncharged",
@@ -2071,8 +2071,8 @@
       "id": "codex0606_combo_029",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 1080
+        "x": 2770,
+        "y": 3415
       },
       "data": {
         "label": "Approach350_CheckBite",
@@ -2107,8 +2107,8 @@
       "id": "codex0606_combo_030",
       "type": "bt-node",
       "position": {
-        "x": 3000,
-        "y": 1240
+        "x": 2765,
+        "y": 3565
       },
       "data": {
         "label": "CheckBite_HeadSlam_Combo",
@@ -2143,8 +2143,8 @@
       "id": "codex0606_action_005",
       "type": "bt-node",
       "position": {
-        "x": 3620,
-        "y": 840
+        "x": 2770,
+        "y": 3720
       },
       "data": {
         "label": "Action",
@@ -2177,8 +2177,8 @@
       "id": "codex0606_combo_031",
       "type": "bt-node",
       "position": {
-        "x": 3620,
-        "y": 1000
+        "x": 2775,
+        "y": 3865
       },
       "data": {
         "label": "Tail_BackAngle_Thrust",
@@ -2213,8 +2213,8 @@
       "id": "codex0606_action_006",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 1430
+        "x": 2770,
+        "y": 4060
       },
       "data": {
         "label": "Action",
@@ -2247,8 +2247,8 @@
       "id": "codex0606_action_007",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 1590
+        "x": 2770,
+        "y": 4185
       },
       "data": {
         "label": "Action",
@@ -2278,15 +2278,49 @@
       }
     },
     {
-      "id": "codex0606_combo_032",
+      "id": "action_1780760698851_1",
       "type": "bt-node",
       "position": {
-        "x": 2380,
-        "y": 1750
+        "x": 3200,
+        "y": 4315
       },
       "data": {
-        "label": "Approach600_HeadSlam_Combo",
-        "type": "combo-show",
+        "label": "Approach",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Astaroth_Head_Slam_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "approach_1780760705796_2",
+      "type": "bt-node",
+      "position": {
+        "x": 2600,
+        "y": 4315
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
         "condition": "",
         "action": "",
         "duration": 1000,
@@ -2307,10 +2341,7 @@
         "compareValue": "0",
         "approachDistance": 500,
         "startValue": "0",
-        "endValue": "0",
-        "actionId": "Astaroth_Head_Slam_Charged",
-        "functionId": "codex0606_page_approach600_headslam_001",
-        "isCombo": true
+        "endValue": "0"
       }
     }
   ],
@@ -2764,11 +2795,10 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "codex0606_edge_065",
+      "id": "edge_1780760705799_3",
       "source": "codex0606_random_007",
-      "target": "codex0606_combo_032",
-      "sourceHandle": "random-2",
-      "targetHandle": "exec-in"
+      "target": "approach_1780760705796_2",
+      "sourceHandle": "random-2"
     }
   ],
   "variables": [
@@ -6328,7 +6358,7 @@
           "id": "codex0606_action_001",
           "type": "bt-node",
           "position": {
-            "x": 320,
+            "x": 510,
             "y": 190
           },
           "data": {
