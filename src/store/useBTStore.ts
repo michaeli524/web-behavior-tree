@@ -196,6 +196,19 @@ function createEdge(source: string, target: string, sourceHandle?: string, targe
   };
 }
 
+function isSameEdgeEndpoint(
+  edge: BTEdge,
+  source: string,
+  target: string,
+  sourceHandle?: string,
+  targetHandle?: string
+): boolean {
+  return edge.source === source &&
+    edge.target === target &&
+    (edge.sourceHandle ?? undefined) === sourceHandle &&
+    (edge.targetHandle ?? undefined) === targetHandle;
+}
+
 const editableLabelNodeTypes = new Set<BTNodeType>([
   BTNodeType.COMMENT,
   BTNodeType.COMBO_SHOW,
@@ -392,7 +405,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
     get()._snapshot();
     const state = get();
     const exists = state.edges.some(
-      (e) => e.source === source && e.target === target
+      (e) => isSameEdgeEndpoint(e, source, target, sourceHandle, targetHandle)
     );
     if (exists || source === target) return;
 
@@ -480,7 +493,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
     const func = state.functions.find((f) => f.id === funcId);
     if (!func) return;
     const exists = func.edges.some(
-      (e) => e.source === source && e.target === target
+      (e) => isSameEdgeEndpoint(e, source, target, sourceHandle, targetHandle)
     );
     if (exists || source === target) return;
 
@@ -587,6 +600,14 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   addPageEdge: (pageId, source, target, sourceHandle, targetHandle) => {
+    const state = get();
+    const page = state.pages.find((p) => p.id === pageId);
+    if (!page) return;
+    const exists = page.edges.some(
+      (e) => isSameEdgeEndpoint(e, source, target, sourceHandle, targetHandle)
+    );
+    if (exists || source === target) return;
+
     const edge = createEdge(source, target, sourceHandle, targetHandle);
     set((state) => ({
       pages: state.pages.map((p) =>
