@@ -114,15 +114,15 @@
     "comment": ""
   },
   {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
+    "actionId": "Astaroth_Wing_Double_Press_First",
+    "actionName": "翅膀二连第一下",
+    "gifPath": "翅膀二连第一下.mp4",
     "comment": ""
   },
   {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
+    "actionId": "Astaroth_Wing_Double_Press_Second",
+    "actionName": "翅膀二连第二下",
+    "gifPath": "翅膀二连第二下.mp4",
     "comment": ""
   },
   {
