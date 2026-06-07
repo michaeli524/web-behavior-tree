@@ -72,7 +72,6 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     onCommentTitleEditStarted?: () => void;
     onActionPreviewClick?: () => void;
     onComboTitleClick?: () => void;
-    onComboTitleSelect?: () => void;
     onComboPreviewClick?: () => void;
   };
   const config = typeConfig[nodeData.type] ?? typeConfig[BTNodeType.ACTION];
@@ -151,7 +150,6 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const commentTitleInputRef = useRef<HTMLTextAreaElement>(null);
   const shouldSelectCommentTitleRef = useRef(false);
   const handledCommentTitleEditNonceRef = useRef<number | null>(null);
-  const comboTitleLastClickAtRef = useRef(0);
   const displaySetVal = localSetVal ?? nodeData.setValue ?? '';
 
   const commitSetValue = useCallback(() => {
@@ -179,23 +177,6 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     shouldSelectCommentTitleRef.current = false;
     return () => window.cancelAnimationFrame(frame);
   }, [commentTitleDraft]);
-
-  const handleComboTitleClick = useCallback((e: React.MouseEvent) => {
-    if (!isComboShow) return;
-    e.preventDefault();
-    e.stopPropagation();
-
-    const now = window.performance.now();
-    const isDoubleClick = e.detail >= 2 || now - comboTitleLastClickAtRef.current <= 650;
-    if (isDoubleClick) {
-      comboTitleLastClickAtRef.current = 0;
-      nodeData.onComboTitleClick?.();
-      return;
-    }
-
-    comboTitleLastClickAtRef.current = now;
-    nodeData.onComboTitleSelect?.();
-  }, [isComboShow, nodeData]);
 
   // Command/Ctrl + click handle → disconnect
   const handleClick = useCallback((e: React.MouseEvent, handleId?: string) => {
@@ -436,19 +417,33 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     >
       {/* ── Header bar ── */}
         <div
-          className={`bt-node-header ${isComboShow ? 'bt-node-header-clickable' : ''}`}
+          className={`bt-node-header ${isComboShow ? 'bt-node-header-has-action' : ''}`}
           style={{ background: config.color }}
-          onMouseDown={isComboShow ? (e) => e.stopPropagation() : undefined}
-          onClick={isComboShow ? handleComboTitleClick : undefined}
-          onDoubleClick={isComboShow ? (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          } : undefined}
         >
         <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-get' : ''}`}>
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
           {headerLabel}
         </span>
+
+        {isComboShow && (
+          <button
+            type="button"
+            className="bt-combo-expand-btn nodrag nopan"
+            title="展开对应页面"
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              nodeData.onComboTitleClick?.();
+            }}
+          >
+            <span className="bt-combo-expand-icon">›</span>
+            展开
+          </button>
+        )}
 
         {/* Get red data output */}
         {isGetVar && (

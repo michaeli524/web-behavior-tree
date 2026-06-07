@@ -1228,8 +1228,8 @@
   min-height: 24px;
 }
 
-.bt-node-header-clickable {
-  cursor: pointer;
+.bt-node-header-has-action {
+  padding-right: 7px;
 }
 
 .bt-node-header-text {
@@ -1238,10 +1238,50 @@
   gap: 4px;
   justify-content: flex-start;
   padding-left: 0;
+  min-width: 0;
+}
+
+.bt-node-header-has-action .bt-node-header-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .bt-node-header-icon {
   font-size: 13px;
+}
+
+.bt-combo-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: 0 0 auto;
+  margin-left: auto;
+  height: 20px;
+  padding: 0 7px 0 5px;
+  border: 1px solid rgba(248, 250, 252, 0.28);
+  border-radius: 4px;
+  background: rgba(31, 41, 55, 0.22);
+  color: rgba(255, 247, 223, 0.95);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bt-combo-expand-btn:hover {
+  background: rgba(31, 41, 55, 0.34);
+  border-color: rgba(255, 247, 223, 0.48);
+}
+
+.bt-combo-expand-btn:active {
+  transform: translateY(1px);
+}
+
+.bt-combo-expand-icon {
+  font-size: 15px;
+  line-height: 0;
+  transform: translateY(-1px);
 }
 
 /* ===== Execution Row ===== */
