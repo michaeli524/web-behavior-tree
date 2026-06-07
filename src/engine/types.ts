@@ -79,6 +79,7 @@ export interface BTNodeData {
   approachDistance?: BTNumericValue;
   startValue?: string;
   endValue?: string;
+  randomWeightIds?: string[];
 }
 
 export interface BTNode {

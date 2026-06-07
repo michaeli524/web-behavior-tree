@@ -5,6 +5,7 @@ import { BTNodeType, BTExecutionStatus, type BTNodeData } from '../engine/types'
 import { useActionCatalog } from '../config/actionCatalog';
 import { isShowcaseMode } from '../config/appMode';
 import { ensureVideoThumbnail, getVideoThumbnail, subscribeVideoThumbnails } from '../utils/mediaPreloader';
+import { getRandomHandleId, getRandomWeightIds, getRandomWeights } from '../utils/randomSelector';
 
 const statusColors: Record<BTExecutionStatus, string> = {
   [BTExecutionStatus.IDLE]: '#555',
@@ -112,7 +113,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const showOutput = isComposite || isDecorator || isSetVar || isFunction || isComboShow || nodeData.type === BTNodeType.APPROACH || nodeData.type === BTNodeType.ACTION;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
-  const randomWeights = nodeData.randomWeights ?? [50, 30, 20];
+  const randomWeights = getRandomWeights(nodeData);
+  const randomWeightIds = getRandomWeightIds(nodeData);
   const variableDisplayName =
     nodeData.variableId
       ? variables.find((variable) => variable.id === nodeData.variableId)?.name ?? 'Variable'
@@ -471,12 +473,15 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           <div className="bt-node-exec-row">
             <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
           </div>
-          {randomWeights.map((weight, i) => (
-            <div key={`random-${i}`} className="bt-node-dist-row">
+          {randomWeights.map((weight, i) => {
+            const handleId = getRandomHandleId(randomWeightIds[i]);
+            return (
+            <div key={handleId} className="bt-node-dist-row">
               <span className="bt-node-dist-label">{weight}</span>
-              <Handle type="source" position={Position.Right} id={`random-${i}`} className="bt-handle bt-handle-dist" onClick={(e) => handleClick(e, `random-${i}`)} />
+              <Handle type="source" position={Position.Right} id={handleId} className="bt-handle bt-handle-dist" onClick={(e) => handleClick(e, handleId)} />
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

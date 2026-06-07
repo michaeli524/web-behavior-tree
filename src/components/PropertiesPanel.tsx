@@ -3,6 +3,12 @@ import { useBTStore } from '../store/useBTStore';
 import { BTNodeType } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
 import { isShowcaseMode } from '../config/appMode';
+import {
+  createRandomWeightId,
+  getRandomHandleId,
+  getRandomWeightIds,
+  getRandomWeights,
+} from '../utils/randomSelector';
 
 function parseEditableNumber(value: string): number | '' {
   return value === '' ? '' : Number(value);
@@ -59,6 +65,29 @@ export function PropertiesPanel() {
 
   const updateComboTitle = (title: string) => {
     updateNodeData(selectedNode.id, { label: title });
+  };
+
+  const removeRandomHandleEdges = (sourceHandle: string) => {
+    const state = useBTStore.getState();
+    if (activePageId === 'main') {
+      state.edges
+        .filter((edge) => edge.source === selectedNode.id && edge.sourceHandle === sourceHandle)
+        .forEach((edge) => state.removeEdge(edge.id));
+      return;
+    }
+
+    const page = state.pages.find((p) => p.id === activePageId);
+    if (page) {
+      page.edges
+        .filter((edge) => edge.source === selectedNode.id && edge.sourceHandle === sourceHandle)
+        .forEach((edge) => state.removePageEdge(page.id, edge.id));
+      return;
+    }
+
+    const func = state.functions.find((f) => f.id === activePageId);
+    func?.edges
+      .filter((edge) => edge.source === selectedNode.id && edge.sourceHandle === sourceHandle)
+      .forEach((edge) => state.removeFunctionEdge(func.id, edge.id));
   };
 
   return (
@@ -479,38 +508,56 @@ export function PropertiesPanel() {
         <div className="prop-group">
           <label>随机权重</label>
           <div className="dist-list">
-            {(data.randomWeights ?? [50, 30, 20]).map((weight, i) => (
-              <div key={i} className="dist-row">
+            {getRandomWeights(data).map((weight, i) => {
+              const randomWeights = getRandomWeights(data);
+              const randomWeightIds = getRandomWeightIds(data);
+              const handleId = getRandomHandleId(randomWeightIds[i]);
+              return (
+              <div key={handleId} className="dist-row">
                 <input
                   type="number"
                   min="0"
                   value={weight}
                   onChange={(e) => {
-                    const newWeights = [...(data.randomWeights ?? [50, 30, 20])];
+                    const newWeights = [...randomWeights];
                     newWeights[i] = parseEditableNumber(e.target.value);
-                    updateNodeData(selectedNode.id, { randomWeights: newWeights });
+                    updateNodeData(selectedNode.id, {
+                      randomWeights: newWeights,
+                      randomWeightIds,
+                    });
                   }}
                 />
                 <button
                   className="btn btn-small btn-danger"
                   onClick={() => {
-                    const newWeights = [...(data.randomWeights ?? [50, 30, 20])];
+                    const newWeights = [...randomWeights];
+                    const newWeightIds = [...randomWeightIds];
                     if (newWeights.length <= 1) return;
+                    removeRandomHandleEdges(handleId);
                     newWeights.splice(i, 1);
-                    updateNodeData(selectedNode.id, { randomWeights: newWeights });
+                    newWeightIds.splice(i, 1);
+                    updateNodeData(selectedNode.id, {
+                      randomWeights: newWeights,
+                      randomWeightIds: newWeightIds,
+                    });
                   }}
                 >
                   ×
                 </button>
               </div>
-            ))}
+              );
+            })}
           </div>
           <button
             className="btn btn-secondary btn-small"
             style={{ marginTop: 6 }}
             onClick={() => {
-              const cur = data.randomWeights ?? [50, 30, 20];
-              updateNodeData(selectedNode.id, { randomWeights: [...cur, 10] });
+              const cur = getRandomWeights(data);
+              const curIds = getRandomWeightIds(data);
+              updateNodeData(selectedNode.id, {
+                randomWeights: [...cur, 10],
+                randomWeightIds: [...curIds, createRandomWeightId(curIds)],
+              });
             }}
           >
             + 新增权重

@@ -1,4 +1,5 @@
 import { BTNodeType, BTExecutionStatus, type BTFunction, type BTNode, type BTEdge, type BTVariable } from './types';
+import { getRandomWeightByHandle } from '../utils/randomSelector';
 
 interface ExecutionContext {
   variables: BTVariable[];
@@ -215,12 +216,10 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
         return BTExecutionStatus.SUCCESS;
       }
 
-      const weights = node.data.randomWeights ?? [50, 30, 20];
       const options = edges.map((edge) => {
-        const index = Number(edge.sourceHandle?.replace('random-', '') ?? 0);
         return {
           target: edge.target,
-          weight: Math.max(0, Number(weights[index] || 0)),
+          weight: Math.max(0, Number(getRandomWeightByHandle(node.data, edge.sourceHandle) || 0)),
         };
       });
       const totalWeight = options.reduce((sum, option) => sum + option.weight, 0);

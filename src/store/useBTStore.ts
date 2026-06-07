@@ -164,6 +164,7 @@ function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTN
     functionId: dataOverride?.functionId,
     distances: dataOverride?.distances ?? [300, 650, 2000],
     randomWeights: dataOverride?.randomWeights ?? [50, 30, 20],
+    randomWeightIds: dataOverride?.randomWeightIds,
     variableId: dataOverride?.variableId,
     setValue: dataOverride?.setValue,
     commentWidth: dataOverride?.commentWidth,
