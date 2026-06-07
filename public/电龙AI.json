@@ -1449,6 +1449,7 @@
           10,
           5,
           5,
+          5,
           5
         ],
         "operator": "<",
@@ -1463,8 +1464,8 @@
       "id": "codex0606_random_006",
       "type": "bt-node",
       "position": {
-        "x": 2015,
-        "y": 2970
+        "x": 2115,
+        "y": 2955
       },
       "data": {
         "label": "Random Selector",
@@ -2272,7 +2273,7 @@
       "type": "bt-node",
       "position": {
         "x": 2765,
-        "y": 2230
+        "y": 2195
       },
       "data": {
         "label": "尾巴插地放电—判断尾巴是否充能",
@@ -2307,8 +2308,8 @@
       "id": "combo-show_1780807125529_44",
       "type": "bt-node",
       "position": {
-        "x": 3065,
-        "y": 1930
+        "x": 3060,
+        "y": 1900
       },
       "data": {
         "label": "普通状态地面吐息连携-充能检测",
@@ -2379,8 +2380,8 @@
       "id": "action_1780808430878_7",
       "type": "bt-node",
       "position": {
-        "x": 2770,
-        "y": 1930
+        "x": 2765,
+        "y": 1900
       },
       "data": {
         "label": "Action",
@@ -2413,8 +2414,8 @@
       "id": "combo-show_1780808629326_23",
       "type": "bt-node",
       "position": {
-        "x": 2765,
-        "y": 2070
+        "x": 3060,
+        "y": 2050
       },
       "data": {
         "label": "斩舰刀-判断头是否充能",
@@ -2427,6 +2428,74 @@
         "repeatCount": 1,
         "status": "idle",
         "functionId": "codex2_page_backstep_overhead_slam_001",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1780811036540_46",
+      "type": "bt-node",
+      "position": {
+        "x": 2765,
+        "y": 2050
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0",
+        "actionId": "Astaroth_Back_Step"
+      }
+    },
+    {
+      "id": "action_1780812139037_74",
+      "type": "bt-node",
+      "position": {
+        "x": 2765,
+        "y": 2355
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Astaroth_Back_Step_Aerial_Breath_Land",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
         "distances": [
           300,
           650,
@@ -2919,11 +2988,24 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "edge_1780811052080_49",
+      "id": "edge_1780811458199_66",
       "source": "codex0606_random_005",
-      "target": "combo-show_1780808629326_23",
+      "target": "action_1780811036540_46",
       "sourceHandle": "random-6",
       "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780811459721_67",
+      "source": "action_1780811036540_46",
+      "target": "combo-show_1780808629326_23",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780812139042_75",
+      "source": "codex0606_random_005",
+      "target": "action_1780812139037_74",
+      "sourceHandle": "random-8"
     }
   ],
   "variables": [
@@ -4642,6 +4724,76 @@
             "startValue": "0",
             "endValue": "0"
           }
+        },
+        {
+          "id": "comment_1780811373776_64",
+          "type": "bt-node",
+          "position": {
+            "x": 460,
+            "y": 385
+          },
+          "data": {
+            "label": "如果中途距离过近，则会后撤步后再释放第二发",
+            "type": "comment",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "commentWidth": 1531.7497499031588,
+            "commentHeight": 310.01557810684227,
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "comment_1780811392307_65",
+          "type": "bt-node",
+          "position": {
+            "x": -75,
+            "y": 299.40636462771886
+          },
+          "data": {
+            "label": "翅膀下拍系派生，根据充能状态，中途是否距离过近进行判断",
+            "type": "comment",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "commentWidth": 2152.34338527544,
+            "commentHeight": 605.6247915859657,
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
         }
       ],
       "edges": [
@@ -5233,10 +5385,10 @@
           "type": "bt-node",
           "position": {
             "x": 20,
-            "y": -157.30193599181985
+            "y": 30
           },
           "data": {
-            "label": "头部充能近中距压制：如果距离过近，会后撤到安全距离后释放斩舰刀。",
+            "label": "头部充能近中距压制：后撤到安全距离后释放斩舰刀。",
             "type": "comment",
             "condition": "",
             "action": "",
@@ -5259,8 +5411,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1574.5718922402282,
-            "commentHeight": 675.001817620253
+            "commentWidth": 915,
+            "commentHeight": 360
           }
         },
         {
@@ -5300,8 +5452,8 @@
           "id": "codex2_action_023",
           "type": "bt-node",
           "position": {
-            "x": 1300,
-            "y": 85
+            "x": 610,
+            "y": 130
           },
           "data": {
             "label": "Action",
@@ -5401,114 +5553,14 @@
           "id": "return_1780808661589_30",
           "type": "bt-node",
           "position": {
-            "x": 585,
-            "y": 415
+            "x": 610,
+            "y": 290
           },
           "data": {
             "label": "Return",
             "type": "return",
             "condition": "",
             "action": "",
-            "duration": 1000,
-            "repeatCount": 1,
-            "status": "idle",
-            "distances": [
-              300,
-              650,
-              2000
-            ],
-            "randomWeights": [
-              50,
-              30,
-              20
-            ],
-            "operator": "<",
-            "compareLeftValue": "0",
-            "compareValue": "0",
-            "approachDistance": 500,
-            "startValue": "0",
-            "endValue": "0"
-          }
-        },
-        {
-          "id": "distance-2d_1780811079498_52",
-          "type": "bt-node",
-          "position": {
-            "x": 460,
-            "y": 30
-          },
-          "data": {
-            "label": "2D Dist Between",
-            "type": "distance-2d",
-            "condition": "",
-            "action": "",
-            "duration": 1000,
-            "repeatCount": 1,
-            "status": "idle",
-            "distances": [
-              300,
-              650,
-              2000
-            ],
-            "randomWeights": [
-              50,
-              30,
-              20
-            ],
-            "operator": "<",
-            "compareLeftValue": "0",
-            "compareValue": "0",
-            "approachDistance": 500,
-            "startValue": "0",
-            "endValue": "350"
-          }
-        },
-        {
-          "id": "condition_1780811079500_53",
-          "type": "bt-node",
-          "position": {
-            "x": 680,
-            "y": 40
-          },
-          "data": {
-            "label": "目标是否过近",
-            "type": "condition",
-            "condition": "",
-            "action": "",
-            "duration": 1000,
-            "repeatCount": 1,
-            "status": "idle",
-            "distances": [
-              300,
-              650,
-              2000
-            ],
-            "randomWeights": [
-              50,
-              30,
-              20
-            ],
-            "operator": "<",
-            "compareLeftValue": "0",
-            "compareValue": "0",
-            "approachDistance": 500,
-            "startValue": "0",
-            "endValue": "0"
-          }
-        },
-        {
-          "id": "action_1780811129257_58",
-          "type": "bt-node",
-          "position": {
-            "x": 955,
-            "y": -60
-          },
-          "data": {
-            "label": "Action",
-            "type": "action",
-            "condition": "",
-            "action": "",
-            "actionId": "Astaroth_Back_Step",
             "duration": 1000,
             "repeatCount": 1,
             "status": "idle",
@@ -5547,44 +5599,17 @@
           "targetHandle": "exec-in"
         },
         {
-          "id": "edge_1780808661591_31",
+          "id": "edge_1780808658742_29",
           "source": "condition_1780808654306_25",
-          "target": "return_1780808661589_30",
-          "sourceHandle": "exec-false"
-        },
-        {
-          "id": "edge_1780811079501_54",
-          "source": "distance-2d_1780811079498_52",
-          "target": "condition_1780811079500_53",
-          "sourceHandle": "data-out",
-          "targetHandle": "data-in"
-        },
-        {
-          "id": "edge_1780811090879_55",
-          "source": "condition_1780808654306_25",
-          "target": "condition_1780811079500_53",
+          "target": "codex2_action_023",
           "sourceHandle": "exec-true",
           "targetHandle": "exec-in"
         },
         {
-          "id": "edge_1780811122969_57",
-          "source": "condition_1780811079500_53",
-          "target": "codex2_action_023",
-          "sourceHandle": "exec-false",
-          "targetHandle": "exec-in"
-        },
-        {
-          "id": "edge_1780811129260_59",
-          "source": "condition_1780811079500_53",
-          "target": "action_1780811129257_58",
-          "sourceHandle": "exec-true"
-        },
-        {
-          "id": "edge_1780811142410_60",
-          "source": "action_1780811129257_58",
-          "target": "codex2_action_023",
-          "sourceHandle": "exec-out",
-          "targetHandle": "exec-in"
+          "id": "edge_1780808661591_31",
+          "source": "condition_1780808654306_25",
+          "target": "return_1780808661589_30",
+          "sourceHandle": "exec-false"
         }
       ]
     },
@@ -7709,6 +7734,46 @@
           },
           "data": {
             "label": "空中吐息连携-充能检测",
+            "type": "root",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        }
+      ],
+      "edges": []
+    },
+    {
+      "id": "page_1780811697599_70",
+      "name": "普通状态后撤步空中吐息-状态检测",
+      "nodes": [
+        {
+          "id": "root_1780811697599_71",
+          "type": "bt-node",
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "data": {
+            "label": "普通状态后撤步空中吐息-状态检测",
             "type": "root",
             "condition": "",
             "action": "",

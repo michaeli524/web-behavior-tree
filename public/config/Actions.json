@@ -130,5 +130,11 @@
     "actionName": "大招-闪电俯冲",
     "gifPath": "全身放电攻击.mp4",
     "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Back_Step_Aerial_Breath_Land",
+    "actionName": "后撤步起飞吐息并落地",
+    "gifPath": "后撤步起飞吐息并落地.mp4",
+    "comment": ""
   }
 ]
