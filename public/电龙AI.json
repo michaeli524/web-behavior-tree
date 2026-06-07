@@ -310,8 +310,8 @@
       "id": "codex0606_get_002",
       "type": "bt-node",
       "position": {
-        "x": -305,
-        "y": -450
+        "x": -255,
+        "y": -465
       },
       "data": {
         "label": "Get",
@@ -344,8 +344,8 @@
       "id": "codex0606_condition_002",
       "type": "bt-node",
       "position": {
-        "x": -120,
-        "y": -530
+        "x": -90,
+        "y": -535
       },
       "data": {
         "label": "是否加速充电状态",
@@ -2418,7 +2418,7 @@
       "id": "action_1780816499818_12",
       "type": "bt-node",
       "position": {
-        "x": 1100,
+        "x": 1045,
         "y": -55
       },
       "data": {
@@ -2445,7 +2445,7 @@
         "approachDistance": 500,
         "startValue": "0",
         "endValue": "0",
-        "actionId": "enter"
+        "actionId": "Astaroth_Enter_Accelerated_Charge_State"
       }
     },
     {
@@ -2453,7 +2453,7 @@
       "type": "bt-node",
       "position": {
         "x": 1030,
-        "y": -170
+        "y": -110.7418540997343
       },
       "data": {
         "label": "两个以上部位保持充电一段时间，进入加速充电阶段，全身出现雷电特效",
@@ -2474,7 +2474,7 @@
           20
         ],
         "commentWidth": 372.21268810883856,
-        "commentHeight": 262.54734103752673,
+        "commentHeight": 203.28919513726103,
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
