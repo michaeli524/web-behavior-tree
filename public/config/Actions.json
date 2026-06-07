@@ -136,5 +136,11 @@
     "actionName": "后撤步起飞吐息并落地",
     "gifPath": "后撤步起飞吐息并落地.mp4",
     "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Check_Bite_Head_Slam_Combo",
+    "actionName": "牵制咬+头顶二连Combo",
+    "gifPath": "牵制咬+头顶二连Combo.mp4",
+    "comment": ""
   }
 ]
