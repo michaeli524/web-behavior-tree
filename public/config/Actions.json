@@ -79,13 +79,13 @@
   },
   {
     "actionId": "Astaroth_Double_Breath_Charged",
-    "actionName": "二连吐息-头、翅膀充电",
+    "actionName": "二连吐息-头充电",
     "gifPath": "二连吐息-头充电.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Head_Double_Swing_Charged",
-    "actionName": "二连甩头-头、翅膀充电",
+    "actionName": "二连甩头-头",
     "gifPath": "二连甩头.mp4",
     "comment": ""
   },
