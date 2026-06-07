@@ -1,46 +1,11 @@
 {
   "nodes": [
     {
-      "id": "codex0606_comment_001",
-      "type": "bt-node",
-      "position": {
-        "x": -1120,
-        "y": -1160
-      },
-      "data": {
-        "label": "Codex 0606：根据行为记录表 75 条样本重建。读法：先判断超带电/超充电阶段，再按 350 / 600 / 1000 距离进入局部权重池；部位强化主要修正技能形态。",
-        "type": "comment",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0",
-        "commentWidth": 757.5932682652851,
-        "commentHeight": 340.13703441412815
-      }
-    },
-    {
       "id": "codex0606_comment_002",
       "type": "bt-node",
       "position": {
-        "x": -1120,
-        "y": -870
+        "x": -1335,
+        "y": -925
       },
       "data": {
         "label": "阶段入口：超带电优先；否则判断超充电。超充电倒计时结束会强制全身充电，再进入高压输出池。",
@@ -179,8 +144,8 @@
       "id": "codex0606_root_001",
       "type": "bt-node",
       "position": {
-        "x": -920,
-        "y": -535
+        "x": -1135,
+        "y": -590
       },
       "data": {
         "label": "Astaroth_BT_0606_Root",
@@ -212,8 +177,8 @@
       "id": "codex0606_sequence_001",
       "type": "bt-node",
       "position": {
-        "x": -670,
-        "y": -535
+        "x": -885,
+        "y": -590
       },
       "data": {
         "label": "Sequence",
@@ -245,8 +210,8 @@
       "id": "codex0606_reset_001",
       "type": "bt-node",
       "position": {
-        "x": -670,
-        "y": -385
+        "x": -885,
+        "y": -440
       },
       "data": {
         "label": "Reset",
@@ -278,8 +243,8 @@
       "id": "codex0606_get_001",
       "type": "bt-node",
       "position": {
-        "x": -425,
-        "y": -660
+        "x": -640,
+        "y": -715
       },
       "data": {
         "label": "Get",
@@ -312,8 +277,8 @@
       "id": "codex0606_condition_001",
       "type": "bt-node",
       "position": {
-        "x": -200,
-        "y": -670
+        "x": -415,
+        "y": -725
       },
       "data": {
         "label": "是否超带电状态",
@@ -345,8 +310,8 @@
       "id": "codex0606_get_002",
       "type": "bt-node",
       "position": {
-        "x": -90,
-        "y": -395
+        "x": -305,
+        "y": -450
       },
       "data": {
         "label": "Get",
@@ -379,8 +344,8 @@
       "id": "codex0606_condition_002",
       "type": "bt-node",
       "position": {
-        "x": 95,
-        "y": -475
+        "x": -120,
+        "y": -530
       },
       "data": {
         "label": "是否加速充电状态",
@@ -412,8 +377,8 @@
       "id": "codex0606_get_003",
       "type": "bt-node",
       "position": {
-        "x": 485,
-        "y": -705
+        "x": 355,
+        "y": -445
       },
       "data": {
         "label": "Get",
@@ -446,11 +411,11 @@
       "id": "codex0606_condition_003",
       "type": "bt-node",
       "position": {
-        "x": 700,
-        "y": -715
+        "x": 535,
+        "y": -510
       },
       "data": {
-        "label": "加速充电倒计时结束?",
+        "label": "超带电倒计时结束?",
         "type": "condition",
         "condition": "",
         "action": "",
@@ -546,8 +511,8 @@
       "id": "codex0606_dist_002",
       "type": "bt-node",
       "position": {
-        "x": 1160,
-        "y": -205
+        "x": 1495,
+        "y": -55
       },
       "data": {
         "label": "Dist Selector",
@@ -2436,6 +2401,74 @@
         "startValue": "0",
         "endValue": "0"
       }
+    },
+    {
+      "id": "action_1780816499818_12",
+      "type": "bt-node",
+      "position": {
+        "x": 1115,
+        "y": -55
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "comment_1780816515186_15",
+      "type": "bt-node",
+      "position": {
+        "x": 1026.741521489011,
+        "y": -171.76794671849456
+      },
+      "data": {
+        "label": "两个以上部位保持充电一段时间，进入加速充电阶段，全身出现雷电特效",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 372.21268810883856,
+        "commentHeight": 262.54734103752673,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
     }
   ],
   "edges": [
@@ -2521,13 +2554,6 @@
       "source": "codex0606_action_001",
       "target": "codex0606_dist_001",
       "sourceHandle": "exec-out",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "codex0606_edge_013",
-      "source": "codex0606_condition_003",
-      "target": "codex0606_dist_002",
-      "sourceHandle": "exec-false",
       "targetHandle": "exec-in"
     },
     {
@@ -2928,6 +2954,19 @@
       "source": "codex0606_dist_003",
       "target": "approach_1780815739664_10",
       "sourceHandle": "dist-last"
+    },
+    {
+      "id": "edge_1780816499822_13",
+      "source": "codex0606_condition_003",
+      "target": "action_1780816499818_12",
+      "sourceHandle": "exec-false"
+    },
+    {
+      "id": "edge_1780816504299_14",
+      "source": "action_1780816499818_12",
+      "target": "codex0606_dist_002",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
     }
   ],
   "variables": [
