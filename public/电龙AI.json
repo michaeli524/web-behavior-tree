@@ -4,8 +4,8 @@
       "id": "codex0606_comment_002",
       "type": "bt-node",
       "position": {
-        "x": -1335,
-        "y": -925
+        "x": -1500,
+        "y": 475
       },
       "data": {
         "label": "阶段入口：超带电优先；否则判断超充电。超充电倒计时结束会强制全身充电，再进入高压输出池。",
@@ -144,8 +144,8 @@
       "id": "codex0606_root_001",
       "type": "bt-node",
       "position": {
-        "x": -1135,
-        "y": -590
+        "x": -1300,
+        "y": 810
       },
       "data": {
         "label": "Astaroth_BT_0606_Root",
@@ -177,8 +177,8 @@
       "id": "codex0606_sequence_001",
       "type": "bt-node",
       "position": {
-        "x": -885,
-        "y": -590
+        "x": -1050,
+        "y": 810
       },
       "data": {
         "label": "Sequence",
@@ -210,8 +210,8 @@
       "id": "codex0606_reset_001",
       "type": "bt-node",
       "position": {
-        "x": -885,
-        "y": -440
+        "x": -1050,
+        "y": 960
       },
       "data": {
         "label": "Reset",
@@ -243,8 +243,8 @@
       "id": "codex0606_get_001",
       "type": "bt-node",
       "position": {
-        "x": -640,
-        "y": -715
+        "x": -805,
+        "y": 685
       },
       "data": {
         "label": "Get",
@@ -277,8 +277,8 @@
       "id": "codex0606_condition_001",
       "type": "bt-node",
       "position": {
-        "x": -415,
-        "y": -725
+        "x": -580,
+        "y": 675
       },
       "data": {
         "label": "是否超带电状态",
@@ -310,8 +310,8 @@
       "id": "codex0606_get_002",
       "type": "bt-node",
       "position": {
-        "x": -255,
-        "y": -465
+        "x": -420,
+        "y": 935
       },
       "data": {
         "label": "Get",
@@ -344,8 +344,8 @@
       "id": "codex0606_condition_002",
       "type": "bt-node",
       "position": {
-        "x": -90,
-        "y": -535
+        "x": -255,
+        "y": 865
       },
       "data": {
         "label": "是否加速充电状态",
@@ -2789,7 +2789,16 @@
       "source": "codex0606_condition_002",
       "target": "codex0606_dist_003",
       "sourceHandle": "exec-false",
-      "targetHandle": "exec-in"
+      "targetHandle": "exec-in",
+      "data": {
+        "reroutePoints": [
+          {
+            "id": "reroute_1780838086578_2",
+            "x": 245,
+            "y": 2935
+          }
+        ]
+      }
     },
     {
       "id": "codex0606_edge_025",
@@ -3156,7 +3165,16 @@
       "source": "codex0606_condition_001",
       "target": "codex0606_condition_003",
       "sourceHandle": "exec-true",
-      "targetHandle": "exec-in"
+      "targetHandle": "exec-in",
+      "data": {
+        "reroutePoints": [
+          {
+            "id": "reroute_1780838075322_1",
+            "x": 325,
+            "y": -1620
+          }
+        ]
+      }
     },
     {
       "id": "edge_1780834040705_37",

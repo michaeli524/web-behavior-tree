@@ -545,6 +545,10 @@ export function BTEditor() {
               data: {
                 ...n.data,
                 onComboTitleClick: () => openComboPage(n.id, n.data),
+                onComboTitleSelect: () => {
+                  setSelectedNodes([n.id]);
+                  setSelectedReroutePoint(null);
+                },
                 onComboPreviewClick: () => previewComboMedia(n.data),
               },
             }
