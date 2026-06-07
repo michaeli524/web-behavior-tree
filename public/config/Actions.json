@@ -25,7 +25,7 @@
   },
   {
     "actionId": "Astaroth_Tail_Thrust",
-    "actionName": "尾刺-尾充电",
+    "actionName": "尾刺",
     "gifPath": "充能尾刺.mp4",
     "comment": ""
   },

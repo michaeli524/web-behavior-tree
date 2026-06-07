@@ -31,8 +31,8 @@
         "approachDistance": 500,
         "startValue": "0",
         "endValue": "0",
-        "commentWidth": 1915.1956418877123,
-        "commentHeight": 918.9382212253417
+        "commentWidth": 757.5932682652851,
+        "commentHeight": 340.13703441412815
       }
     },
     {
@@ -1487,7 +1487,6 @@
           10,
           5,
           7,
-          5,
           3,
           2
         ],
@@ -1748,7 +1747,7 @@
       "type": "bt-node",
       "position": {
         "x": 2770,
-        "y": 3000
+        "y": 3005
       },
       "data": {
         "label": "牵制咬甩尾尾刺三连",
@@ -1784,7 +1783,7 @@
       "type": "bt-node",
       "position": {
         "x": 2770,
-        "y": 3145
+        "y": 3155
       },
       "data": {
         "label": "斩舰刀-判断头是否充能",
@@ -1816,47 +1815,11 @@
       }
     },
     {
-      "id": "codex0606_combo_030",
-      "type": "bt-node",
-      "position": {
-        "x": 2765,
-        "y": 3565
-      },
-      "data": {
-        "label": "牵制咬头顶二连连携",
-        "type": "combo-show",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0",
-        "actionId": "Astaroth_Check_Bite",
-        "functionId": "codex2_page_checkbite_headslam_combo_001",
-        "isCombo": true
-      }
-    },
-    {
       "id": "codex0606_action_005",
       "type": "bt-node",
       "position": {
         "x": 2770,
-        "y": 3720
+        "y": 3440
       },
       "data": {
         "label": "Action",
@@ -1889,8 +1852,8 @@
       "id": "codex0606_combo_031",
       "type": "bt-node",
       "position": {
-        "x": 2775,
-        "y": 3865
+        "x": 2770,
+        "y": 3585
       },
       "data": {
         "label": "移动到身后充能尾刺",
@@ -2445,8 +2408,8 @@
       "id": "approach_1780814163955_96",
       "type": "bt-node",
       "position": {
-        "x": 2725,
-        "y": 3380
+        "x": 2770,
+        "y": 3305
       },
       "data": {
         "label": "Approach",
@@ -2478,8 +2441,8 @@
       "id": "action_1780814176064_98",
       "type": "bt-node",
       "position": {
-        "x": 2960,
-        "y": 3380
+        "x": 3005,
+        "y": 3305
       },
       "data": {
         "label": "Action",
@@ -2487,143 +2450,6 @@
         "condition": "",
         "action": "",
         "actionId": "Astaroth_Check_Bite",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
-      }
-    },
-    {
-      "id": "random-selector_1780814637402_5",
-      "type": "bt-node",
-      "position": {
-        "x": 1835,
-        "y": 2485
-      },
-      "data": {
-        "label": "Random Selector",
-        "type": "random-selector",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          35,
-          25,
-          10,
-          5,
-          7,
-          5,
-          3,
-          2
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
-      }
-    },
-    {
-      "id": "sequence_1780814641578_6",
-      "type": "bt-node",
-      "position": {
-        "x": 2100,
-        "y": 2540
-      },
-      "data": {
-        "label": "Sequence",
-        "type": "sequence",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
-      }
-    },
-    {
-      "id": "dist-selector_1780814644403_8",
-      "type": "bt-node",
-      "position": {
-        "x": 2120,
-        "y": 2635
-      },
-      "data": {
-        "label": "Dist Selector",
-        "type": "dist-selector",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
-      }
-    },
-    {
-      "id": "dist-selector_1780814648099_10",
-      "type": "bt-node",
-      "position": {
-        "x": 2060,
-        "y": 2795
-      },
-      "data": {
-        "label": "Dist Selector",
-        "type": "dist-selector",
-        "condition": "",
-        "action": "",
         "duration": 1000,
         "repeatCount": 1,
         "status": "idle",
@@ -3124,20 +2950,6 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "edge_1780814438118_2",
-      "source": "codex0606_random_006",
-      "target": "codex0606_combo_030",
-      "sourceHandle": "random-6",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "edge_1780814440333_3",
-      "source": "codex0606_random_006",
-      "target": "codex0606_action_005",
-      "sourceHandle": "random-7",
-      "targetHandle": "exec-in"
-    },
-    {
       "id": "edge_1780814442243_4",
       "source": "codex0606_random_006",
       "target": "codex0606_combo_031",
@@ -3145,22 +2957,18 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "edge_1780814641581_7",
-      "source": "random-selector_1780814637402_5",
-      "target": "sequence_1780814641578_6",
-      "sourceHandle": "random-0"
+      "id": "edge_1780814786322_12",
+      "source": "codex0606_random_006",
+      "target": "codex0606_action_005",
+      "sourceHandle": "random-6",
+      "targetHandle": "exec-in"
     },
     {
-      "id": "edge_1780814644405_9",
-      "source": "random-selector_1780814637402_5",
-      "target": "dist-selector_1780814644403_8",
-      "sourceHandle": "random-1"
-    },
-    {
-      "id": "edge_1780814648102_11",
-      "source": "random-selector_1780814637402_5",
-      "target": "dist-selector_1780814648099_10",
-      "sourceHandle": "random-2"
+      "id": "edge_1780814790079_13",
+      "source": "codex0606_random_006",
+      "target": "codex0606_combo_031",
+      "sourceHandle": "random-7",
+      "targetHandle": "exec-in"
     }
   ],
   "variables": [
@@ -6203,8 +6011,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1915.1956418877123,
-            "commentHeight": 918.9382212253417
+            "commentWidth": 757.5932682652851,
+            "commentHeight": 340.13703441412815
           }
         },
         {
@@ -6361,8 +6169,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1915.1956418877123,
-            "commentHeight": 918.9382212253417
+            "commentWidth": 757.5932682652851,
+            "commentHeight": 340.13703441412815
           }
         },
         {
@@ -6766,8 +6574,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1915.1956418877123,
-            "commentHeight": 918.9382212253417
+            "commentWidth": 757.5932682652851,
+            "commentHeight": 340.13703441412815
           }
         },
         {
@@ -6883,8 +6691,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1915.1956418877123,
-            "commentHeight": 918.9382212253417
+            "commentWidth": 757.5932682652851,
+            "commentHeight": 340.13703441412815
           }
         },
         {
@@ -7000,8 +6808,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1915.1956418877123,
-            "commentHeight": 918.9382212253417
+            "commentWidth": 757.5932682652851,
+            "commentHeight": 340.13703441412815
           }
         },
         {
