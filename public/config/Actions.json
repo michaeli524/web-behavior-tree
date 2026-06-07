@@ -208,5 +208,11 @@
     "actionName": "空中二连吐息",
     "gifPath": "空中二连吐息.mp4",
     "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Supercharged_Aerial_Breath_Combo",
+    "actionName": "超带电空中吐息连段",
+    "gifPath": "超带电空中吐息连段.mp4",
+    "comment": ""
   }
 ]
