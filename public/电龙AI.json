@@ -74,7 +74,7 @@
       "id": "codex0606_comment_004",
       "type": "bt-node",
       "position": {
-        "x": 980,
+        "x": 974.3584207384438,
         "y": -811.8453151765257
       },
       "data": {
@@ -101,7 +101,7 @@
         "approachDistance": 500,
         "startValue": "0",
         "endValue": "0",
-        "commentWidth": 4450,
+        "commentWidth": 4455.641579261556,
         "commentHeight": 1783.0362070441304
       }
     },
@@ -444,8 +444,8 @@
       "id": "codex0606_action_001",
       "type": "bt-node",
       "position": {
-        "x": 1060,
-        "y": -1045
+        "x": 1070,
+        "y": -1975
       },
       "data": {
         "label": "Action",
@@ -1149,78 +1149,6 @@
         "endValue": "0",
         "actionId": "Astaroth_Breath_Uncharged",
         "functionId": "codex2_page_air_approach_breath_taillanding_001",
-        "isCombo": true
-      }
-    },
-    {
-      "id": "codex0606_combo_015",
-      "type": "bt-node",
-      "position": {
-        "x": 2345,
-        "y": 670
-      },
-      "data": {
-        "label": "靠近到600头顶二连",
-        "type": "combo-show",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0",
-        "actionId": "Astaroth_Head_Slam_Charged",
-        "functionId": "codex0606_page_approach600_headslam_001",
-        "isCombo": true
-      }
-    },
-    {
-      "id": "codex0606_combo_016",
-      "type": "bt-node",
-      "position": {
-        "x": 2340,
-        "y": 835
-      },
-      "data": {
-        "label": "普通状态地面吐息连携-充能检测",
-        "type": "combo-show",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0",
-        "actionId": "Astaroth_Double_Breath_Combo",
-        "functionId": "codex2_page_backstep_doublebreath_press_001",
         "isCombo": true
       }
     },
@@ -2291,8 +2219,8 @@
       "id": "action_1780816499818_12",
       "type": "bt-node",
       "position": {
-        "x": 1045,
-        "y": -55
+        "x": 1040,
+        "y": -475
       },
       "data": {
         "label": "Action",
@@ -2325,11 +2253,11 @@
       "id": "comment_1780816515186_15",
       "type": "bt-node",
       "position": {
-        "x": 1030,
-        "y": -110.7418540997343
+        "x": 1025,
+        "y": -530
       },
       "data": {
-        "label": "两个以上部位保持充电一段时间，进入加速充电阶段，全身出现雷电特效",
+        "label": "两个以上部位保持充电一段时间，进入加速充电阶段，全身闪烁一次雷电特效",
         "type": "comment",
         "condition": "",
         "action": "",
@@ -2468,8 +2396,8 @@
       "id": "combo-show_1780825969755_8",
       "type": "bt-node",
       "position": {
-        "x": 2340,
-        "y": -230
+        "x": 2715,
+        "y": -215
       },
       "data": {
         "label": "加速充电状态地面吐息系连携-充能检测",
@@ -2567,6 +2495,175 @@
         "startValue": "0",
         "endValue": "0"
       }
+    },
+    {
+      "id": "comment_1780829011770_76",
+      "type": "bt-node",
+      "position": {
+        "x": 1040,
+        "y": -2034
+      },
+      "data": {
+        "label": "进入超带电状态时，发动吼叫，并且全身带电部位变为荧光绿色",
+        "type": "comment",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "commentWidth": 315.69078063461234,
+        "commentHeight": 210.04980773681172,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1780829107534_77",
+      "type": "bt-node",
+      "position": {
+        "x": 2340,
+        "y": -215
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Astaroth_Back_Step",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1780829231785_3",
+      "type": "bt-node",
+      "position": {
+        "x": 2600,
+        "y": 680
+      },
+      "data": {
+        "label": "Approach",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Astaroth_Head_Slam_Charged",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "approach_1780829244664_4",
+      "type": "bt-node",
+      "position": {
+        "x": 2340,
+        "y": 680
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 600,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "approach_1780832924844_9",
+      "type": "bt-node",
+      "position": {
+        "x": 2345,
+        "y": 825
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 600,
+        "startValue": "0",
+        "endValue": "0"
+      }
     }
   ],
   "edges": [
@@ -2638,20 +2735,6 @@
       "source": "codex0606_condition_002",
       "target": "codex0606_dist_003",
       "sourceHandle": "exec-false",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "codex0606_edge_011",
-      "source": "codex0606_condition_003",
-      "target": "codex0606_action_001",
-      "sourceHandle": "exec-true",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "codex0606_edge_012",
-      "source": "codex0606_action_001",
-      "target": "codex0606_dist_001",
-      "sourceHandle": "exec-out",
       "targetHandle": "exec-in"
     },
     {
@@ -2792,20 +2875,6 @@
       "source": "codex0606_random_004",
       "target": "codex0606_combo_014",
       "sourceHandle": "random-0",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "codex0606_edge_038",
-      "source": "codex0606_random_004",
-      "target": "codex0606_combo_015",
-      "sourceHandle": "random-1",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "codex0606_edge_039",
-      "source": "codex0606_random_004",
-      "target": "codex0606_combo_016",
-      "sourceHandle": "random-2",
       "targetHandle": "exec-in"
     },
     {
@@ -3026,19 +3095,6 @@
       "sourceHandle": "dist-last"
     },
     {
-      "id": "edge_1780816499822_13",
-      "source": "codex0606_condition_003",
-      "target": "action_1780816499818_12",
-      "sourceHandle": "exec-false"
-    },
-    {
-      "id": "edge_1780816504299_14",
-      "source": "action_1780816499818_12",
-      "target": "codex0606_dist_002",
-      "sourceHandle": "exec-out",
-      "targetHandle": "exec-in"
-    },
-    {
       "id": "edge_1780817817178_4",
       "source": "codex0606_random_006",
       "target": "combo-show_1780817817176_3",
@@ -3048,13 +3104,6 @@
       "id": "edge_1780820019120_2",
       "source": "codex0606_random_002",
       "target": "combo-show_1780820007415_1",
-      "sourceHandle": "random-0",
-      "targetHandle": "exec-in"
-    },
-    {
-      "id": "edge_1780825979044_9",
-      "source": "codex0606_random_003",
-      "target": "combo-show_1780825969755_8",
       "sourceHandle": "random-0",
       "targetHandle": "exec-in"
     },
@@ -3076,6 +3125,53 @@
       "source": "action_1780827356225_54",
       "target": "combo-show_1780820165475_3",
       "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780828987228_74",
+      "source": "codex0606_condition_003",
+      "target": "codex0606_dist_001",
+      "sourceHandle": "exec-true",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780829003541_75",
+      "source": "codex0606_condition_003",
+      "target": "codex0606_dist_002",
+      "sourceHandle": "exec-false",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780829107538_78",
+      "source": "codex0606_random_003",
+      "target": "action_1780829107534_77",
+      "sourceHandle": "random-0"
+    },
+    {
+      "id": "edge_1780829118814_79",
+      "source": "action_1780829107534_77",
+      "target": "combo-show_1780825969755_8",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780829244666_5",
+      "source": "codex0606_random_004",
+      "target": "approach_1780829244664_4",
+      "sourceHandle": "random-1"
+    },
+    {
+      "id": "edge_1780829259680_6",
+      "source": "approach_1780829244664_4",
+      "target": "action_1780829231785_3",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780832928118_10",
+      "source": "codex0606_random_004",
+      "target": "approach_1780832924844_9",
+      "sourceHandle": "random-2",
       "targetHandle": "exec-in"
     }
   ],
@@ -3142,7 +3238,7 @@
           "type": "bt-node",
           "position": {
             "x": 20,
-            "y": 30
+            "y": -85.66242477605135
           },
           "data": {
             "label": "牵制咬高频派生：小咬后高概率接甩尾，尾刺末段需要尾部角度/身后窗口。",
@@ -3168,8 +3264,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 1618.9332796058968,
-            "commentHeight": 430
+            "commentWidth": 1771.265625450742,
+            "commentHeight": 646.3629322645068
           }
         },
         {
@@ -3177,7 +3273,7 @@
           "type": "bt-node",
           "position": {
             "x": 90,
-            "y": 190
+            "y": 205
           },
           "data": {
             "label": "牵制咬甩尾尾刺三连",
@@ -3210,7 +3306,7 @@
           "type": "bt-node",
           "position": {
             "x": 300,
-            "y": 190
+            "y": 205
           },
           "data": {
             "label": "Action",
@@ -3243,8 +3339,8 @@
           "id": "codex2_action_002",
           "type": "bt-node",
           "position": {
-            "x": 610,
-            "y": 190
+            "x": 840,
+            "y": 20
           },
           "data": {
             "label": "Action",
@@ -3277,8 +3373,8 @@
           "id": "codex2_angle_001",
           "type": "bt-node",
           "position": {
-            "x": 760,
-            "y": 330
+            "x": 990,
+            "y": 160
           },
           "data": {
             "label": "Angle Between CW",
@@ -3310,8 +3406,8 @@
           "id": "codex2_condition_001",
           "type": "bt-node",
           "position": {
-            "x": 975,
-            "y": 190
+            "x": 1205,
+            "y": 20
           },
           "data": {
             "label": "玩家是否在龙身后",
@@ -3343,8 +3439,8 @@
           "id": "codex2_action_003",
           "type": "bt-node",
           "position": {
-            "x": 1280,
-            "y": 145
+            "x": 1510,
+            "y": -25
           },
           "data": {
             "label": "Action",
@@ -3377,14 +3473,84 @@
           "id": "codex2_reset_001",
           "type": "bt-node",
           "position": {
-            "x": 1280,
-            "y": 290
+            "x": 1510,
+            "y": 120
           },
           "data": {
             "label": "Reset",
             "type": "reset",
             "condition": "",
             "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "random-selector_1780833298973_11",
+          "type": "bt-node",
+          "position": {
+            "x": 605,
+            "y": 205
+          },
+          "data": {
+            "label": "Random Selector",
+            "type": "random-selector",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              50
+            ],
+            "randomWeightIds": [
+              "0",
+              "1"
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780833310767_14",
+          "type": "bt-node",
+          "position": {
+            "x": 830,
+            "y": 410
+          },
+          "data": {
+            "label": "Action",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Tail_Thrust",
             "duration": 1000,
             "repeatCount": 1,
             "status": "idle",
@@ -3423,13 +3589,6 @@
           "targetHandle": "exec-in"
         },
         {
-          "id": "codex2_edge_003",
-          "source": "codex2_action_001",
-          "target": "codex2_action_002",
-          "sourceHandle": "exec-out",
-          "targetHandle": "exec-in"
-        },
-        {
           "id": "codex2_edge_004",
           "source": "codex2_action_002",
           "target": "codex2_condition_001",
@@ -3448,6 +3607,26 @@
           "source": "codex2_condition_001",
           "target": "codex2_reset_001",
           "sourceHandle": "exec-false",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780833298977_12",
+          "source": "codex2_action_001",
+          "target": "random-selector_1780833298973_11",
+          "sourceHandle": "exec-out"
+        },
+        {
+          "id": "edge_1780833308825_13",
+          "source": "random-selector_1780833298973_11",
+          "target": "codex2_action_002",
+          "sourceHandle": "random-0",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780833314505_15",
+          "source": "random-selector_1780833298973_11",
+          "target": "action_1780833310767_14",
+          "sourceHandle": "random-1",
           "targetHandle": "exec-in"
         }
       ]
@@ -5400,7 +5579,7 @@
             "startValue": "0",
             "endValue": "0",
             "commentWidth": 1370,
-            "commentHeight": 430
+            "commentHeight": 459
           }
         },
         {
@@ -5692,7 +5871,7 @@
           "type": "bt-node",
           "position": {
             "x": 20,
-            "y": 30
+            "y": 16.264706405688685
           },
           "data": {
             "label": "新增观察：飞天尾刺、头砸二连之后，电龙还可能侧飞靠近，并以落地翅膀拍收尾。",
@@ -5718,8 +5897,8 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 2022,
-            "commentHeight": 430
+            "commentWidth": 2388.1077250431545,
+            "commentHeight": 587.816398288714
           }
         },
         {
@@ -5759,8 +5938,8 @@
           "id": "codex2_get_004",
           "type": "bt-node",
           "position": {
-            "x": 1135,
-            "y": 255
+            "x": 1375,
+            "y": 490
           },
           "data": {
             "label": "Get",
@@ -5793,8 +5972,8 @@
           "id": "codex2_condition_009",
           "type": "bt-node",
           "position": {
-            "x": 1320,
-            "y": 180
+            "x": 1560,
+            "y": 340
           },
           "data": {
             "label": "翅膀是否充能",
@@ -5826,8 +6005,8 @@
           "id": "codex2_action_028",
           "type": "bt-node",
           "position": {
-            "x": 1680,
-            "y": 130
+            "x": 1920,
+            "y": 290
           },
           "data": {
             "label": "Action",
@@ -5860,8 +6039,8 @@
           "id": "codex2_action_029",
           "type": "bt-node",
           "position": {
-            "x": 1680,
-            "y": 285
+            "x": 1920,
+            "y": 445
           },
           "data": {
             "label": "Action",
@@ -5925,17 +6104,119 @@
           }
         },
         {
-          "id": "action_1780828552520_59",
+          "id": "condition_1780828765707_64",
           "type": "bt-node",
           "position": {
-            "x": 755,
+            "x": 855,
             "y": 190
+          },
+          "data": {
+            "label": "尾巴充电？",
+            "type": "condition",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "get-variable_1780828781523_66",
+          "type": "bt-node",
+          "position": {
+            "x": 710,
+            "y": 290
+          },
+          "data": {
+            "label": "Get",
+            "type": "get-variable",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "variableId": "var_1779033704242_8",
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780828804639_69",
+          "type": "bt-node",
+          "position": {
+            "x": 1200,
+            "y": 340
           },
           "data": {
             "label": "Action",
             "type": "action",
             "condition": "",
             "action": "",
+            "actionId": "Astaroth_Flying_Approach_Land",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780828828556_72",
+          "type": "bt-node",
+          "position": {
+            "x": 1210,
+            "y": 105
+          },
+          "data": {
+            "label": "Action",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Side_Fly_Land_Tail_Sweep_Combo",
             "duration": 1000,
             "repeatCount": 1,
             "status": "idle",
@@ -5987,10 +6268,36 @@
           "sourceHandle": "exec-out"
         },
         {
-          "id": "edge_1780828552523_60",
+          "id": "edge_1780828765710_65",
           "source": "action_1780828497078_57",
-          "target": "action_1780828552520_59",
+          "target": "condition_1780828765707_64",
           "sourceHandle": "exec-out"
+        },
+        {
+          "id": "edge_1780828782518_67",
+          "source": "get-variable_1780828781523_66",
+          "target": "condition_1780828765707_64",
+          "sourceHandle": "data-out",
+          "targetHandle": "data-in"
+        },
+        {
+          "id": "edge_1780828804642_70",
+          "source": "condition_1780828765707_64",
+          "target": "action_1780828804639_69",
+          "sourceHandle": "exec-false"
+        },
+        {
+          "id": "edge_1780828819950_71",
+          "source": "action_1780828804639_69",
+          "target": "codex2_condition_009",
+          "sourceHandle": "exec-out",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780828828559_73",
+          "source": "condition_1780828765707_64",
+          "target": "action_1780828828556_72",
+          "sourceHandle": "exec-true"
         }
       ]
     },
@@ -6029,7 +6336,7 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 757.5932682652851,
+            "commentWidth": 906.5932682652851,
             "commentHeight": 340.13703441412815
           }
         },
@@ -6557,7 +6864,7 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 757.5932682652851,
+            "commentWidth": 906.5932682652851,
             "commentHeight": 340.13703441412815
           }
         },
@@ -6640,123 +6947,6 @@
       ]
     },
     {
-      "id": "codex0606_page_approach600_headslam_001",
-      "name": "靠近到600头顶二连",
-      "nodes": [
-        {
-          "id": "codex0606_comment_001",
-          "type": "bt-node",
-          "position": {
-            "x": 20,
-            "y": 30
-          },
-          "data": {
-            "label": "1000 距离靠近到 600，再进入头顶二连/头部压制。",
-            "type": "comment",
-            "condition": "",
-            "action": "",
-            "duration": 1000,
-            "repeatCount": 1,
-            "status": "idle",
-            "distances": [
-              300,
-              650,
-              2000
-            ],
-            "randomWeights": [
-              50,
-              30,
-              20
-            ],
-            "operator": "<",
-            "compareLeftValue": "0",
-            "compareValue": "0",
-            "approachDistance": 500,
-            "startValue": "0",
-            "endValue": "0",
-            "commentWidth": 757.5932682652851,
-            "commentHeight": 340.13703441412815
-          }
-        },
-        {
-          "id": "codex0606_root_001",
-          "type": "bt-node",
-          "position": {
-            "x": 90,
-            "y": 190
-          },
-          "data": {
-            "label": "靠近到600头顶二连",
-            "type": "root",
-            "condition": "",
-            "action": "",
-            "duration": 1000,
-            "repeatCount": 1,
-            "status": "idle",
-            "distances": [
-              300,
-              650,
-              2000
-            ],
-            "randomWeights": [
-              50,
-              30,
-              20
-            ],
-            "operator": "<",
-            "compareLeftValue": "0",
-            "compareValue": "0",
-            "approachDistance": 500,
-            "startValue": "0",
-            "endValue": "0"
-          }
-        },
-        {
-          "id": "codex0606_action_001",
-          "type": "bt-node",
-          "position": {
-            "x": 510,
-            "y": 190
-          },
-          "data": {
-            "label": "Approach",
-            "type": "action",
-            "condition": "",
-            "action": "",
-            "duration": 1000,
-            "repeatCount": 1,
-            "status": "idle",
-            "distances": [
-              300,
-              650,
-              2000
-            ],
-            "randomWeights": [
-              50,
-              30,
-              20
-            ],
-            "operator": "<",
-            "compareLeftValue": "0",
-            "compareValue": "0",
-            "approachDistance": 500,
-            "startValue": "0",
-            "endValue": "0",
-            "actionId": "Astaroth_Head_Slam_Charged"
-          }
-        }
-      ],
-      "edges": [
-        {
-          "id": "codex0606_edge_001",
-          "source": "codex0606_root_001",
-          "target": "codex0606_action_001",
-          "sourceHandle": "exec-out",
-          "targetHandle": "exec-in"
-        }
-      ]
-    },
-    {
       "id": "codex0606_page_tail_backangle_thrust_001",
       "name": "移动到身后充能尾刺",
       "nodes": [
@@ -6791,7 +6981,7 @@
             "approachDistance": 500,
             "startValue": "0",
             "endValue": "0",
-            "commentWidth": 757.5932682652851,
+            "commentWidth": 906.5932682652851,
             "commentHeight": 340.13703441412815
           }
         },
