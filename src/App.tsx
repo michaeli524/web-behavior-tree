@@ -9,7 +9,7 @@ import { BTNodeType } from './engine/types';
 import type { BTNode } from './engine/types';
 import { isShowcaseMode } from './config/appMode';
 import { preloadActionCatalog, type ActionConfig } from './config/actionCatalog';
-import { preloadVideoFrames } from './utils/mediaPreloader';
+import { preloadVideoThumbnails } from './utils/mediaPreloader';
 import './App.css';
 
 const MIN_LEFT = 100;
@@ -139,7 +139,7 @@ export default function App() {
       updateLoadingProgress(24);
       const mediaPaths = collectMediaPathsFromCurrentTree(actionCatalog);
       if (mediaPaths.length > 0) {
-        await preloadVideoFrames(mediaPaths, {
+        await preloadVideoThumbnails(mediaPaths, {
           onProgress: (loaded, total) => {
             updateLoadingProgress(24 + (loaded / total) * 70);
           },

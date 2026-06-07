@@ -4,6 +4,7 @@ import { useBTStore } from '../store/useBTStore';
 import { BTNodeType, BTExecutionStatus, type BTNodeData } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
 import { isShowcaseMode } from '../config/appMode';
+import { ensureVideoThumbnail, getVideoThumbnail, subscribeVideoThumbnails } from '../utils/mediaPreloader';
 
 const statusColors: Record<BTExecutionStatus, string> = {
   [BTExecutionStatus.IDLE]: '#555',
@@ -659,9 +660,26 @@ function ActionThumb({
   alt: string;
   onPreviewClick?: () => void;
 }) {
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>(() => getVideoThumbnail(src));
   const [failed, setFailed] = useState(false);
   useEffect(() => {
+    let active = true;
+    setThumbnailUrl(getVideoThumbnail(src));
     setFailed(false);
+    const unsubscribe = subscribeVideoThumbnails((updatedSrc) => {
+      if (updatedSrc === src) {
+        setThumbnailUrl(getVideoThumbnail(src));
+      }
+    });
+    ensureVideoThumbnail(src).then((url) => {
+      if (!active) return;
+      if (url) setThumbnailUrl(url);
+      else setFailed(true);
+    });
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, [src]);
 
   if (failed) {
@@ -670,15 +688,21 @@ function ActionThumb({
 
   return (
     <div className="bt-action-thumb-wrap">
-      <video
-        className="bt-action-thumb"
-        src={src}
-        title={alt}
-        muted
-        playsInline
-        preload="metadata"
-        onError={() => setFailed(true)}
-      />
+      {thumbnailUrl ? (
+        <img
+          className="bt-action-thumb"
+          src={thumbnailUrl}
+          alt={alt}
+          draggable={false}
+        />
+      ) : (
+        <div
+          className="bt-action-thumb bt-action-thumb-empty bt-action-thumb-deferred"
+          title={alt}
+        >
+          MP4
+        </div>
+      )}
       {onPreviewClick && (
         <button
           type="button"
