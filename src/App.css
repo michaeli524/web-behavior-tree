@@ -1727,9 +1727,11 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 24px;
-  padding: 2px 10px;
+  min-height: 24px;
+  max-height: 100%;
+  padding: 4px 10px;
   font-size: 12px;
+  line-height: 16px;
   font-weight: 600;
   color: #ccc;
   background: rgba(0, 0, 0, 0.3);
@@ -1745,9 +1747,10 @@
   align-items: center;
   cursor: grab;
   user-select: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .bt-comment-title-bar:active {
@@ -1759,9 +1762,10 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 24px;
-  padding: 2px 10px;
+  min-height: 24px;
+  padding: 4px 10px;
   font-size: 12px;
+  line-height: 16px;
   font-weight: 600;
   color: #ccc;
   background: rgba(0, 0, 0, 0.3);
