@@ -176,41 +176,6 @@
       }
     },
     {
-      "id": "codex0606_comment_006",
-      "type": "bt-node",
-      "position": {
-        "x": -1120,
-        "y": 980
-      },
-      "data": {
-        "label": "统计备注：距离样本 350=23，600=46，1000=6；状态样本 无强化=14，头强化=12，尾巴强化=4，超充电=15，超带电=9。",
-        "type": "comment",
-        "condition": "",
-        "action": "",
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0",
-        "commentWidth": 1880,
-        "commentHeight": 420
-      }
-    },
-    {
       "id": "codex0606_root_001",
       "type": "bt-node",
       "position": {
@@ -614,8 +579,8 @@
       "id": "codex0606_dist_003",
       "type": "bt-node",
       "position": {
-        "x": 1135,
-        "y": 2300
+        "x": 1335,
+        "y": 2890
       },
       "data": {
         "label": "Dist Selector",
@@ -1425,8 +1390,8 @@
       "id": "codex0606_random_005",
       "type": "bt-node",
       "position": {
-        "x": 2100,
-        "y": 1630
+        "x": 2135,
+        "y": 1565
       },
       "data": {
         "label": "Random Selector",
@@ -1465,7 +1430,7 @@
       "type": "bt-node",
       "position": {
         "x": 2115,
-        "y": 2955
+        "y": 2950
       },
       "data": {
         "label": "Random Selector",
@@ -1502,8 +1467,8 @@
       "id": "codex0606_random_007",
       "type": "bt-node",
       "position": {
-        "x": 2120,
-        "y": 4140
+        "x": 2105,
+        "y": 3855
       },
       "data": {
         "label": "Random Selector",
@@ -1520,14 +1485,18 @@
         ],
         "randomWeights": [
           50,
-          10
+          50
         ],
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
         "approachDistance": 500,
         "startValue": "0",
-        "endValue": "0"
+        "endValue": "0",
+        "randomWeightIds": [
+          "0",
+          "1"
+        ]
       }
     },
     {
@@ -1888,8 +1857,8 @@
       "id": "codex0606_action_006",
       "type": "bt-node",
       "position": {
-        "x": 2895,
-        "y": 4165
+        "x": 2765,
+        "y": 3880
       },
       "data": {
         "label": "Action",
@@ -1922,8 +1891,8 @@
       "id": "codex0606_action_007",
       "type": "bt-node",
       "position": {
-        "x": 2895,
-        "y": 4035
+        "x": 2765,
+        "y": 3750
       },
       "data": {
         "label": "Action",
@@ -1956,8 +1925,8 @@
       "id": "approach_1780760705796_2",
       "type": "bt-node",
       "position": {
-        "x": 2545,
-        "y": 4310
+        "x": 2520,
+        "y": 4065
       },
       "data": {
         "label": "Approach",
@@ -1986,47 +1955,11 @@
       }
     },
     {
-      "id": "combo-show_1780760967807_3",
-      "type": "bt-node",
-      "position": {
-        "x": 2835,
-        "y": 4310
-      },
-      "data": {
-        "label": "头顶二连-判断头是否充电",
-        "type": "combo-show",
-        "condition": "",
-        "action": "",
-        "actionId": "Astaroth_Head_Slam_Charged",
-        "isCombo": true,
-        "duration": 1000,
-        "repeatCount": 1,
-        "status": "idle",
-        "functionId": "page_1780760967802_1",
-        "distances": [
-          300,
-          650,
-          2000
-        ],
-        "randomWeights": [
-          50,
-          30,
-          20
-        ],
-        "operator": "<",
-        "compareLeftValue": "0",
-        "compareValue": "0",
-        "approachDistance": 500,
-        "startValue": "0",
-        "endValue": "0"
-      }
-    },
-    {
       "id": "condition_1780762714733_1",
       "type": "bt-node",
       "position": {
-        "x": 2645,
-        "y": 4080
+        "x": 2515,
+        "y": 3795
       },
       "data": {
         "label": "翅膀充电？",
@@ -2058,8 +1991,8 @@
       "id": "get-variable_1780762742100_5",
       "type": "bt-node",
       "position": {
-        "x": 2445,
-        "y": 4190
+        "x": 2355,
+        "y": 3890
       },
       "data": {
         "label": "Get",
@@ -2470,6 +2403,39 @@
         "startValue": "0",
         "endValue": "0"
       }
+    },
+    {
+      "id": "approach_1780815739664_10",
+      "type": "bt-node",
+      "position": {
+        "x": 2085,
+        "y": 4260
+      },
+      "data": {
+        "label": "Approach",
+        "type": "approach",
+        "condition": "",
+        "action": "",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 1000,
+        "startValue": "0",
+        "endValue": "0"
+      }
     }
   ],
   "edges": [
@@ -2768,13 +2734,6 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "codex0606_edge_043",
-      "source": "codex0606_dist_003",
-      "target": "codex0606_random_007",
-      "sourceHandle": "dist-last",
-      "targetHandle": "exec-in"
-    },
-    {
       "id": "codex0606_edge_044",
       "source": "codex0606_random_005",
       "target": "codex0606_combo_017",
@@ -2835,12 +2794,6 @@
       "source": "codex0606_random_007",
       "target": "approach_1780760705796_2",
       "sourceHandle": "random-1"
-    },
-    {
-      "id": "edge_1780760967809_4",
-      "source": "approach_1780760705796_2",
-      "target": "combo-show_1780760967807_3",
-      "sourceHandle": "exec-out"
     },
     {
       "id": "edge_1780762714737_2",
@@ -2969,6 +2922,12 @@
       "target": "codex0606_combo_031",
       "sourceHandle": "random-7",
       "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780815739667_11",
+      "source": "codex0606_dist_003",
+      "target": "approach_1780815739664_10",
+      "sourceHandle": "dist-last"
     }
   ],
   "variables": [
