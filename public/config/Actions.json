@@ -25,73 +25,79 @@
   },
   {
     "actionId": "Astaroth_Tail_Thrust",
-    "actionName": "尾刺-尾充能",
+    "actionName": "尾刺",
     "gifPath": "充能尾刺.mp4",
-    "comment": "尾巴插地放电-未充能.mp4"
+    "comment": ""
   },
   {
     "actionId": "Astaroth_Tail_Ground_Spike_Uncharged",
-    "actionName": "尾巴插地放电-未充能",
+    "actionName": "尾巴插地放电-未充电",
     "gifPath": "尾巴插地放电-尾巴未充电.mp4",
     "comment": ""
   },
   {
+    "actionId": "Astaroth_Tail_Ground_Spike_Charged",
+    "actionName": "尾巴插地放电-尾巴充电",
+    "gifPath": "尾巴插地-尾巴充能.mp4",
+    "comment": ""
+  },
+  {
     "actionId": "Astaroth_Head_Slam_Uncharged",
-    "actionName": "头顶二连-未充能",
+    "actionName": "头顶二连-未充电",
     "gifPath": "头顶二连-未充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Head_Slam_Charged",
-    "actionName": "头顶二连-头充能",
+    "actionName": "头顶二连-头充电",
     "gifPath": "头砸二连-充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Wing_Press_Uncharged",
-    "actionName": "翅膀单次下拍-未充能",
+    "actionName": "翅膀单次下拍-未充电",
     "gifPath": "单侧翅膀拍地-右-未充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Wing_Double_Press_Charged",
-    "actionName": "翅膀下拍二连-翅膀充能",
+    "actionName": "翅膀下拍二连-翅膀充电",
     "gifPath": "翅膀充能二连拍.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Dash_Wing_Press_Charged",
-    "actionName": "冲刺翅膀下拍-翅膀充能",
+    "actionName": "冲刺翅膀下拍-翅膀充电",
     "gifPath": "冲刺翅膀下拍-翅膀充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Breath_Uncharged",
-    "actionName": "吐息-未充能",
+    "actionName": "吐息-未充电",
     "gifPath": "电流吐息-未充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Double_Breath_Charged",
-    "actionName": "二连吐息-头、翅膀充能",
+    "actionName": "二连吐息-头充电",
     "gifPath": "二连吐息-头充电.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Head_Double_Swing_Charged",
-    "actionName": "二连甩头-头、翅膀充能",
+    "actionName": "二连甩头-头",
     "gifPath": "二连甩头.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Overhead_Slam_Charged",
-    "actionName": "斩舰刀-头充能",
-    "gifPath": "斩舰刀-充能.mp4",
+    "actionName": "斩舰刀-头充电",
+    "gifPath": "斩舰刀-头充能.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_AllCharged_Roar",
-    "actionName": "全身充能吼叫",
+    "actionName": "全身充电吼叫",
     "gifPath": "进入完全充电状态.mp4",
     "comment": ""
   },
@@ -103,68 +109,110 @@
   },
   {
     "actionId": "Astaroth_Double_Breath_Combo",
-    "actionName": "二连吐息+冲刺翅膀拍-头翅膀充电",
+    "actionName": "二连吐息+冲刺翅膀拍-头、翅膀充电",
     "gifPath": "二连吐息+冲刺翅膀拍-头翅膀充电.mp4",
     "comment": ""
   },
   {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
+    "actionId": "Astaroth_Wing_Double_Press_First",
+    "actionName": "翅膀二连第一下",
+    "gifPath": "翅膀二连第一下.mp4",
     "comment": ""
   },
   {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
-    "comment": ""
-  },
-  {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
-    "comment": ""
-  },
-  {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
-    "comment": ""
-  },
-  {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
-    "comment": ""
-  },
-  {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
-    "comment": ""
-  },
-  {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
-    "comment": ""
-  },
-  {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
-    "comment": ""
-  },
-  {
-    "actionId": "Astaroth_",
-    "actionName": "",
-    "gifPath": "",
+    "actionId": "Astaroth_Wing_Double_Press_Second",
+    "actionName": "翅膀二连第二下",
+    "gifPath": "翅膀二连第二下.mp4",
     "comment": ""
   },
   {
     "actionId": "Astaroth_Ult_Lightning_Dive",
     "actionName": "大招-闪电俯冲",
     "gifPath": "全身放电攻击.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Back_Step_Aerial_Breath_Land",
+    "actionName": "后撤步起飞吐息并落地",
+    "gifPath": "后撤步起飞吐息并落地.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Check_Bite_Head_Slam_Combo",
+    "actionName": "牵制咬+头顶二连Combo",
+    "gifPath": "牵制咬+头顶二连Combo.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Flying_Charge_Combo",
+    "actionName": "翅膀横刺+飞行龙车",
+    "gifPath": "翅膀横刺+飞行龙车.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Double_Combo",
+    "actionName": "翅膀横刺二连",
+    "gifPath": "翅膀横刺二连.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Enter_Accelerated_Charge_State",
+    "actionName": "进入加速充电状态",
+    "gifPath": "进入加速充电状态.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Side_Fly_Land_Tail_Sweep_Combo",
+    "actionName": "翅膀横刺+侧飞靠近+落地甩尾",
+    "gifPath": "翅膀横刺+侧飞靠近+落地甩尾.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Aerial_Breath_Wing_Repeated_Press_Combo",
+    "actionName": "翅膀横刺+空中吐息+连续翅膀下拍",
+    "gifPath": "翅膀横刺+空中吐息+连续翅膀下拍.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Flying_Approach_Aerial_Breath",
+    "actionName": "飞行靠近空中吐息",
+    "gifPath": "飞行靠近空中吐息.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Side_Fly_Land_Tail_Sweep_Combo",
+    "actionName": "侧飞靠近+落地甩尾",
+    "gifPath": "侧飞靠近+落地甩尾.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Back_Step_Takeoff_Wing_Repeated_Press_Combo",
+    "actionName": "后撤起飞翅膀连续下拍",
+    "gifPath": "后撤起飞翅膀连续下拍.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Back_Step_Takeoff_Tail_Thrust",
+    "actionName": "后撤步起飞尾刺",
+    "gifPath": "后撤步起飞尾刺.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Flying_Approach_Land",
+    "actionName": "飞行靠近+落地",
+    "gifPath": "飞行靠近+落地.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Aerial_Double_Breath",
+    "actionName": "空中二连吐息",
+    "gifPath": "空中二连吐息.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Supercharged_Aerial_Breath_Combo",
+    "actionName": "超带电空中吐息连段",
+    "gifPath": "超带电空中吐息连段.mp4",
     "comment": ""
   }
 ]

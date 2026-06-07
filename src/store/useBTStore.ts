@@ -146,6 +146,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.ANGLE_BETWEEN_CW]: 'Angle Between CW',
   [BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH]: 'Angle Between CW LRBoth',
   [BTNodeType.RESET]: 'Reset',
+  [BTNodeType.RETURN]: 'Return',
   [BTNodeType.COMBO_SHOW]: 'Combo',
 };
 
@@ -163,6 +164,7 @@ function makeNodeData(type: BTNodeType, dataOverride?: Partial<BTNodeData>): BTN
     functionId: dataOverride?.functionId,
     distances: dataOverride?.distances ?? [300, 650, 2000],
     randomWeights: dataOverride?.randomWeights ?? [50, 30, 20],
+    randomWeightIds: dataOverride?.randomWeightIds,
     variableId: dataOverride?.variableId,
     setValue: dataOverride?.setValue,
     commentWidth: dataOverride?.commentWidth,
@@ -196,8 +198,27 @@ function createEdge(source: string, target: string, sourceHandle?: string, targe
   };
 }
 
+function isSameEdgeEndpoint(
+  edge: BTEdge,
+  source: string,
+  target: string,
+  sourceHandle?: string,
+  targetHandle?: string
+): boolean {
+  return edge.source === source &&
+    edge.target === target &&
+    (edge.sourceHandle ?? undefined) === sourceHandle &&
+    (edge.targetHandle ?? undefined) === targetHandle;
+}
+
+const editableLabelNodeTypes = new Set<BTNodeType>([
+  BTNodeType.COMMENT,
+  BTNodeType.COMBO_SHOW,
+  BTNodeType.CONDITION,
+]);
+
 function sanitizeNodeDataUpdate(node: BTNode | undefined, data: Partial<BTNodeData>): Partial<BTNodeData> {
-  if (node?.data.type === BTNodeType.COMMENT || node?.data.type === BTNodeType.COMBO_SHOW) return data;
+  if (node && editableLabelNodeTypes.has(node.data.type)) return data;
   const sanitized = { ...data };
   delete sanitized.label;
   return sanitized;
@@ -386,7 +407,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
     get()._snapshot();
     const state = get();
     const exists = state.edges.some(
-      (e) => e.source === source && e.target === target
+      (e) => isSameEdgeEndpoint(e, source, target, sourceHandle, targetHandle)
     );
     if (exists || source === target) return;
 
@@ -474,7 +495,7 @@ export const useBTStore = create<BTStore>((set, get) => ({
     const func = state.functions.find((f) => f.id === funcId);
     if (!func) return;
     const exists = func.edges.some(
-      (e) => e.source === source && e.target === target
+      (e) => isSameEdgeEndpoint(e, source, target, sourceHandle, targetHandle)
     );
     if (exists || source === target) return;
 
@@ -581,6 +602,14 @@ export const useBTStore = create<BTStore>((set, get) => ({
   },
 
   addPageEdge: (pageId, source, target, sourceHandle, targetHandle) => {
+    const state = get();
+    const page = state.pages.find((p) => p.id === pageId);
+    if (!page) return;
+    const exists = page.edges.some(
+      (e) => isSameEdgeEndpoint(e, source, target, sourceHandle, targetHandle)
+    );
+    if (exists || source === target) return;
+
     const edge = createEdge(source, target, sourceHandle, targetHandle);
     set((state) => ({
       pages: state.pages.map((p) =>

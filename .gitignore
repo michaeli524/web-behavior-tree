@@ -14,6 +14,11 @@ public/ActionsGIF
 public/ActionMP4
 dist-ssr
 *.local
+convert_videos.sh
+
+# Local AI behavior review drafts
+docs/电龙AI行为*
+docs/电龙AI超带电状态专项分析.md
 
 # Editor directories and files
 .vscode/*

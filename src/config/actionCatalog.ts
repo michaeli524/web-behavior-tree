@@ -86,6 +86,10 @@ export async function refreshActionCatalog(): Promise<ActionConfig[]> {
   return items;
 }
 
+export async function preloadActionCatalog(): Promise<ActionConfig[]> {
+  return loadActionCatalog();
+}
+
 export async function exportActionCatalogFromExcel(): Promise<{ count: number; source: string; target: string }> {
   const response = await fetch('/api/export-actions', { method: 'POST' });
   const data = await response.json() as {

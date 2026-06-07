@@ -22,6 +22,7 @@ export const BTNodeType = {
   ANGLE_BETWEEN_CW: 'angle-between-cw',
   ANGLE_BETWEEN_CW_LR_BOTH: 'angle-between-cw-lr-both',
   RESET: 'reset',
+  RETURN: 'return',
   COMBO_SHOW: 'combo-show',
 } as const;
 
@@ -78,6 +79,7 @@ export interface BTNodeData {
   approachDistance?: BTNumericValue;
   startValue?: string;
   endValue?: string;
+  randomWeightIds?: string[];
 }
 
 export interface BTNode {

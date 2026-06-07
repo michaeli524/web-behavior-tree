@@ -74,6 +74,12 @@ type CommentDragGroup = {
 
 type PaneSelectionDrag = {
   startScreen: FlowPosition;
+  source?: 'pane' | 'comment-body';
+};
+
+type PageTabItem = {
+  id: string;
+  name: string;
 };
 
 function isEditableTarget(target: EventTarget | null) {
@@ -137,6 +143,17 @@ function isFullyInsideComment(node: Node, comment: Node): boolean {
   );
 }
 
+function isCommentInteractiveTarget(target: HTMLElement): boolean {
+  return Boolean(target.closest('.bt-comment-title, .bt-comment-title-input, .bt-comment-resize-edge'));
+}
+
+function isScreenRectIntersecting(
+  a: { left: number; right: number; top: number; bottom: number },
+  b: { left: number; right: number; top: number; bottom: number }
+): boolean {
+  return a.right >= b.left && a.left <= b.right && a.bottom >= b.top && a.top <= b.bottom;
+}
+
 function isExecutionEdge(edge: {
   sourceHandle?: string | null;
   targetHandle?: string | null;
@@ -179,6 +196,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.ANGLE_BETWEEN_CW, icon: '↻', label: 'Angle Between CW' },
   { type: BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH, icon: '↻', label: 'Angle Between CW LRBoth' },
   { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
+  { type: BTNodeType.RETURN, icon: '↩', label: 'Return' },
   { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'Combo' },
 ];
 
@@ -190,6 +208,7 @@ export function BTEditor() {
   const pasteCountRef = useRef(0);
   const viewportByPageRef = useRef(new Map<string, FlowViewport>());
   const previousPageIdRef = useRef<string | null>(null);
+  const visitedComboPageIdsRef = useRef(new Set<string>());
 
   // Connection drag tracking — manual approach instead of onConnectEnd
   const connectDragRef = useRef<{ nodeId: string; handleId: string | null } | null>(null);
@@ -220,6 +239,8 @@ export function BTEditor() {
     nonce: number;
   } | null>(null);
   const paneSelectionDragRef = useRef<PaneSelectionDrag | null>(null);
+  const manualSelectionOverrideRef = useRef<string[] | null>(null);
+  const [openPageTabIds, setOpenPageTabIds] = useState<string[]>(['main']);
 
   // Variable drop → Get/Set popup
   const [varDropPopup, setVarDropPopup] = useState<{
@@ -237,6 +258,7 @@ export function BTEditor() {
   const selectedNodeIds = useBTStore((s) => s.selectedNodeIds);
   const activePageId = useBTStore((s) => s.activePageId);
   const rootFocusRequest = useBTStore((s) => s.rootFocusRequest);
+  const requestRootFocus = useBTStore((s) => s.requestRootFocus);
   const clearRootFocusRequest = useBTStore((s) => s.clearRootFocusRequest);
   const { actionById } = useActionCatalog();
 
@@ -259,6 +281,22 @@ export function BTEditor() {
 
   const isMainTree = activePageId === 'main';
   const isPage = storePages.some((p) => p.id === activePageId);
+  const mainPageName = useBTStore((s) => s.mainPageName);
+  const comboPageIds = useMemo(() => {
+    const ids = new Set<string>();
+    const collectComboPageIds = (sourceNodes: BTNode[]) => {
+      sourceNodes.forEach((node) => {
+        if (node.data.type === BTNodeType.COMBO_SHOW && node.data.functionId) {
+          ids.add(node.data.functionId);
+        }
+      });
+    };
+
+    collectComboPageIds(storeNodes);
+    storePages.forEach((page) => collectComboPageIds(page.nodes));
+    functions.forEach((func) => collectComboPageIds(func.nodes));
+    return ids;
+  }, [storeNodes, storePages, functions]);
 
   const addNodeStore = useBTStore((s) => s.addNode);
   const updateNodePositionStore = useBTStore((s) => s.updateNodePosition);
@@ -285,6 +323,53 @@ export function BTEditor() {
   const setActivePageId = useBTStore((s) => s.setActivePageId);
   const addPage = useBTStore((s) => s.addPage);
   const updateNodeDataStore = useBTStore((s) => s.updateNodeData);
+
+  const availablePageTabs = useMemo<PageTabItem[]>(
+    () => [
+      { id: 'main', name: mainPageName },
+      ...storePages.map((page) => ({ id: page.id, name: page.name })),
+      ...functions.map((func) => ({ id: func.id, name: func.name })),
+    ],
+    [mainPageName, storePages, functions]
+  );
+
+  const pageTabById = useMemo(
+    () => new Map(availablePageTabs.map((tab) => [tab.id, tab])),
+    [availablePageTabs]
+  );
+
+  const openPageTabs = useMemo(
+    () => openPageTabIds
+      .map((id) => pageTabById.get(id))
+      .filter((tab): tab is PageTabItem => Boolean(tab)),
+    [openPageTabIds, pageTabById]
+  );
+
+  useEffect(() => {
+    setOpenPageTabIds((ids) => {
+      const existingIds = ids.filter((id) => pageTabById.has(id));
+      const normalizedIds = existingIds.includes('main') ? existingIds : ['main', ...existingIds];
+      return normalizedIds.includes(activePageId)
+        ? normalizedIds
+        : [...normalizedIds, activePageId].filter((id) => pageTabById.has(id));
+    });
+  }, [activePageId, pageTabById]);
+
+  const closePageTab = useCallback(
+    (pageId: string) => {
+      if (pageId === 'main') return;
+      const nextIds = openPageTabIds.filter((id) => id !== pageId);
+      const normalizedNextIds = nextIds.length > 0 ? nextIds : ['main'];
+      setOpenPageTabIds(normalizedNextIds);
+
+      if (pageId === activePageId) {
+        const closedIndex = openPageTabIds.indexOf(pageId);
+        const fallbackIndex = Math.min(Math.max(0, closedIndex - 1), normalizedNextIds.length - 1);
+        setActivePageId(normalizedNextIds[fallbackIndex] ?? 'main');
+      }
+    },
+    [activePageId, openPageTabIds, setActivePageId]
+  );
 
   const saveCurrentViewport = useCallback((pageId: string) => {
     const rfInstance = rfInstanceRef.current;
@@ -472,10 +557,32 @@ export function BTEditor() {
               },
             }
           : {}),
+        ...(n.data.type === BTNodeType.COMMENT
+          ? {
+              selectable: false,
+              data: {
+                ...n.data,
+                onCommentTitleSelect: () => {
+                  setSelectedNodes([n.id]);
+                  setSelectedReroutePoint(null);
+                },
+              },
+            }
+          : {}),
         zIndex: n.data.type === BTNodeType.COMMENT ? -1 : undefined,
         dragHandle: n.data.type === BTNodeType.COMMENT ? '.bt-comment-title' : undefined,
+        className: n.data.type === BTNodeType.COMMENT ? 'comment-flow-node' : undefined,
       })) as Node[],
-    [nodes, selectedNodeIds, commentTitleEditRequest, openComboPage, previewActionMedia, previewComboMedia]
+    [
+      nodes,
+      selectedNodeIds,
+      commentTitleEditRequest,
+      openComboPage,
+      previewActionMedia,
+      previewComboMedia,
+      setSelectedNodes,
+      setSelectedReroutePoint,
+    ]
   );
 
   const rfEdges: Edge[] = useMemo(
@@ -561,6 +668,7 @@ export function BTEditor() {
 
   const onSelectionChange = useCallback(
     ({ nodes: selNodes }: { nodes: Node[] }) => {
+      if (manualSelectionOverrideRef.current) return;
       setSelectedNodes(selNodes.map((n) => n.id));
       if (selNodes.length > 0) setSelectedReroutePoint(null);
     },
@@ -571,11 +679,13 @@ export function BTEditor() {
     if (isReadonly) return;
     if (event.button !== 0 || isEditableTarget(event.target)) return;
     const target = event.target instanceof HTMLElement ? event.target : null;
-    if (!target || target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) {
-      return;
-    }
+    if (!target) return;
+    if (target.closest('.page-tabs-bar')) return;
+
+    if (target.closest('.react-flow__node, .react-flow__edge, .react-flow__handle, .bt-edge-reroute-point')) return;
     paneSelectionDragRef.current = {
       startScreen: { x: event.clientX, y: event.clientY },
+      source: 'pane',
     };
   }, [isReadonly]);
 
@@ -588,6 +698,39 @@ export function BTEditor() {
     const dx = event.clientX - selectionDrag.startScreen.x;
     const dy = event.clientY - selectionDrag.startScreen.y;
     if (Math.hypot(dx, dy) < 8) return;
+
+    const screenBounds = {
+      left: Math.min(selectionDrag.startScreen.x, event.clientX),
+      right: Math.max(selectionDrag.startScreen.x, event.clientX),
+      top: Math.min(selectionDrag.startScreen.y, event.clientY),
+      bottom: Math.max(selectionDrag.startScreen.y, event.clientY),
+    };
+    const selectedNodeIdsInBounds = Array.from(
+      reactFlowRef.current?.querySelectorAll<HTMLElement>('.react-flow__node[data-id]:not(.comment-flow-node)') ?? []
+    )
+      .filter((element) => {
+        const rect = element.getBoundingClientRect();
+        return isScreenRectIntersecting(screenBounds, {
+          left: rect.left,
+          right: rect.right,
+          top: rect.top,
+          bottom: rect.bottom,
+        });
+      })
+      .map((element) => element.dataset.id)
+      .filter((id): id is string => Boolean(id));
+
+    if (selectedNodeIdsInBounds.length > 0 || selectionDrag.source === 'comment-body') {
+      manualSelectionOverrideRef.current = selectedNodeIdsInBounds;
+      window.setTimeout(() => {
+        setSelectedNodes(selectedNodeIdsInBounds);
+        if (selectedNodeIdsInBounds.length > 0) setSelectedReroutePoint(null);
+        window.setTimeout(() => {
+          manualSelectionOverrideRef.current = null;
+        }, 80);
+      }, 0);
+      return;
+    }
 
     const rfInstance = rfInstanceRef.current;
     if (!rfInstance) return;
@@ -624,7 +767,7 @@ export function BTEditor() {
         pointId: matchedPoint.pointId,
       });
     }, 0);
-  }, [edges, isReadonly]);
+  }, [edges, isReadonly, rfNodes, setSelectedNodes]);
 
   const onEdgesChange = useCallback(() => {}, []);
 
@@ -825,7 +968,12 @@ export function BTEditor() {
 
   // ----- Other handlers -----
   const onNodeClick = useCallback(
-    (_event: React.MouseEvent, node: Node) => {
+    (event: React.MouseEvent, node: Node) => {
+      const nodeData = node.data as unknown as BTNodeData;
+      const target = event.target instanceof HTMLElement ? event.target : null;
+      if (nodeData.type === BTNodeType.COMMENT && target && !isCommentInteractiveTarget(target)) {
+        return;
+      }
       setSelectedNodes([node.id]);
       setSelectedReroutePoint(null);
     },
@@ -1232,6 +1380,13 @@ export function BTEditor() {
   }, [activePageId]);
 
   useEffect(() => {
+    if (!comboPageIds.has(activePageId)) return;
+    if (visitedComboPageIdsRef.current.has(activePageId)) return;
+    visitedComboPageIdsRef.current.add(activePageId);
+    requestRootFocus(activePageId);
+  }, [activePageId, comboPageIds, requestRootFocus]);
+
+  useEffect(() => {
     if (!rootFocusRequest || rootFocusRequest.pageId !== activePageId) return;
     const rfInstance = rfInstanceRef.current;
     const rootNode = nodes.find((node) => node.data.type === BTNodeType.ROOT);
@@ -1268,48 +1423,85 @@ export function BTEditor() {
       onMouseDownCapture={onEditorMouseDownCapture}
       onMouseUpCapture={onEditorMouseUpCapture}
     >
-      <ReactFlow
-        nodes={rfNodes}
-        edges={rfEdges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnectStart={onConnectStart}
-        onConnect={onConnect}
-        onNodeClick={onNodeClick}
-        onNodeDoubleClick={onNodeDoubleClick}
-        onNodeContextMenu={onNodeContextMenu}
-        onEdgeClick={onEdgeClick}
-        onEdgeDoubleClick={onEdgeDoubleClick}
-        onNodesDelete={onNodesDelete}
-        onEdgesDelete={onEdgesDelete}
-        onSelectionChange={onSelectionChange}
-        onPaneClick={onPaneClick}
-        onPaneContextMenu={onPaneContextMenu}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
-        onInit={onInit}
-        onMoveEnd={onMoveEnd}
-        isValidConnection={isValidConnection}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        defaultEdgeOptions={defaultEdgeOptions}
-        snapToGrid
-        snapGrid={SNAP_GRID}
-        fitView
-        minZoom={0.05}
-        maxZoom={2}
-        zoomOnDoubleClick={false}
-        deleteKeyCode={isReadonly ? [] : ['Backspace', 'Delete']}
-        nodesDraggable={!isReadonly}
-        nodesConnectable={!isReadonly}
-        edgesReconnectable={!isReadonly}
-        panOnDrag={[1, 2]}
-        selectionOnDrag
-        selectionMode={SelectionMode.Partial}
-      >
-        <Controls />
-        <Background variant={BackgroundVariant.Dots} gap={5} size={1} color="#333" />
-      </ReactFlow>
+      <div className="page-tabs-bar" role="tablist" aria-label="已打开页面">
+        {openPageTabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            role="tab"
+            aria-selected={tab.id === activePageId}
+            className={`page-tab ${tab.id === activePageId ? 'active' : ''}`}
+            title={tab.name}
+            onClick={() => setActivePageId(tab.id)}
+          >
+            <span
+              className={`page-tab-icon page-icon-${tab.id === 'main' ? 'root' : 'clip'}`}
+              aria-hidden="true"
+            />
+            <span className="page-tab-name">{tab.name}</span>
+            {tab.id !== 'main' && (
+              <span
+                className="page-tab-close"
+                role="button"
+                aria-label={`关闭 ${tab.name}`}
+                title="关闭标签"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  closePageTab(tab.id);
+                }}
+              >
+                ×
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      <div className="bt-flow-canvas">
+        <ReactFlow
+          nodes={rfNodes}
+          edges={rfEdges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnectStart={onConnectStart}
+          onConnect={onConnect}
+          onNodeClick={onNodeClick}
+          onNodeDoubleClick={onNodeDoubleClick}
+          onNodeContextMenu={onNodeContextMenu}
+          onEdgeClick={onEdgeClick}
+          onEdgeDoubleClick={onEdgeDoubleClick}
+          onNodesDelete={onNodesDelete}
+          onEdgesDelete={onEdgesDelete}
+          onSelectionChange={onSelectionChange}
+          onPaneClick={onPaneClick}
+          onPaneContextMenu={onPaneContextMenu}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+          onInit={onInit}
+          onMoveEnd={onMoveEnd}
+          isValidConnection={isValidConnection}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={defaultEdgeOptions}
+          snapToGrid
+          snapGrid={SNAP_GRID}
+          fitView
+          minZoom={0.05}
+          maxZoom={2}
+          zoomOnDoubleClick={false}
+          deleteKeyCode={isReadonly ? [] : ['Backspace', 'Delete']}
+          nodesDraggable={!isReadonly}
+          nodesConnectable={!isReadonly}
+          edgesReconnectable={!isReadonly}
+          panOnDrag={[1, 2]}
+          selectionOnDrag
+          selectionMode={SelectionMode.Partial}
+        >
+          <Controls />
+          <Background variant={BackgroundVariant.Dots} gap={5} size={1} color="#333" />
+        </ReactFlow>
+      </div>
 
       {quickCreate && (
         <>

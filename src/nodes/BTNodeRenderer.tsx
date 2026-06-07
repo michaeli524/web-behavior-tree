@@ -4,6 +4,8 @@ import { useBTStore } from '../store/useBTStore';
 import { BTNodeType, BTExecutionStatus, type BTNodeData } from '../engine/types';
 import { useActionCatalog } from '../config/actionCatalog';
 import { isShowcaseMode } from '../config/appMode';
+import { ensureVideoThumbnail, getVideoThumbnail, subscribeVideoThumbnails } from '../utils/mediaPreloader';
+import { getRandomHandleId, getRandomWeightIds, getRandomWeights } from '../utils/randomSelector';
 
 const statusColors: Record<BTExecutionStatus, string> = {
   [BTExecutionStatus.IDLE]: '#555',
@@ -36,6 +38,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.ANGLE_BETWEEN_CW]: { color: '#7a6b8a', icon: '↻' },
   [BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH]: { color: '#7a6b8a', icon: '↻' },
   [BTNodeType.RESET]: { color: '#8a5a5a', icon: '🔄' },
+  [BTNodeType.RETURN]: { color: '#8a5a5a', icon: '↩' },
   [BTNodeType.COMBO_SHOW]: { color: '#7a6b5a', icon: '🎬' },
 };
 
@@ -88,6 +91,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     nodeData.type === BTNodeType.ANGLE_BETWEEN_CW ||
     nodeData.type === BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH;
   const isReset = nodeData.type === BTNodeType.RESET;
+  const isReturn = nodeData.type === BTNodeType.RETURN;
+  const isApproach = nodeData.type === BTNodeType.APPROACH;
   const isComboShow = nodeData.type === BTNodeType.COMBO_SHOW;
   const isComboDisplay = isComboShow && nodeData.isCombo !== false;
   const isDataCalcNode = isDistance2D || isAngleBetweenCW;
@@ -108,7 +113,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const showOutput = isComposite || isDecorator || isSetVar || isFunction || isComboShow || nodeData.type === BTNodeType.APPROACH || nodeData.type === BTNodeType.ACTION;
 
   const distances = nodeData.distances ?? [300, 650, 2000];
-  const randomWeights = nodeData.randomWeights ?? [50, 30, 20];
+  const randomWeights = getRandomWeights(nodeData);
+  const randomWeightIds = getRandomWeightIds(nodeData);
   const variableDisplayName =
     nodeData.variableId
       ? variables.find((variable) => variable.id === nodeData.variableId)?.name ?? 'Variable'
@@ -141,7 +147,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const updateNodeData = useBTStore((s) => s.updateNodeData);
   const [localSetVal, setLocalSetVal] = useState<string | null>(null);
   const [commentTitleDraft, setCommentTitleDraft] = useState<string | null>(null);
-  const commentTitleInputRef = useRef<HTMLInputElement>(null);
+  const commentTitleInputRef = useRef<HTMLTextAreaElement>(null);
   const shouldSelectCommentTitleRef = useRef(false);
   const handledCommentTitleEditNonceRef = useRef<number | null>(null);
   const displaySetVal = localSetVal ?? nodeData.setValue ?? '';
@@ -279,7 +285,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         style={{ width: w, height: h }}
       >
         {isEditingCommentTitle ? (
-          <input
+          <textarea
             ref={commentTitleInputRef}
             className="bt-comment-title-input"
             value={commentTitleDraft}
@@ -301,6 +307,10 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         ) : (
           <div
             className="bt-comment-title bt-comment-title-bar"
+            onClick={(e) => {
+              e.stopPropagation();
+              (nodeData as BTNodeData & { onCommentTitleSelect?: () => void }).onCommentTitleSelect?.();
+            }}
             onDoubleClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -397,28 +407,43 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
 
   return (
     <div
-      className={`bt-node ${nodeData.type === BTNodeType.TEST ? 'bt-node-test' : ''} ${selected ? 'selected' : ''}`}
+      className={`bt-node ${nodeData.type === BTNodeType.TEST ? 'bt-node-test' : ''} ${isApproach ? 'bt-node-approach' : ''} ${selected ? 'selected' : ''}`}
       style={{
         borderColor,
         borderRadius: '6px',
-        minWidth: isComboDisplay ? 250 : isComboShow ? 130 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
+        minWidth: isComboDisplay ? 250 : isComboShow ? 130 : isApproach ? 180 : isMultiOutputSelector ? 150 : isGetVar ? 80 : isCompare ? 70 : isSetVar ? 100 : isCondition ? 140 : isLeaf ? 100 : 130,
         background: nodeData.type === BTNodeType.ROOT ? '#484850' : '#484848',
       }}
     >
       {/* ── Header bar ── */}
         <div
-          className={`bt-node-header ${isComboShow ? 'bt-node-header-clickable' : ''}`}
+          className={`bt-node-header ${isComboShow ? 'bt-node-header-has-action' : ''}`}
           style={{ background: config.color }}
-          onDoubleClick={isComboShow ? (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            nodeData.onComboTitleClick?.();
-          } : undefined}
         >
         <span className={`bt-node-header-text ${isGetVar ? 'bt-node-header-text-get' : ''}`}>
           {nodeData.type !== BTNodeType.ROOT && <span className="bt-node-header-icon">{config.icon}</span>}
           {headerLabel}
         </span>
+
+        {isComboShow && (
+          <button
+            type="button"
+            className="bt-combo-expand-btn nodrag nopan"
+            title="展开对应页面"
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              nodeData.onComboTitleClick?.();
+            }}
+          >
+            <span className="bt-combo-expand-icon">›</span>
+            展开
+          </button>
+        )}
 
         {/* Get red data output */}
         {isGetVar && (
@@ -463,12 +488,15 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
           <div className="bt-node-exec-row">
             <Handle type="target" position={Position.Left} id="exec-in" className="bt-handle bt-handle-exec-row" onClick={(e) => handleClick(e, 'exec-in')} />
           </div>
-          {randomWeights.map((weight, i) => (
-            <div key={`random-${i}`} className="bt-node-dist-row">
+          {randomWeights.map((weight, i) => {
+            const handleId = getRandomHandleId(randomWeightIds[i]);
+            return (
+            <div key={handleId} className="bt-node-dist-row">
               <span className="bt-node-dist-label">{weight}</span>
-              <Handle type="source" position={Position.Right} id={`random-${i}`} className="bt-handle bt-handle-dist" onClick={(e) => handleClick(e, `random-${i}`)} />
+              <Handle type="source" position={Position.Right} id={handleId} className="bt-handle bt-handle-dist" onClick={(e) => handleClick(e, handleId)} />
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -535,8 +563,12 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             <div className="bt-node-cond">{nodeData.duration === '' ? '' : `${nodeData.duration ?? 1000}ms`}</div>
           )}
           {nodeData.type === BTNodeType.APPROACH && (
-            <div className="bt-node-cond">
-              {nodeData.approachDistance === '' ? '距目标' : `距目标 ≤ ${nodeData.approachDistance ?? 500}`}
+            <div className="bt-approach-card">
+              <div className="bt-approach-label">目标距离</div>
+              <div className="bt-approach-value">
+                <span className="bt-approach-op">≤</span>
+                <span>{nodeData.approachDistance === '' ? '未设置' : nodeData.approachDistance ?? 500}</span>
+              </div>
             </div>
           )}
         </div>
@@ -581,8 +613,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         </div>
       )}
 
-      {/* ── Reset node — terminal, empty body ── */}
-      {isReset && (
+      {/* ── Reset/Return node — terminal, empty body ── */}
+      {(isReset || isReturn) && (
         <div className="bt-node-body" />
       )}
 
@@ -648,9 +680,26 @@ function ActionThumb({
   alt: string;
   onPreviewClick?: () => void;
 }) {
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>(() => getVideoThumbnail(src));
   const [failed, setFailed] = useState(false);
   useEffect(() => {
+    let active = true;
+    setThumbnailUrl(getVideoThumbnail(src));
     setFailed(false);
+    const unsubscribe = subscribeVideoThumbnails((updatedSrc) => {
+      if (updatedSrc === src) {
+        setThumbnailUrl(getVideoThumbnail(src));
+      }
+    });
+    ensureVideoThumbnail(src).then((url) => {
+      if (!active) return;
+      if (url) setThumbnailUrl(url);
+      else setFailed(true);
+    });
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, [src]);
 
   if (failed) {
@@ -659,15 +708,21 @@ function ActionThumb({
 
   return (
     <div className="bt-action-thumb-wrap">
-      <video
-        className="bt-action-thumb"
-        src={src}
-        title={alt}
-        muted
-        playsInline
-        preload="metadata"
-        onError={() => setFailed(true)}
-      />
+      {thumbnailUrl ? (
+        <img
+          className="bt-action-thumb"
+          src={thumbnailUrl}
+          alt={alt}
+          draggable={false}
+        />
+      ) : (
+        <div
+          className="bt-action-thumb bt-action-thumb-empty bt-action-thumb-deferred"
+          title={alt}
+        >
+          MP4
+        </div>
+      )}
       {onPreviewClick && (
         <button
           type="button"
