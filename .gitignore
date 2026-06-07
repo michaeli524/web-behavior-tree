@@ -14,6 +14,7 @@ public/ActionsGIF
 public/ActionMP4
 dist-ssr
 *.local
+convert_videos.sh
 
 # Local AI behavior review drafts
 docs/电龙AI行为*
