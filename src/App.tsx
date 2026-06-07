@@ -25,8 +25,7 @@ const INITIAL_MEDIA_WARMUP_MS = 1200;
 
 interface InitialLoadingState {
   visible: boolean;
-  title: string;
-  detail: string;
+  progress: number;
 }
 
 async function loadPublishedTree() {
@@ -70,8 +69,7 @@ export default function App() {
   const [panelsCollapsed, setPanelsCollapsed] = useState(false);
   const [initialLoading, setInitialLoading] = useState<InitialLoadingState>({
     visible: true,
-    title: '正在加载行为树',
-    detail: '读取默认行为树与动作资源配置...',
+    progress: 6,
   });
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const rightPanelRef = useRef<HTMLDivElement>(null);
@@ -106,17 +104,25 @@ export default function App() {
     let cancelled = false;
     let warmupTimer: number | undefined;
 
-    const showLoading = (title: string, detail: string) => {
-      if (!cancelled) setInitialLoading({ visible: true, title, detail });
+    const updateLoadingProgress = (progress: number) => {
+      if (cancelled) return;
+      setInitialLoading((current) => ({
+        visible: true,
+        progress: Math.max(current.progress, Math.min(100, Math.round(progress))),
+      }));
     };
 
     const finishLoading = () => {
-      showLoading('正在准备画布', '预热节点布局与 MP4 缩略图...');
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           warmupTimer = window.setTimeout(() => {
             if (!cancelled) {
-              setInitialLoading((current) => ({ ...current, visible: false }));
+              setInitialLoading({ visible: true, progress: 100 });
+              window.setTimeout(() => {
+                if (!cancelled) {
+                  setInitialLoading((current) => ({ ...current, visible: false }));
+                }
+              }, 250);
             }
           }, INITIAL_MEDIA_WARMUP_MS);
         });
@@ -130,20 +136,22 @@ export default function App() {
 
     const preloadTreeMediaAndFinish = async () => {
       const actionCatalog = await catalogPromise;
+      updateLoadingProgress(24);
       const mediaPaths = collectMediaPathsFromCurrentTree(actionCatalog);
       if (mediaPaths.length > 0) {
-        showLoading('正在加载 MP4 封面', `准备 ${mediaPaths.length} 个节点视频封面...`);
         await preloadVideoFrames(mediaPaths, {
           onProgress: (loaded, total) => {
-            showLoading('正在加载 MP4 封面', `${loaded} / ${total} 个视频封面已准备`);
+            updateLoadingProgress(24 + (loaded / total) * 70);
           },
         });
+      } else {
+        updateLoadingProgress(94);
       }
       finishLoading();
     };
 
     const loadInitialTree = async () => {
-      showLoading('正在加载行为树', '读取默认行为树与动作资源配置...');
+      updateLoadingProgress(8);
       const requestedTreePath = getRequestedTreePath();
 
       if (requestedTreePath) {
@@ -153,6 +161,7 @@ export default function App() {
           console.error(error);
           await loadPublishedTree();
         }
+        updateLoadingProgress(20);
         await preloadTreeMediaAndFinish();
         return;
       }
@@ -167,6 +176,7 @@ export default function App() {
             state.addNode(BTNodeType.ROOT, { x: 100, y: 200 }, { label: state.mainPageName });
           }
         }
+        updateLoadingProgress(20);
         await preloadTreeMediaAndFinish();
         return;
       }
@@ -183,6 +193,7 @@ export default function App() {
           state.addNode(BTNodeType.ROOT, { x: 100, y: 200 }, { label: state.mainPageName });
         }
       }
+      updateLoadingProgress(20);
       await preloadTreeMediaAndFinish();
     };
 
@@ -263,10 +274,18 @@ export default function App() {
       {initialLoading.visible && (
         <div className="initial-loading" role="status" aria-live="polite">
           <div className="initial-loading-panel">
-            <div className="initial-loading-spinner" />
-            <div>
-              <div className="initial-loading-title">{initialLoading.title}</div>
-              <div className="initial-loading-detail">{initialLoading.detail}</div>
+            <div className="initial-loading-title">加载中</div>
+            <div
+              className="initial-loading-progress"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={initialLoading.progress}
+            >
+              <div
+                className="initial-loading-progress-fill"
+                style={{ width: `${initialLoading.progress}%` }}
+              />
             </div>
           </div>
         </div>
