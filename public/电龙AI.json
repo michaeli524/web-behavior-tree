@@ -1418,22 +1418,34 @@
           5,
           7,
           3,
-          2
+          2,
+          15
         ],
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
         "approachDistance": 500,
         "startValue": "0",
-        "endValue": "0"
+        "endValue": "0",
+        "randomWeightIds": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "rw-mq3gxlsj-abpfz"
+        ]
       }
     },
     {
       "id": "codex0606_random_007",
       "type": "bt-node",
       "position": {
-        "x": 2105,
-        "y": 3855
+        "x": 2090,
+        "y": 4120
       },
       "data": {
         "label": "Random Selector",
@@ -1822,8 +1834,8 @@
       "id": "codex0606_action_006",
       "type": "bt-node",
       "position": {
-        "x": 2765,
-        "y": 3880
+        "x": 2750,
+        "y": 4145
       },
       "data": {
         "label": "Action",
@@ -1856,8 +1868,8 @@
       "id": "codex0606_action_007",
       "type": "bt-node",
       "position": {
-        "x": 2765,
-        "y": 3750
+        "x": 2750,
+        "y": 4015
       },
       "data": {
         "label": "Action",
@@ -1890,8 +1902,8 @@
       "id": "approach_1780760705796_2",
       "type": "bt-node",
       "position": {
-        "x": 2520,
-        "y": 4065
+        "x": 2505,
+        "y": 4330
       },
       "data": {
         "label": "Approach",
@@ -1923,8 +1935,8 @@
       "id": "condition_1780762714733_1",
       "type": "bt-node",
       "position": {
-        "x": 2515,
-        "y": 3795
+        "x": 2500,
+        "y": 4060
       },
       "data": {
         "label": "翅膀充电？",
@@ -1956,8 +1968,8 @@
       "id": "get-variable_1780762742100_5",
       "type": "bt-node",
       "position": {
-        "x": 2355,
-        "y": 3890
+        "x": 2340,
+        "y": 4175
       },
       "data": {
         "label": "Get",
@@ -2373,8 +2385,8 @@
       "id": "approach_1780815739664_10",
       "type": "bt-node",
       "position": {
-        "x": 2085,
-        "y": 4260
+        "x": 2080,
+        "y": 4355
       },
       "data": {
         "label": "Approach",
@@ -2406,7 +2418,7 @@
       "id": "action_1780816499818_12",
       "type": "bt-node",
       "position": {
-        "x": 1115,
+        "x": 1100,
         "y": -55
       },
       "data": {
@@ -2432,15 +2444,16 @@
         "compareValue": "0",
         "approachDistance": 500,
         "startValue": "0",
-        "endValue": "0"
+        "endValue": "0",
+        "actionId": "enter"
       }
     },
     {
       "id": "comment_1780816515186_15",
       "type": "bt-node",
       "position": {
-        "x": 1026.741521489011,
-        "y": -171.76794671849456
+        "x": 1030,
+        "y": -170
       },
       "data": {
         "label": "两个以上部位保持充电一段时间，进入加速充电阶段，全身出现雷电特效",
@@ -2462,6 +2475,42 @@
         ],
         "commentWidth": 372.21268810883856,
         "commentHeight": 262.54734103752673,
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "combo-show_1780817817176_3",
+      "type": "bt-node",
+      "position": {
+        "x": 2770,
+        "y": 3745
+      },
+      "data": {
+        "label": "普通状态翅膀横刺系连携-充电检测",
+        "type": "combo-show",
+        "condition": "",
+        "action": "",
+        "actionId": "Astaroth_Wing_Thrust_Flying_Charge_Combo",
+        "isCombo": true,
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "functionId": "page_1780817817171_1",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
@@ -2967,6 +3016,12 @@
       "target": "codex0606_dist_002",
       "sourceHandle": "exec-out",
       "targetHandle": "exec-in"
+    },
+    {
+      "id": "edge_1780817817178_4",
+      "source": "codex0606_random_006",
+      "target": "combo-show_1780817817176_3",
+      "sourceHandle": "random-rw-mq3gxlsj-abpfz"
     }
   ],
   "variables": [
@@ -7647,6 +7702,532 @@
         }
       ],
       "edges": []
+    },
+    {
+      "id": "page_1780817817171_1",
+      "name": "普通状态翅膀横刺系连携-充电检测",
+      "nodes": [
+        {
+          "id": "root_1780817817171_2",
+          "type": "bt-node",
+          "position": {
+            "x": -80,
+            "y": 120
+          },
+          "data": {
+            "label": "普通状态翅膀横刺系连携-充电检测",
+            "type": "root",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "condition_1780817896756_5",
+          "type": "bt-node",
+          "position": {
+            "x": 305,
+            "y": 120
+          },
+          "data": {
+            "label": "翅膀充电？",
+            "type": "condition",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "get-variable_1780817909747_7",
+          "type": "bt-node",
+          "position": {
+            "x": 115,
+            "y": 245
+          },
+          "data": {
+            "label": "Get",
+            "type": "get-variable",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "variableId": "var_1779033689313_7",
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780817915603_9",
+          "type": "bt-node",
+          "position": {
+            "x": 1640,
+            "y": 490
+          },
+          "data": {
+            "label": "Action",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Wing_Thrust_Flying_Charge_Combo",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "return_1780817922836_11",
+          "type": "bt-node",
+          "position": {
+            "x": 495,
+            "y": 240
+          },
+          "data": {
+            "label": "Return",
+            "type": "return",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780817967870_13",
+          "type": "bt-node",
+          "position": {
+            "x": 1640,
+            "y": 350
+          },
+          "data": {
+            "label": "Action",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Wing_Thrust_Double_Combo",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780817979836_14",
+          "type": "bt-node",
+          "position": {
+            "x": 1125,
+            "y": -105
+          },
+          "data": {
+            "label": "Action",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Wing_Thrust_Side_Fly_Land_Tail_Sweep_Combo",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "condition_1780818199039_21",
+          "type": "bt-node",
+          "position": {
+            "x": 775,
+            "y": 15
+          },
+          "data": {
+            "label": "尾巴充电？",
+            "type": "condition",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "get-variable_1780818202524_23",
+          "type": "bt-node",
+          "position": {
+            "x": 570,
+            "y": 30
+          },
+          "data": {
+            "label": "Get",
+            "type": "get-variable",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "variableId": "var_1779033704242_8",
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "condition_1780818219551_25",
+          "type": "bt-node",
+          "position": {
+            "x": 1125,
+            "y": 225
+          },
+          "data": {
+            "label": "头充电？",
+            "type": "condition",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "get-variable_1780818229622_27",
+          "type": "bt-node",
+          "position": {
+            "x": 950,
+            "y": 315
+          },
+          "data": {
+            "label": "Get",
+            "type": "get-variable",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "variableId": "var_1779033681780_6",
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "random-selector_1780818248098_30",
+          "type": "bt-node",
+          "position": {
+            "x": 1415,
+            "y": 375
+          },
+          "data": {
+            "label": "Random Selector",
+            "type": "random-selector",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              50
+            ],
+            "randomWeightIds": [
+              "0",
+              "1"
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "action_1780818318751_34",
+          "type": "bt-node",
+          "position": {
+            "x": 1640,
+            "y": 190
+          },
+          "data": {
+            "label": "Action",
+            "type": "action",
+            "condition": "",
+            "action": "",
+            "actionId": "Astaroth_Wing_Thrust_Aerial_Breath_Wing_Double_Press_Combo",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge_1780817896759_6",
+          "source": "root_1780817817171_2",
+          "target": "condition_1780817896756_5",
+          "sourceHandle": "exec-out"
+        },
+        {
+          "id": "edge_1780817911165_8",
+          "source": "get-variable_1780817909747_7",
+          "target": "condition_1780817896756_5",
+          "sourceHandle": "data-out",
+          "targetHandle": "data-in"
+        },
+        {
+          "id": "edge_1780817922838_12",
+          "source": "condition_1780817896756_5",
+          "target": "return_1780817922836_11",
+          "sourceHandle": "exec-false"
+        },
+        {
+          "id": "edge_1780818199041_22",
+          "source": "condition_1780817896756_5",
+          "target": "condition_1780818199039_21",
+          "sourceHandle": "exec-true"
+        },
+        {
+          "id": "edge_1780818203947_24",
+          "source": "get-variable_1780818202524_23",
+          "target": "condition_1780818199039_21",
+          "sourceHandle": "data-out",
+          "targetHandle": "data-in"
+        },
+        {
+          "id": "edge_1780818219553_26",
+          "source": "condition_1780818199039_21",
+          "target": "condition_1780818219551_25",
+          "sourceHandle": "exec-false"
+        },
+        {
+          "id": "edge_1780818231006_28",
+          "source": "get-variable_1780818229622_27",
+          "target": "condition_1780818219551_25",
+          "sourceHandle": "data-out",
+          "targetHandle": "data-in"
+        },
+        {
+          "id": "edge_1780818238660_29",
+          "source": "condition_1780818199039_21",
+          "target": "action_1780817979836_14",
+          "sourceHandle": "exec-true",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780818248101_31",
+          "source": "condition_1780818219551_25",
+          "target": "random-selector_1780818248098_30",
+          "sourceHandle": "exec-false"
+        },
+        {
+          "id": "edge_1780818257509_32",
+          "source": "random-selector_1780818248098_30",
+          "target": "action_1780817915603_9",
+          "sourceHandle": "random-1",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780818261133_33",
+          "source": "random-selector_1780818248098_30",
+          "target": "action_1780817967870_13",
+          "sourceHandle": "random-0",
+          "targetHandle": "exec-in"
+        },
+        {
+          "id": "edge_1780818331100_35",
+          "source": "condition_1780818219551_25",
+          "target": "action_1780818318751_34",
+          "sourceHandle": "exec-true",
+          "targetHandle": "exec-in"
+        }
+      ]
     }
   ]
 }

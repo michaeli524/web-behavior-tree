@@ -142,5 +142,35 @@
     "actionName": "牵制咬+头顶二连Combo",
     "gifPath": "牵制咬+头顶二连Combo.mp4",
     "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Flying_Charge_Combo",
+    "actionName": "翅膀横刺+飞行龙车",
+    "gifPath": "翅膀横刺+飞行龙车.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Double_Combo",
+    "actionName": "翅膀横刺二连",
+    "gifPath": "翅膀横刺二连.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Enter_Accelerated_Charge_State",
+    "actionName": "进入加速充电状态",
+    "gifPath": "进入加速充电状态.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Side_Fly_Land_Tail_Sweep_Combo",
+    "actionName": "翅膀横刺+侧飞靠近+落地甩尾",
+    "gifPath": "翅膀横刺+侧飞靠近+落地甩尾.mp4",
+    "comment": ""
+  },
+  {
+    "actionId": "Astaroth_Wing_Thrust_Aerial_Breath_Wing_Double_Press_Combo",
+    "actionName": "翅膀横刺+空中吐息+连续翅膀下拍",
+    "gifPath": "翅膀横刺+空中吐息+连续翅膀下拍.mp4",
+    "comment": ""
   }
 ]
