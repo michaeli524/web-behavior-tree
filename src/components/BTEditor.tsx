@@ -1434,7 +1434,10 @@ export function BTEditor() {
             title={tab.name}
             onClick={() => setActivePageId(tab.id)}
           >
-            <span className="page-tab-icon">{tab.id === 'main' ? '⌂' : '□'}</span>
+            <span
+              className={`page-tab-icon page-icon-${tab.id === 'main' ? 'root' : 'clip'}`}
+              aria-hidden="true"
+            />
             <span className="page-tab-name">{tab.name}</span>
             {tab.id !== 'main' && (
               <span

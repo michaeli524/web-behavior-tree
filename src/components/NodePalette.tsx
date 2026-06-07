@@ -129,7 +129,10 @@ export function NodePalette({ width, onToggleCollapse }: Props) {
                 />
               ) : (
                 <>
-                  <span className="page-icon">{page.id === 'main' ? '🏠' : '📄'}</span>
+                  <span
+                    className={`page-icon page-icon-${page.id === 'main' ? 'root' : 'clip'}`}
+                    aria-hidden="true"
+                  />
                   <span className="page-name">{page.name}</span>
                 </>
               )}
