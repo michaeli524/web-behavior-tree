@@ -1572,8 +1572,8 @@
       "id": "codex0606_combo_018",
       "type": "bt-node",
       "position": {
-        "x": 2765,
-        "y": 1290
+        "x": 3100,
+        "y": 1295
       },
       "data": {
         "label": "翅膀下拍分支",
@@ -2244,8 +2244,8 @@
       "id": "approach_1780760705796_2",
       "type": "bt-node",
       "position": {
-        "x": 2495,
-        "y": 4315
+        "x": 2545,
+        "y": 4310
       },
       "data": {
         "label": "Approach",
@@ -2368,6 +2368,40 @@
           20
         ],
         "variableId": "var_1779033689313_7",
+        "operator": "<",
+        "compareLeftValue": "0",
+        "compareValue": "0",
+        "approachDistance": 500,
+        "startValue": "0",
+        "endValue": "0"
+      }
+    },
+    {
+      "id": "action_1780800631482_1",
+      "type": "bt-node",
+      "position": {
+        "x": 2765,
+        "y": 1295
+      },
+      "data": {
+        "label": "Action",
+        "type": "action",
+        "condition": "",
+        "action": "",
+        "actionId": "Astaroth_Back_Step",
+        "duration": 1000,
+        "repeatCount": 1,
+        "status": "idle",
+        "distances": [
+          300,
+          650,
+          2000
+        ],
+        "randomWeights": [
+          50,
+          30,
+          20
+        ],
         "operator": "<",
         "compareLeftValue": "0",
         "compareValue": "0",
@@ -2687,13 +2721,6 @@
       "targetHandle": "exec-in"
     },
     {
-      "id": "codex0606_edge_045",
-      "source": "codex0606_random_005",
-      "target": "codex0606_combo_018",
-      "sourceHandle": "random-1",
-      "targetHandle": "exec-in"
-    },
-    {
       "id": "codex0606_edge_046",
       "source": "codex0606_random_005",
       "target": "codex0606_action_002",
@@ -2843,6 +2870,19 @@
       "target": "condition_1780762714733_1",
       "sourceHandle": "data-out",
       "targetHandle": "data-in"
+    },
+    {
+      "id": "edge_1780800631486_2",
+      "source": "codex0606_random_005",
+      "target": "action_1780800631482_1",
+      "sourceHandle": "random-1"
+    },
+    {
+      "id": "edge_1780800637513_3",
+      "source": "action_1780800631482_1",
+      "target": "codex0606_combo_018",
+      "sourceHandle": "exec-out",
+      "targetHandle": "exec-in"
     }
   ],
   "variables": [
