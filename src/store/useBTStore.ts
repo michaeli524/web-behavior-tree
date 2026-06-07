@@ -146,6 +146,7 @@ const defaultLabels: Record<BTNodeType, string> = {
   [BTNodeType.ANGLE_BETWEEN_CW]: 'Angle Between CW',
   [BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH]: 'Angle Between CW LRBoth',
   [BTNodeType.RESET]: 'Reset',
+  [BTNodeType.RETURN]: 'Return',
   [BTNodeType.COMBO_SHOW]: 'Combo',
 };
 

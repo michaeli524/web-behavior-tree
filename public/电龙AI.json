@@ -896,7 +896,7 @@
         "y": -1170
       },
       "data": {
-        "label": "二连吐息连携-常规状态",
+        "label": "地面吐息连携-常规状态",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1141,7 +1141,7 @@
         "y": -275
       },
       "data": {
-        "label": "二连吐息连携-常规状态",
+        "label": "地面吐息连携-常规状态",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1393,7 +1393,7 @@
         "y": 825
       },
       "data": {
-        "label": "二连吐息连携-常规状态",
+        "label": "地面吐息连携-常规状态",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -1716,7 +1716,7 @@
         "y": 2690
       },
       "data": {
-        "label": "二连吐息连携-常规状态",
+        "label": "地面吐息连携-常规状态",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2272,8 +2272,8 @@
       "id": "combo-show_1780806507003_26",
       "type": "bt-node",
       "position": {
-        "x": 2770,
-        "y": 2250
+        "x": 2765,
+        "y": 2230
       },
       "data": {
         "label": "尾巴插地放电—判断尾巴是否充能",
@@ -2312,7 +2312,7 @@
         "y": 1930
       },
       "data": {
-        "label": "二连吐息连携-常规状态",
+        "label": "地面吐息连携-常规状态",
         "type": "combo-show",
         "condition": "",
         "action": "",
@@ -2414,8 +2414,8 @@
       "id": "combo-show_1780808629326_23",
       "type": "bt-node",
       "position": {
-        "x": 2770,
-        "y": 2090
+        "x": 2765,
+        "y": 2080
       },
       "data": {
         "label": "斩舰刀-判断头是否充能",
@@ -3861,14 +3861,14 @@
     },
     {
       "id": "codex2_page_backstep_doublebreath_press_001",
-      "name": "二连吐息连携-常规状态",
+      "name": "地面吐息连携-常规状态",
       "nodes": [
         {
           "id": "codex2_comment_004",
           "type": "bt-node",
           "position": {
             "x": 20,
-            "y": 30
+            "y": -173
           },
           "data": {
             "label": "头强化远程压制：后撤步二连吐息；若目标贴近，插入后撤再接冲刺翅膀下拍。",
@@ -3895,7 +3895,7 @@
             "startValue": "0",
             "endValue": "0",
             "commentWidth": 1940.1119970578623,
-            "commentHeight": 455
+            "commentHeight": 653
           }
         },
         {
@@ -3906,7 +3906,7 @@
             "y": 190
           },
           "data": {
-            "label": "二连吐息连携-常规状态",
+            "label": "地面吐息连携-常规状态",
             "type": "root",
             "condition": "",
             "action": "",
@@ -3935,8 +3935,8 @@
           "id": "codex2_action_011",
           "type": "bt-node",
           "position": {
-            "x": 375,
-            "y": 190
+            "x": 560,
+            "y": 295
           },
           "data": {
             "label": "Action",
@@ -3969,8 +3969,8 @@
           "id": "codex2_distance_002",
           "type": "bt-node",
           "position": {
-            "x": 915,
-            "y": 295
+            "x": 1210,
+            "y": 375
           },
           "data": {
             "label": "2D Dist Between",
@@ -4002,8 +4002,8 @@
           "id": "codex2_condition_004",
           "type": "bt-node",
           "position": {
-            "x": 1080,
-            "y": 190
+            "x": 1385,
+            "y": 245
           },
           "data": {
             "label": "目标是否贴近",
@@ -4035,8 +4035,8 @@
           "id": "codex2_action_012",
           "type": "bt-node",
           "position": {
-            "x": 1290,
-            "y": 130
+            "x": 1605,
+            "y": 170
           },
           "data": {
             "label": "Action",
@@ -4069,8 +4069,8 @@
           "id": "codex2_action_013",
           "type": "bt-node",
           "position": {
-            "x": 1595,
-            "y": 130
+            "x": 1910,
+            "y": 170
           },
           "data": {
             "label": "Action",
@@ -4103,8 +4103,8 @@
           "id": "codex2_action_014",
           "type": "bt-node",
           "position": {
-            "x": 1285,
-            "y": 320
+            "x": 1600,
+            "y": 360
           },
           "data": {
             "label": "Action",
@@ -4132,6 +4132,73 @@
             "endValue": "0",
             "actionId": "Astaroth_Dash_Wing_Press_Charged"
           }
+        },
+        {
+          "id": "condition_1780808984785_32",
+          "type": "bt-node",
+          "position": {
+            "x": 295,
+            "y": 190
+          },
+          "data": {
+            "label": "头是否充电",
+            "type": "condition",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
+        },
+        {
+          "id": "get-variable_1780808991020_34",
+          "type": "bt-node",
+          "position": {
+            "x": 110,
+            "y": 325
+          },
+          "data": {
+            "label": "Get",
+            "type": "get-variable",
+            "condition": "",
+            "action": "",
+            "duration": 1000,
+            "repeatCount": 1,
+            "status": "idle",
+            "distances": [
+              300,
+              650,
+              2000
+            ],
+            "randomWeights": [
+              50,
+              30,
+              20
+            ],
+            "variableId": "var_1779033681780_6",
+            "operator": "<",
+            "compareLeftValue": "0",
+            "compareValue": "0",
+            "approachDistance": 500,
+            "startValue": "0",
+            "endValue": "0"
+          }
         }
       ],
       "edges": [
@@ -4141,13 +4208,6 @@
           "target": "codex2_condition_004",
           "sourceHandle": "data-out",
           "targetHandle": "data-in"
-        },
-        {
-          "id": "codex2_edge_021",
-          "source": "codex2_action_011",
-          "target": "codex2_condition_004",
-          "sourceHandle": "exec-out",
-          "targetHandle": "exec-in"
         },
         {
           "id": "codex2_edge_022",
@@ -4171,10 +4231,23 @@
           "targetHandle": "exec-in"
         },
         {
-          "id": "edge_1780808423204_6",
+          "id": "edge_1780808984788_33",
           "source": "codex2_root_004",
+          "target": "condition_1780808984785_32",
+          "sourceHandle": "exec-out"
+        },
+        {
+          "id": "edge_1780808992411_35",
+          "source": "get-variable_1780808991020_34",
+          "target": "condition_1780808984785_32",
+          "sourceHandle": "data-out",
+          "targetHandle": "data-in"
+        },
+        {
+          "id": "edge_1780809003489_36",
+          "source": "condition_1780808984785_32",
           "target": "codex2_action_011",
-          "sourceHandle": "exec-out",
+          "sourceHandle": "exec-false",
           "targetHandle": "exec-in"
         }
       ]

@@ -272,6 +272,12 @@ function tickNode(node: BTNode, ctx: ExecutionContext): BTExecutionStatus {
       return BTExecutionStatus.SUCCESS;
     }
 
+    case BTNodeType.RETURN: {
+      // Terminal node: signals returning to the parent behavior layer
+      ctx.onNodeTick(node.id, BTExecutionStatus.SUCCESS);
+      return BTExecutionStatus.SUCCESS;
+    }
+
     case BTNodeType.COMBO_SHOW: {
       const children = ctx.getChildren(node.id);
       const status = children.length > 0

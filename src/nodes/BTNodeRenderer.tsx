@@ -36,6 +36,7 @@ const typeConfig: Record<BTNodeType, { color: string; icon: string }> = {
   [BTNodeType.ANGLE_BETWEEN_CW]: { color: '#7a6b8a', icon: '↻' },
   [BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH]: { color: '#7a6b8a', icon: '↻' },
   [BTNodeType.RESET]: { color: '#8a5a5a', icon: '🔄' },
+  [BTNodeType.RETURN]: { color: '#8a5a5a', icon: '↩' },
   [BTNodeType.COMBO_SHOW]: { color: '#7a6b5a', icon: '🎬' },
 };
 
@@ -88,6 +89,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
     nodeData.type === BTNodeType.ANGLE_BETWEEN_CW ||
     nodeData.type === BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH;
   const isReset = nodeData.type === BTNodeType.RESET;
+  const isReturn = nodeData.type === BTNodeType.RETURN;
   const isApproach = nodeData.type === BTNodeType.APPROACH;
   const isComboShow = nodeData.type === BTNodeType.COMBO_SHOW;
   const isComboDisplay = isComboShow && nodeData.isCombo !== false;
@@ -590,8 +592,8 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         </div>
       )}
 
-      {/* ── Reset node — terminal, empty body ── */}
-      {isReset && (
+      {/* ── Reset/Return node — terminal, empty body ── */}
+      {(isReset || isReturn) && (
         <div className="bt-node-body" />
       )}
 

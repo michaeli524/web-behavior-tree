@@ -196,6 +196,7 @@ const staticQuickCreateTypes: QuickCreateItem[] = [
   { type: BTNodeType.ANGLE_BETWEEN_CW, icon: '↻', label: 'Angle Between CW' },
   { type: BTNodeType.ANGLE_BETWEEN_CW_LR_BOTH, icon: '↻', label: 'Angle Between CW LRBoth' },
   { type: BTNodeType.RESET, icon: '🔄', label: 'Reset' },
+  { type: BTNodeType.RETURN, icon: '↩', label: 'Return' },
   { type: BTNodeType.COMBO_SHOW, icon: '🎬', label: 'Combo' },
 ];
 
