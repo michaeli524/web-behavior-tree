@@ -147,7 +147,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
   const updateNodeData = useBTStore((s) => s.updateNodeData);
   const [localSetVal, setLocalSetVal] = useState<string | null>(null);
   const [commentTitleDraft, setCommentTitleDraft] = useState<string | null>(null);
-  const commentTitleInputRef = useRef<HTMLInputElement>(null);
+  const commentTitleInputRef = useRef<HTMLTextAreaElement>(null);
   const shouldSelectCommentTitleRef = useRef(false);
   const handledCommentTitleEditNonceRef = useRef<number | null>(null);
   const displaySetVal = localSetVal ?? nodeData.setValue ?? '';
@@ -285,7 +285,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
         style={{ width: w, height: h }}
       >
         {isEditingCommentTitle ? (
-          <input
+          <textarea
             ref={commentTitleInputRef}
             className="bt-comment-title-input"
             value={commentTitleDraft}

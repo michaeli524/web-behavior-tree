@@ -1763,6 +1763,7 @@
   left: 0;
   right: 0;
   min-height: 24px;
+  max-height: 100%;
   padding: 4px 10px;
   font-size: 12px;
   line-height: 16px;
@@ -1773,6 +1774,11 @@
   border-radius: 6px 6px 0 0;
   outline: none;
   font-family: inherit;
+  resize: none;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   pointer-events: all;
 }
 
