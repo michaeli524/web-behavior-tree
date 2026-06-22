@@ -543,6 +543,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
               {actionConfig?.gifPath ? (
                 <ActionThumb
                   src={actionConfig.gifPath}
+                  posterSrc={actionConfig.posterPath}
                   alt={actionConfig.actionId}
                   onPreviewClick={nodeData.onActionPreviewClick}
                 />
@@ -625,6 +626,7 @@ function BTNodeComponent({ data, selected, id }: NodeProps) {
             {actionConfig?.gifPath ? (
               <ActionThumb
                 src={actionConfig.gifPath}
+                posterSrc={actionConfig.posterPath}
                 alt={actionConfig.actionId}
                 onPreviewClick={nodeData.onComboPreviewClick}
               />
@@ -673,16 +675,28 @@ export const BTNodeRenderer = memo(BTNodeComponent);
 
 function ActionThumb({
   src,
+  posterSrc,
   alt,
   onPreviewClick,
 }: {
   src: string;
+  posterSrc?: string;
   alt: string;
   onPreviewClick?: () => void;
 }) {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>(() => getVideoThumbnail(src));
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>(() => posterSrc || getVideoThumbnail(src));
   const [failed, setFailed] = useState(false);
   useEffect(() => {
+    if (posterSrc) {
+      setThumbnailUrl(posterSrc);
+      setFailed(false);
+      return;
+    }
+    if (isShowcaseMode) {
+      setThumbnailUrl(undefined);
+      setFailed(false);
+      return;
+    }
     let active = true;
     setThumbnailUrl(getVideoThumbnail(src));
     setFailed(false);
@@ -700,7 +714,7 @@ function ActionThumb({
       active = false;
       unsubscribe();
     };
-  }, [src]);
+  }, [posterSrc, src]);
 
   if (failed) {
     return <div className="bt-action-thumb bt-action-thumb-empty">MP4</div>;
@@ -714,6 +728,10 @@ function ActionThumb({
           src={thumbnailUrl}
           alt={alt}
           draggable={false}
+          onError={() => {
+            setThumbnailUrl(undefined);
+            setFailed(true);
+          }}
         />
       ) : (
         <div
