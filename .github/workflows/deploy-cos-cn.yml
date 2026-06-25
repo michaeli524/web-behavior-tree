@@ -44,4 +44,15 @@ jobs:
           aws --endpoint-url "$ENDPOINT" s3 cp deploy/cos-cn/index.html "s3://${COS_BUCKET}/index.html" \
             --content-type "text/html; charset=utf-8" \
             --cache-control "no-cache" \
+            --content-disposition "inline" \
             --metadata-directive REPLACE
+
+      - name: Verify website does not download
+        run: |
+          WEBSITE_URL="https://${COS_BUCKET}.cos-website.${COS_REGION}.myqcloud.com/"
+          HEADERS="$(curl -sSI "$WEBSITE_URL")"
+          echo "$HEADERS"
+          if echo "$HEADERS" | grep -i "Content-Disposition: attachment"; then
+            echo "index.html is still configured as attachment."
+            exit 1
+          fi
