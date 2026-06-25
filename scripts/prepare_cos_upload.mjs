@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const distDir = resolve(repoRoot, 'dist');
 const outputDir = resolve(repoRoot, 'deploy/cos-cn');
+const localVideoDir = resolve(repoRoot, 'public/ActionMP4');
 
 function run(command, args) {
   const result = spawnSync(command, args, {
@@ -36,7 +37,11 @@ function removeLocalMedia(dir) {
 }
 
 try {
-  run('npm', ['run', 'generate:posters']);
+  if (existsSync(localVideoDir)) {
+    run('npm', ['run', 'generate:posters']);
+  } else {
+    console.log('Skip poster generation: public/ActionMP4 is not available.');
+  }
   run('npm', ['run', 'build:showcase:cn']);
 
   if (!existsSync(distDir)) {
