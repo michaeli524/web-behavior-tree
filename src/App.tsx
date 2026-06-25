@@ -137,6 +137,11 @@ export default function App() {
     const preloadTreeMediaAndFinish = async () => {
       const actionCatalog = await catalogPromise;
       updateLoadingProgress(24);
+      if (isShowcaseMode) {
+        updateLoadingProgress(94);
+        finishLoading();
+        return;
+      }
       const mediaPaths = collectMediaPathsFromCurrentTree(actionCatalog);
       if (mediaPaths.length > 0) {
         await preloadVideoThumbnails(mediaPaths, {

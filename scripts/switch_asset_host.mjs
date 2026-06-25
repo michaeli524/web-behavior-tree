@@ -3,10 +3,10 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const mode = process.argv[2];
-const allowedModes = new Set(['local', 'cdn']);
+const allowedModes = new Set(['local', 'cdn', 'cn']);
 
 if (!allowedModes.has(mode)) {
-  console.error('Usage: node scripts/switch_asset_host.mjs <local|cdn>');
+  console.error('Usage: node scripts/switch_asset_host.mjs <local|cdn|cn>');
   process.exit(1);
 }
 

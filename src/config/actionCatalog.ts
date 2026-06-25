@@ -4,6 +4,7 @@ export interface ActionConfig {
   actionId: string;
   actionName: string;
   gifPath: string;
+  posterPath: string;
   comment: string;
 }
 
@@ -31,6 +32,14 @@ function joinAssetUrl(assetBaseUrl: string, path: string) {
   const base = assetBaseUrl.replace(/\/+$/, '');
   const normalizedPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
   return `${base}${normalizedPath}`;
+}
+
+function getPosterPath(path: string) {
+  if (!path) return '';
+  const cleanPath = path.split(/[?#]/)[0] ?? path;
+  const fileName = cleanPath.split('/').pop() ?? cleanPath;
+  const posterName = fileName.replace(/\.[^.]+$/, '.jpg');
+  return `/ActionPoster/${posterName}`;
 }
 
 async function loadAssetBaseUrl(force = false): Promise<string> {
@@ -71,6 +80,7 @@ async function loadActionCatalog(force = false): Promise<ActionConfig[]> {
           const resolvedItems = items.map((item) => ({
             ...item,
             gifPath: joinAssetUrl(assetBaseUrl, item.gifPath),
+            posterPath: getPosterPath(item.gifPath),
           }));
           catalogCache = resolvedItems;
           return resolvedItems;
