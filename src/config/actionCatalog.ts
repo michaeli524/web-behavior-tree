@@ -49,8 +49,8 @@ async function loadAssetBaseUrl(force = false): Promise<string> {
   }
   if (assetBaseUrlCache !== null) return assetBaseUrlCache;
   if (!assetBaseUrlPromise) {
-    const query = force ? `?t=${Date.now()}` : '';
-    assetBaseUrlPromise = fetch(`${ASSET_HOST_PATH}${query}`)
+    const query = `?t=${Date.now()}`;
+    assetBaseUrlPromise = fetch(`${ASSET_HOST_PATH}${query}`, { cache: 'no-store' })
       .then((res) => {
         if (!res.ok) return {} as AssetHostConfig;
         return res.json() as Promise<AssetHostConfig>;
@@ -70,7 +70,7 @@ async function loadActionCatalog(force = false): Promise<ActionConfig[]> {
   if (catalogCache) return catalogCache;
   if (!catalogPromise) {
     const query = force ? `?t=${Date.now()}` : '';
-    catalogPromise = fetch(`${ACTION_CATALOG_PATH}${query}`)
+    catalogPromise = fetch(`${ACTION_CATALOG_PATH}${query}`, { cache: force ? 'no-store' : 'default' })
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load Actions.json: ${res.status}`);
         return res.json() as Promise<ActionConfig[]>;
