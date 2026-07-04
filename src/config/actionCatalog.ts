@@ -20,6 +20,7 @@ const CATALOG_UPDATED_EVENT = 'action-catalog-updated';
 const ACTION_CATALOG_PATH = '/config/Actions.json';
 const ASSET_HOST_PATH = '/config/asset-host.json';
 const ACTION_MEDIA_BASE_PATH = '/ActionMP4/';
+const BUILT_IN_ASSET_BASE_URL = (import.meta.env.VITE_ASSET_BASE_URL as string | undefined)?.trim().replace(/\/+$/, '') ?? '';
 
 function isExternalUrl(path: string) {
   return /^(https?:)?\/\//i.test(path) || /^(data|blob):/i.test(path);
@@ -43,6 +44,7 @@ function getPosterPath(path: string) {
 }
 
 async function loadAssetBaseUrl(force = false): Promise<string> {
+  if (BUILT_IN_ASSET_BASE_URL) return BUILT_IN_ASSET_BASE_URL;
   if (force) {
     assetBaseUrlCache = null;
     assetBaseUrlPromise = null;
