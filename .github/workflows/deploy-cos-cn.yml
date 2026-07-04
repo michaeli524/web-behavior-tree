@@ -40,7 +40,10 @@ jobs:
         run: |
           ENDPOINT="https://cos.${COS_REGION}.myqcloud.com"
           aws configure set default.s3.addressing_style virtual
-          aws --endpoint-url "$ENDPOINT" s3 sync deploy/cos-cn/ "s3://${COS_BUCKET}/" --delete
+          aws --endpoint-url "$ENDPOINT" s3 sync deploy/cos-cn/ "s3://${COS_BUCKET}/" \
+            --delete \
+            --exclude "ActionMP4/*" \
+            --exclude "ActionsGIF/*"
           aws --endpoint-url "$ENDPOINT" s3 cp deploy/cos-cn/index.html "s3://${COS_BUCKET}/index.html" \
             --content-type "text/html; charset=utf-8" \
             --cache-control "no-cache" \
